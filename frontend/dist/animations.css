@@ -1,0 +1,22 @@
+.hidden {
+  opacity: 0;
+  transform: scale(0%);
+  transition: all  1s;
+}
+
+.show {
+  opacity: 1;
+  animation-name: scaleUp;
+  animation-duration: 2.3s;
+  animation-fill-mode: forwards;
+  transition: all 3s;
+}
+
+@keyframes scaleUpp {
+  from {
+    transform: scale(0%);
+  }
+  to {
+    transform: scale(100%);
+  }
+}

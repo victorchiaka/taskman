@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="86.575958mm"
+   height="19.177612mm"
+   viewBox="0 0 86.575959 19.177612"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
+   sodipodi:docname="taskman-dark.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#909090"
+     bordercolor="#000000"
+     borderopacity="0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="0.71090067"
+     inkscape:cx="387.53656"
+     inkscape:cy="303.83992"
+     inkscape:window-width="1888"
+     inkscape:window-height="979"
+     inkscape:window-x="26"
+     inkscape:window-y="23"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-9.0178147,-53.217199)">
+    <path
+       id="path1"
+       style="fill:#25c28e;fill-opacity:1;stroke-width:0.0620503"
+       d="m 18.981271,53.217199 a 5.1873441,3.2548409 0 0 0 -5.187335,3.254834 5.1873441,3.2548409 0 0 0 5.187335,3.254819 5.1873441,3.2548409 0 0 0 5.187489,-3.254819 5.1873441,3.2548409 0 0 0 -5.187489,-3.254834 z m -7.738467,7.070104 c -1.231618,-7.46e-4 -2.2239246,0.590911 -2.2249885,1.326506 -0.00106,0.735596 0.9895725,1.328378 2.2211905,1.329079 l 5.470642,0.0032 v 2.317119 1.191826 l -0.05165,-0.03165 -5.740125,3.678894 c -0.861673,0.552185 -0.880844,1.410958 -0.04315,1.925565 0.837704,0.514605 2.205684,0.484347 3.067316,-0.06786 l 4.884278,-3.130261 4.895067,3.130737 c 0.862493,0.551679 2.23076,0.581008 3.067617,0.06587 0.836932,-0.5151 0.816199,-1.373913 -0.04633,-1.925565 l -5.749085,-3.676987 -0.05165,0.03183 v -2.558842 -0.947626 l 5.466693,0.0032 c 1.231614,6.79e-4 2.224063,-0.591005 2.225127,-1.326601 0.0011,-0.735597 -0.989718,-1.328284 -2.221329,-1.328985 l -6.964496,-0.004 v -7.46e-4 z" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15.3857px;font-family:Poppins;-inkscape-font-specification:'Poppins, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:1.28214"
+       x="28.054443"
+       y="72.610497"
+       id="text1"
+       transform="scale(1.0062753,0.99376386)"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:14.3857px;font-family:Poppins;-inkscape-font-specification:'Poppins, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;stroke-width:1.28214"
+         x="28.054443"
+         y="72.610497">Taskman</tspan></text>
+  </g>
+</svg>
