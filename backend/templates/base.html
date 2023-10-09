@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script defer src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='background.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='input.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='mediaqueries.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='animations.css') }}">
+  <title>Task man</title>
+</head>
+<body>
+  <ul class="background">
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+    <li></li>
+  </ul>
+  <header id="header">
+    <div class="container" id="header-container">
+      <a href="#">
+        <img src="../static/img/taskman-light.svg" width="200" alt="">
+      </a>
+      <nav id="nav">
+        <a href="#">Log in</a>
+        <a href="#">Sign in</a>
+      </nav>
+
+      <div id="nav-button">
+        <div class="nav-dash"></div>
+        <div class="nav-dash"></div>
+        <div class="nav-dash"></div>
+      </div>
+    </div>
+  </header>
+  <div class="mobile-nav">
+    <nav>
+      <a href="">Log in</a>
+      <a href="">Sign in</a>
+    </nav>
+  </div>
+
+  {% block content %} {% endblock %}
+
+  <footer>
+    <small>Made with ❤️ by <a href="https://github.com/victorchiaka">Victor Chiaka</a></small>
+  </footer>
+</body>
+</html>
