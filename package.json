@@ -1,7 +1,7 @@
 {
-  "name": "frontend",
+  "name": "taskman",
   "version": "1.0.0",
-  "description": "",
+  "description": "A task management system",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
