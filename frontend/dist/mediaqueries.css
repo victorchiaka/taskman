@@ -39,6 +39,31 @@
       visibility: hidden;
     }
   }
+
+  .show {
+    display: block;
+  }
+
+  .mobile-nav {
+    height: 6.3em;
+    position: fixed;
+    left: 1em;
+    right: 1em;
+    margin: auto;
+    background-color: #ffffff0d;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(55px);
+    margin-top: 0.4em;
+  }
+
+  .mobile-nav > nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
 @media (max-width: 768px) {

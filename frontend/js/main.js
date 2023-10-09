@@ -15,6 +15,10 @@ const observer = new IntersectionObserver((entries) => {
 showCase.forEach((element) => observer.observe(element));
 
 const navToggler = document.querySelector("#nav-button");
+
+const mobileNav = document.querySelector(".mobile-nav");
+
 navToggler.addEventListener("click", () => {
   navToggler.classList.toggle("open-nav");
+  mobileNav.classList.toggle("show");
 });
