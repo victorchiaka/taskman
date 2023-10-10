@@ -144,11 +144,13 @@
   left: 1em;
   background-color: #333;
   transition: transform 1s;
-  padding: 0 0.4em;
+  padding: 0 0.6em;
 }
 
 input:focus ~ .formlabel {
   transform: translateY(-1.4em) translateX(-0.5em);
+  border-right: 1px solid var(--main-color-deeper);
+  border-left: 1px solid var(--main-color-deeper);
 }
 
 input,
@@ -188,6 +190,11 @@ input:focus {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.submit-div>small>a {
+  color: var(--main-color-deeper);
+  cursor: pointer;
 }
 
 footer {
