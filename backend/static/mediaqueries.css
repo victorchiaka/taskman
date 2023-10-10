@@ -54,6 +54,7 @@
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
     backdrop-filter: blur(55px);
     margin-top: 0.4em;
+    z-index: 2;
   }
 
   .mobile-nav > nav {

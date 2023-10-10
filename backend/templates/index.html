@@ -9,10 +9,10 @@
           <h3 class="showcase-heading">Accept and plan your <span class="highlight">Tasks</span> ~</h3>
           <p><span class="highlight">Taskman</span> helps you plan your task quick and with ease</p>
         </div>
-        <img class="item-child" src="../static/undraw/undraw-accept-tasks.svg" alt="">
+        <img class="item-child" src="{{ url_for('static', filename='undraw/undraw-accept-tasks.svg') }}" alt="">
       </div>
       <div class="showcase-item">
-        <img class="item-child" src="../static/undraw/undraw-progress.svg" alt="">
+        <img class="item-child" src="{{ url_for('static', filename='undraw/undraw-progress.svg') }}" alt="">
         <div class="item-child">
           <h3 class="showcase-heading">Track your progress on each <span class="highlight">Task</span> ~</h3>
           <p>With <span class="highlight">Taskman</span> you not only plan your Tasks, but
@@ -24,7 +24,7 @@
           <h3 class="showcase-heading">Mark <span class="highlight">Task</span> as complete ~</h3>
           <p>With <span class="highlight">Taskman</span> you can mark task as complete upon completion.</p>
         </div>
-        <img class="item-child" src="../static/undraw/undraw-task-complete.svg" alt="">
+        <img class="item-child" src="{{ url_for('static', filename='undraw/undraw-task-complete.svg') }}" alt="">
       </div>
     </div>
   </div>
@@ -37,5 +37,8 @@
       </div>
     </div>
   </div>
-
+  <footer>
+    <small>Made with ❤️ by <a href="https://github.com/victorchiaka">Victor Chiaka</a></small>
+  </footer>
+  
   {% endblock %}

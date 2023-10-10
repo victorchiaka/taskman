@@ -13,6 +13,7 @@
 :root {
   --main-background-color: #ffffff0d;
   --main-color: #25c28e;
+  --main-color-deeper: #1da377;
 }
 
 .mobile-nav {
@@ -106,7 +107,87 @@
   color: #333;
   border-radius: 3.75em;
   border: none;
-  background-color: rgb(37, 194, 142);
+  background-color: var(--main-color);
+}
+
+/* Forms */
+
+#signin-form {
+  background-color: #333;
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  top: 20%;
+  bottom: 20%;
+  max-width: 25em;
+  margin: 0 auto;
+  box-shadow: 0.2em 0.2em 1em #222;
+  border-radius: 0.5em;
+}
+
+#signin-form > h3 {
+  margin: 1.5em 0;
+  text-align: center;
+  font-weight: bolder;
+}
+
+#signin-form > div {
+  width: 90%;
+  height: 3em;
+  margin: 0 auto 2em auto;
+  position: relative;
+}
+
+.formlabel {
+  position: absolute;
+  top: 0.6em;
+  left: 1em;
+  background-color: #333;
+  transition: transform 1s;
+  padding: 0 0.4em;
+}
+
+input:focus ~ .formlabel {
+  transform: translateY(-1.4em) translateX(-0.5em);
+}
+
+input,
+input:focus {
+  border: bone;
+  outline: none;
+}
+
+#signin-form > div > input {
+  width: 100%;
+  height: 100%;
+  border: solid var(--main-color) 0.1em;
+  border-radius: 0.8em;
+  background-color: inherit;
+  text-indent: 1em;
+  position: relative;
+}
+
+.submit-btn {
+  background-color: var(--main-color);
+  padding: 0.6em 0.8em;
+  border-radius: 0.8em;
+  border: none;
+  color: #333;
+}
+
+.submit-btn:active,
+#header-container > nav > a:nth-child(2):active,
+.intro button:active {
+  background-color: var(--main-color-deeper);
+}
+
+.submit-div {
+  width: 100%;
+  padding-right: 0.3em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 footer {

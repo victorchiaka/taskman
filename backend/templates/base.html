@@ -37,11 +37,11 @@
   <header id="header">
     <div class="container" id="header-container">
       <a href="#">
-        <img src="../static/img/taskman-light.svg" width="200" alt="">
+        <img src="{{ url_for('static', filename='img/taskman-light.svg') }}" width="200" alt="">
       </a>
       <nav id="nav">
         <a href="#">Log in</a>
-        <a href="#">Sign in</a>
+        <a href="{{ url_for('auth.signin') }}">Sign in</a>
       </nav>
 
       <div id="nav-button">
@@ -54,14 +54,10 @@
   <div class="mobile-nav">
     <nav>
       <a href="">Log in</a>
-      <a href="">Sign in</a>
+      <a href="{{ url_for('auth.signin') }}">Sign in</a>
     </nav>
   </div>
 
   {% block content %} {% endblock %}
-
-  <footer>
-    <small>Made with ❤️ by <a href="https://github.com/victorchiaka">Victor Chiaka</a></small>
-  </footer>
 </body>
 </html>
