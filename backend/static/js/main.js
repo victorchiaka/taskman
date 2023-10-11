@@ -35,12 +35,13 @@ loginBtns.forEach((button) => {
   button.addEventListener("click", () => {
     if (loginForm.classList.contains("showform")) {
       loginForm.classList.remove("showform");
-    }
-    else if (signupForm.classList.contains("showform") && !loginForm.classList.contains("showform")) {
+    } else if (
+      signupForm.classList.contains("showform") &&
+      !loginForm.classList.contains("showform")
+    ) {
       signupForm.classList.remove("showform");
       loginForm.classList.add("showform");
-    }
-    else {
+    } else {
       loginForm.classList.add("showform");
     }
   });
@@ -50,8 +51,10 @@ signUpBtns.forEach((button) => {
   button.addEventListener("click", () => {
     if (signupForm.classList.contains("showform")) {
       signupForm.classList.remove("showform");
-    }
-    else if (loginForm.classList.contains("showform") && !signupForm.classList.contains("showform")) {
+    } else if (
+      loginForm.classList.contains("showform") &&
+      !signupForm.classList.contains("showform")
+    ) {
       loginForm.classList.remove("showform");
       signupForm.classList.add("showform");
     } else {
