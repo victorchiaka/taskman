@@ -20,6 +20,11 @@
   display: none;
 }
 
+#login {
+  background-color: transparent;
+  border: none;
+}
+
 #header {
   background-color: #ffffff0d;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -46,7 +51,7 @@
   display: none;
 }
 
-#header-container > nav > a:nth-child(2) {
+#header-container > nav > #signup {
   margin-left: 2em;
   color: #333;
   padding: 0.5em 1.5em;
@@ -112,26 +117,36 @@
 
 /* Forms */
 
-#signin-form {
+.auth-form {
   background-color: #333;
-  position: absolute;
+  position: fixed;
   left: 7%;
   right: 7%;
   top: 20%;
-  max-height: 30em;
+  max-height: 28em;
   max-width: 25em;
   margin: 0 auto;
   box-shadow: 0.2em 0.2em 1em #222;
   border-radius: 0.5em;
+  display: none;
+  z-index: 1;
 }
 
-#signin-form > h3 {
+#login-form {
+  max-height: 23em;
+}
+
+.showform {
+  display: block;
+}
+
+.auth-form > h3 {
   margin: 2em 0;
   text-align: center;
   font-weight: bolder;
 }
 
-#signin-form > div {
+.auth-form > div {
   width: 90%;
   height: 3em;
   margin: 0 auto 2em auto;
@@ -159,7 +174,7 @@ input:focus {
   outline: none;
 }
 
-#signin-form > div > input {
+.auth-form > div > input {
   width: 100%;
   height: 100%;
   border: solid var(--main-color) 0.1em;
@@ -178,7 +193,7 @@ input:focus {
 }
 
 .submit-btn:active,
-#header-container > nav > a:nth-child(2):active,
+#header-container > nav > #signup:active,
 .intro button:active {
   background-color: var(--main-color-deeper);
 }
@@ -192,7 +207,7 @@ input:focus {
   justify-content: space-between;
 }
 
-.submit-div>small>a {
+.submit-div > small > a {
   color: var(--main-color-deeper);
   cursor: pointer;
 }

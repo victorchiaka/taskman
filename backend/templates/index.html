@@ -2,6 +2,60 @@
 
   {% block content %}
 
+  <div class="form-container">
+    <form class="auth-form" id="signup-form">
+      <h3>Sign in ~</h3>
+      <div>
+        <input id="username" type="text" required />
+        <label for="username" class="formlabel">
+          username
+        </label>
+      </div>
+      <div>
+        <input id="email" type="email" required />
+        <label for="email" class="formlabel">
+          email
+        </label>
+      </div>
+      <div>
+        <input id="password" type="password" required />
+        <label for="password" class="formlabel">
+          password
+        </label>
+      </div>
+      <div class="submit-div">
+        <button id="create-account-btn" class="submit-btn">Create your account</button>
+        <small>Own an account? <a href="{{ url_for('auth.login' )}}">Login</a></small>
+      </div>
+      <div>
+      </div>
+    </form>
+  </div>
+  
+  <div class="form-container">
+    <form class="auth-form" id="login-form">
+      <h3>Log in ~</h3>
+      <div>
+        <input id="email" type="email" required />
+        <label for="email" class="formlabel">
+          email
+        </label>
+      </div>
+      <div>
+        <input id="password" type="password" required />
+        <label for="password" class="formlabel">
+          password
+        </label>
+      </div>
+      <div class="submit-div">
+        <button id="login-btn" class="submit-btn">Log in</button>
+        <small>Dont have an account yet? <a href="{{ url_for('auth.signin') }}">Sing up</a></small>
+      </div>
+      <div>
+      </div>
+    </form>
+  </div>
+
   <div class="showcase">
     <div class="container">
       <div class="showcase-item">
