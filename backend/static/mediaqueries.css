@@ -65,6 +65,11 @@
     justify-content: center;
     align-items: center;
   }
+
+  .mobile-nav > nav > button {
+    background-color: transparent;
+    border: none;
+  }
 }
 
 @media (max-width: 768px) {
