@@ -1,5 +1,7 @@
-import os, uuid, psycopg2
+import os, psycopg2
 from dotenv import load_dotenv
+
+from .models import User
 
 
 load_dotenv()
@@ -31,3 +33,14 @@ def establish_sql_connection():
 
     db_connection.commit()
     return db_connection
+
+
+def add_user(user: User):
+    cursor = db_connection.cursor()
+
+    cursor.execute(
+        "INSERT INTO users (id, username, email, password_hash) VALUES (%s, %s, %s, %s);",
+        (str(user.id), user.username, user.email, user.password_hash),
+    )
+
+    db_connection.commit()
