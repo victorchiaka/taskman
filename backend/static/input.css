@@ -168,6 +168,15 @@ input:focus ~ .formlabel {
   border-left: 1px solid var(--main-color-deeper);
 }
 
+input:valid ~ .formlabel {
+  transform: translateY(-1.4em) translateX(-0.5em);
+  text-transform: uppercase;
+  border: 0;
+  color: var(--main-color);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
 input,
 input:focus {
   border: bone;
