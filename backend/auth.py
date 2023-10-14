@@ -3,10 +3,6 @@ import uuid, bcrypt
 from .models import User
 from .database import add_user
 
-# from flask import Blueprint, request, flash, redirect, url_for
-# import bcrypt
-# import uuid
-
 auth = Blueprint("auth", __name__)
 
 

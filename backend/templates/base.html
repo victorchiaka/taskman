@@ -59,6 +59,31 @@
     </nav>
   </div>
 
-  {% block content %} {% endblock %}
-</body>
-</html>
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="alert">
+        {% for category, message in messages %}
+          {% if category == "success" %}
+            <div class="alert-success">
+              <h1 class="alert-title">{{ category + "!" }}</h1>
+              <p class="alert-content">{{ message }}</p>
+            </div>
+          {% endif %}
+          {% if category == "error" %}
+            <div class="alert-danger">
+              <h1 class="alert-title">{{ category + "!" }}</h1>
+              <p class="alert-content">{{ message }}</p>
+            </div>
+          {% endif %}
+          {% if category == "warning" %}
+            <div class="alert-warning">
+              <h1 class="alert-title">{{ category + "!" }}</h1>
+              <p class="alert-content">{{ message }}</p>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+{% block content %} {% endblock %}
