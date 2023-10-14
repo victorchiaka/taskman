@@ -1,4 +1,5 @@
 import os, psycopg2
+from typing import Optional
 from dotenv import load_dotenv
 
 from .models import User
@@ -44,3 +45,18 @@ def add_user(user: User):
     )
 
     db_connection.commit()
+
+
+def get_user_by_email(email: str) -> Optional[User]:
+    cursor = db_connection.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE email = %s;", (email,))
+    data = cursor.fetchone()
+
+    if data is None:
+        return None
+    user_id, username, email, hashed_password = data
+
+    user: User = User(user_id, username, email, hashed_password)
+
+    return user
