@@ -42,8 +42,10 @@
       </a>
       <nav id="nav">
         {% if user.is_authenticated %}
-          <button id="logout"><a href="/logout">Log out</a></button>
-          <button id="delete-account">Delete account</button>
+          <button class="auth-nav-items" id="home"><a href="/">Home</a></button>
+          <button class="auth-nav-items" id="dashboard"><a href="/dashboard">Dashboard</a></button>
+          <button class="auth-nav-items" id="logout"><a href="/logout">Log out</a></button>
+          <button class="auth-nav-items" id="delete-account">Delete account</button>
         {% else %}
           <button id="login">Log in</button>
           <button id="signup">Sign in</button>
@@ -60,6 +62,8 @@
   <div class="mobile-nav">
     <nav>
       {% if user.is_authenticated %}
+      <button id="home"><a href="/">Home</a></button>
+      <button id="dashboard"><a href="/dashboard">Dashboard</a></button>
         <button id="logout"><a href="/logout">Log out</a></button>
         <button id="delete-account">Delete account</button>
       {% else %}

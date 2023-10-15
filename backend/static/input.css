@@ -18,16 +18,6 @@
   --main-color-red-deeper: #a31d1d;
 }
 
-.mobile-nav {
-  display: none;
-}
-
-#login,
-#logout {
-  background-color: transparent;
-  border: none;
-}
-
 #header {
   background-color: #ffffff0d;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
@@ -37,6 +27,23 @@
   width: 100%;
   top: 0px;
   display: grid;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+#home,
+#dashboard,
+#login,
+#logout {
+  background-color: transparent;
+  border: none;
+}
+
+.auth-nav-items:nth-child(1),
+.auth-nav-items:nth-child(2) {
+  margin-right: 1em;
 }
 
 .container {
@@ -58,7 +65,7 @@
 #header-container > nav > #delete-account,
 #confirm-button,
 #cancel-button {
-  margin-left: 2em;
+  margin-left: 1em;
   color: #333;
   padding: 0.5em 1.5em;
   border-radius: 1.25em;
