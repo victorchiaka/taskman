@@ -43,7 +43,6 @@
       <nav id="nav">
         {% if user.is_authenticated %}
           <button id="logout"><a href="/logout">Log out</a></button>
-          {# <button id="delete-account" onclick="deleteAccount('{{ user.id }}')">Delete account</button> #}
           <button id="delete-account">Delete account</button>
         {% else %}
           <button id="login">Log in</button>
@@ -62,7 +61,6 @@
     <nav>
       {% if user.is_authenticated %}
         <button id="logout"><a href="/logout">Log out</a></button>
-        {# <button id="delete-account" onclick="deleteAccount('{{ user.id }}')">Delete account</button> #}
         <button id="delete-account">Delete account</button>
       {% else %}
         <button id="login">Log in</button>
@@ -77,7 +75,7 @@
   <div id="confirmationPopup" class="popup">
     <div class="popup-content">
       <p>Confirm you want to delete your account</p>
-      <button id="confirm-button">Confirm</button>
+      <button id="confirm-button" onclick="deleteAccount('{{ user.id }}')">Confirm</button>
       <button id="cancel-button">Cancel</button>
     </div>
   </div>

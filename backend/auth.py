@@ -70,13 +70,12 @@ def logout():
     return redirect(url_for("views.index"))
 
 
-
 @auth.route("/delete-account", methods=["DELETE"])
 @login_required
 def delete_account():
     data = json.loads(request.data)
     user_id = data.get("userId")
-    login_user()
+    logout_user()
     delete_user_by_id(user_id)
     flash("account successfully deleted", "success")
     return jsonify({})
