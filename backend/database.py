@@ -79,3 +79,11 @@ def get_user_by_id(id: uuid) -> Optional[User]:
     )
 
     return user
+
+
+def delete_user_by_id(id: uuid):
+    cursor = db_connection.cursor()
+
+    cursor.execute("DELETE FROM users * WHERE id = %s;", (id,))
+
+    db_connection.commit()

@@ -1,8 +1,8 @@
-from flask import Blueprint, request, url_for, flash, redirect
-from flask_login import login_user, current_user
-import uuid, bcrypt
+from flask import Blueprint, jsonify, request, url_for, flash, redirect
+from flask_login import login_user, login_required, logout_user
+import uuid, bcrypt, json
 from .models import User
-from .database import add_user, get_user_by_email
+from .database import add_user, get_user_by_email, delete_user_by_id
 from .utils import is_email_taken
 
 auth = Blueprint("auth", __name__)
@@ -57,6 +57,26 @@ def login():
         else:
             login_user(user, remember=True)
             flash("login successful", "success")
-            return redirect(url_for("views.dashboard", user=current_user))
+            return redirect(url_for("views.dashboard"))
 
     return redirect(url_for("views.index"))
+
+
+@auth.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    flash("successfully logged out", "success")
+    return redirect(url_for("views.index"))
+
+
+
+@auth.route("/delete-account", methods=["DELETE"])
+@login_required
+def delete_account():
+    data = json.loads(request.data)
+    user_id = data.get("userId")
+    login_user()
+    delete_user_by_id(user_id)
+    flash("account successfully deleted", "success")
+    return jsonify({})

@@ -62,3 +62,23 @@ signUpBtns.forEach((button) => {
     }
   });
 });
+
+const deleteAccountButtons = document.querySelectorAll("#delete-account");
+
+const confirmationPopup = document.querySelector("#confirmationPopup");
+const confirmButton = document.querySelector("#confirm-button");
+const cancelButton = document.querySelector("#cancel-button");
+
+deleteAccountButtons.forEach((deleteAccountButton) => {
+  deleteAccountButton.addEventListener("click", () => {
+    confirmationPopup.style.display = "block";
+  });
+});
+
+confirmButton.addEventListener("click", () => {
+  confirmationPopup.style.display = "none";
+});
+
+cancelButton.addEventListener("click", () => {
+  confirmationPopup.style.display = "none";
+});
