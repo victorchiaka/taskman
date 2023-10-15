@@ -3,7 +3,7 @@
   --main-color: #25c28e;
 }
 
-@media (max-width: 514px) {
+@media (max-width: 614px) {
   #nav {
     display: none;
   }
@@ -45,7 +45,8 @@
   }
 
   .mobile-nav {
-    height: 6.3em;
+    height: fit-content;
+    padding: 1.2em;
     position: fixed;
     left: 1em;
     right: 1em;

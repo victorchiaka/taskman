@@ -14,15 +14,8 @@
   --main-background-color: #ffffff0d;
   --main-color: #25c28e;
   --main-color-deeper: #1da377;
-}
-
-.mobile-nav {
-  display: none;
-}
-
-#login {
-  background-color: transparent;
-  border: none;
+  --main-color-red: #c22525;
+  --main-color-red-deeper: #a31d1d;
 }
 
 #header {
@@ -34,6 +27,23 @@
   width: 100%;
   top: 0px;
   display: grid;
+}
+
+.mobile-nav {
+  display: none;
+}
+
+#home,
+#dashboard,
+#login,
+#logout {
+  background-color: transparent;
+  border: none;
+}
+
+.auth-nav-items:nth-child(1),
+.auth-nav-items:nth-child(2) {
+  margin-right: 1em;
 }
 
 .container {
@@ -51,13 +61,27 @@
   display: none;
 }
 
-#header-container > nav > #signup {
-  margin-left: 2em;
+#header-container > nav > #signup,
+#header-container > nav > #delete-account,
+#confirm-button,
+#cancel-button {
+  margin-left: 1em;
   color: #333;
   padding: 0.5em 1.5em;
   border-radius: 1.25em;
   border: none;
   background-color: var(--main-color);
+  color: white;
+}
+
+#header-container > nav > #delete-account,
+#confirm-button {
+  background-color: var(--main-color-red);
+}
+
+#confirm-button,
+#cancel-button {
+  margin: 0em 0.5em;
 }
 
 .showcase {
@@ -202,9 +226,18 @@ input:focus {
 }
 
 .submit-btn:active,
-#header-container > nav > #signup:active,
-.intro button:active {
+#header-container > nav > #signup:active .intro button:active,
+#cancel-button:active {
   background-color: var(--main-color-deeper);
+}
+
+#header-container > nav > #delete-account:active,
+#confirm-button:active {
+  background-color: var(--main-color-red-deeper);
+}
+
+.mobile-nav > nav > #delete-account:active {
+  color: var(--main-color-red-deeper);
 }
 
 .submit-div {
@@ -230,4 +263,30 @@ footer {
   align-items: center;
   justify-content: center;
   font-weight: bold;
+}
+
+.popup {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #00000080;
+  padding: 12em 0;
+}
+
+.popup-content {
+  font-size: 0.8em;
+  background: #333;
+  width: 21.75em;
+  margin: 6.25em auto;
+  padding: 1.25em;
+  text-align: center;
+  border-radius: 0.3125em;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  margin: 0.3125em;
 }

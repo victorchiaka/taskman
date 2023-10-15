@@ -1,4 +1,4 @@
-import os, psycopg2
+import os, psycopg2, uuid
 from typing import Optional
 from dotenv import load_dotenv
 
@@ -57,6 +57,33 @@ def get_user_by_email(email: str) -> Optional[User]:
         return None
     user_id, username, email, hashed_password = data
 
-    user: User = User(user_id, username, email, hashed_password)
+    user = User(
+        id=user_id, username=username, email=email, password_hash=hashed_password[2:-1]
+    )
 
     return user
+
+
+def get_user_by_id(id: uuid) -> Optional[User]:
+    cursor = db_connection.cursor()
+
+    cursor.execute("SELECT * FROM users WHERE id = %s;", (id,))
+    data = cursor.fetchone()
+
+    if data is None:
+        return None
+    user_id, username, email, hashed_password = data
+
+    user = User(
+        id=user_id, username=username, email=email, password_hash=hashed_password[2:-1]
+    )
+
+    return user
+
+
+def delete_user_by_id(id: uuid):
+    cursor = db_connection.cursor()
+
+    cursor.execute("DELETE FROM users * WHERE id = %s;", (id,))
+
+    db_connection.commit()

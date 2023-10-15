@@ -41,8 +41,15 @@
         <img src="{{ url_for('static', filename='img/taskman-light.svg') }}" width="200" alt="">
       </a>
       <nav id="nav">
-        <button id="login">Log in</button>
-        <button id="signup">Sign up</button>
+        {% if user.is_authenticated %}
+          <button class="auth-nav-items" id="home"><a href="/">Home</a></button>
+          <button class="auth-nav-items" id="dashboard"><a href="/dashboard">Dashboard</a></button>
+          <button class="auth-nav-items" id="logout"><a href="/logout">Log out</a></button>
+          <button class="auth-nav-items" id="delete-account">Delete account</button>
+        {% else %}
+          <button id="login">Log in</button>
+          <button id="signup">Sign in</button>
+        {% endif %}
       </nav>
 
       <div id="nav-button">
@@ -54,10 +61,30 @@
   </header>
   <div class="mobile-nav">
     <nav>
-      <button id="login">Log in</button>
-      <button id="signup">Sign in</button>
+      {% if user.is_authenticated %}
+      <button id="home"><a href="/">Home</a></button>
+      <button id="dashboard"><a href="/dashboard">Dashboard</a></button>
+        <button id="logout"><a href="/logout">Log out</a></button>
+        <button id="delete-account">Delete account</button>
+      {% else %}
+        <button id="login">Log in</button>
+        <button id="signup">Sign in</button>
+      {% endif %}
     </nav>
   </div>
+
+
+
+  <!-- Confirmation Pop-up -->
+  <div id="confirmationPopup" class="popup">
+    <div class="popup-content">
+      <p>Confirm you want to delete your account</p>
+      <button id="confirm-button" onclick="deleteAccount('{{ user.id }}')">Confirm</button>
+      <button id="cancel-button">Cancel</button>
+    </div>
+  </div>
+
+
 
   {% with messages = get_flashed_messages(with_categories=true) %}
     {% if messages %}
