@@ -33,16 +33,16 @@
   </div>
   
   <div class="form-container">
-    <form class="auth-form" id="login-form">
+    <form class="auth-form" action="/login" method="post" id="login-form">
       <h3>Log in ~</h3>
       <div>
-        <input id="email" type="email" required />
+        <input id="email" name="email" type="email" required />
         <span class="formlabel">
           email
         </span>
       </div>
       <div>
-        <input id="password" type="password" required />
+        <input id="password" name="password" type="password" required />
         <span class="formlabel">
           password
         </span>

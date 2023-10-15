@@ -1,14 +1,18 @@
-from uuid import UUID
+import uuid, bcrypt
+from flask_login import UserMixin
 
 
-class User:
-    def __init__(
-        self, id: UUID, username: str, email: str, password_hash: bytes
-    ) -> None:
-        self.id: UUID = id
+class User(UserMixin):
+    def __init__(self, id: uuid, username: str, email: str, password_hash: str) -> None:
+        self.id: uuid = id
         self.username: str = username
         self.email: str = email
-        self.password_hash: bytes = password_hash
+        self.password_hash: str = password_hash
 
     def __str__(self) -> str:
-        return f"User(id={self.id}, username={self.username}, email={self.email}, password_hash={self.password_hash})"
+        return f"User({self.id}, {self.username}, {self.email}, {self.password_hash})"
+
+    def is_valid_password(self, password: str) -> bool:
+        return bcrypt.checkpw(
+            password.encode("utf-8"), self.password_hash.encode("utf-8")
+        )
