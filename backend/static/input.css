@@ -299,10 +299,6 @@ button {
   height: 100vh;
 }
 
-#preview-btn, .mobile-side-panel {
-  display: none;
-}
-
 .side-panel > div,
 .mobile-side-panel > div {
   background-color: var(--main-color);

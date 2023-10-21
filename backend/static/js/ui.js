@@ -82,3 +82,21 @@ confirmButton.addEventListener("click", () => {
 cancelButton.addEventListener("click", () => {
   confirmationPopup.style.display = "none";
 });
+
+const mobileSidePanel = document.querySelector(".mobile-side-panel");
+
+const previewBtn = document.querySelector("#preview-btn");
+const sidePanelClose = document.querySelector("#side-panel-close");
+
+previewBtn.addEventListener("click", () => {
+  previewBtn.classList.add("hide-preview-btn");
+
+  mobileSidePanel.classList.add("show-mobile-side-panel");
+  mobileSidePanel.classList.remove("remove-mobile-side-panel");
+});
+
+sidePanelClose.addEventListener("click", () => {
+  mobileSidePanel.classList.remove("show-mobile-side-panel");
+  mobileSidePanel.classList.add("remove-mobile-side-panel");
+  previewBtn.classList.remove("hide-preview-btn");
+});

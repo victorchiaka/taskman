@@ -116,17 +116,26 @@
     margin: 1.3em 0 0 1.3em;
   }
 
-  #preview-btn:active {
-    background-color: #333;
-  }
-
   .mobile-side-panel {
     background-color: #000000dc;
     width: 20em;
     height: 100vh;
     position: fixed;
-    transition: all 1.2s ease-in;
+    top: 4.3em;
+    transition: all 1s;
     left: -100%;
+  }
+
+  .mobile-side-panel > div {
+    background-color: var(--main-color);
+    width: 90%;
+    margin: 1.5em auto;
+    height: 3em;
+    max-height: 4em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.85em;
   }
 
   #side-panel-close {
@@ -142,7 +151,12 @@
     margin: 0.5em auto 0 auto;
   }
 
-  #side-panel-close:active {
+  .hide-preview-btn {
+    visibility: hidden;
+  }
+
+  #side-panel-close:active,
+  #preview-btn:active {
     background-color: #333;
   }
 
@@ -150,7 +164,7 @@
     left: 0px;
   }
 
-  .reomve-mobile-side-panel {
+  .remove-mobile-side-panel {
     left: -100%;
   }
 }
