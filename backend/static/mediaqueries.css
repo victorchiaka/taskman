@@ -1,6 +1,7 @@
 :root {
   --main-background-color: #ffffff0d;
   --main-color: #25c28e;
+  --main-color-deeper: #1da377;
 }
 
 @media (max-width: 614px) {
@@ -97,5 +98,32 @@
   .showcase-item > img,
   .showcase-item > div {
     width: 95%;
+  }
+
+  .side-panel {
+    display: none;
+  }
+
+  .mobile-side-panel {
+    background-color: #000000dc;
+    width: 20em;
+    height: 100vh;
+  }
+
+  #side-panel-close {
+    font-size: 2em;
+    background-color: #222;
+    max-height: 1em;
+    width: 1em;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0.5em auto 0 auto;
+  }
+
+  #side-panel-close:active {
+    background-color: #333;
   }
 }

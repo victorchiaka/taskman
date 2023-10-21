@@ -284,9 +284,44 @@ footer {
   padding: 1.25em;
   text-align: center;
   border-radius: 0.3125em;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 10px #00000033;
 }
 
 button {
   margin: 0.3125em;
+}
+
+/* dashboard */
+
+.side-panel {
+  background-color: #000000dc;
+  width: 20em;
+  height: 100vh;
+}
+
+.side-panel > div,
+.mobile-side-panel > div {
+  background-color: var(--main-color);
+  width: 90%;
+  margin: 1.5em auto;
+  height: 3em;
+  max-height: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.85em;
+}
+
+.side-panel > div:nth-child(1):active,
+.mobile-side-panel > div:nth-child(2):active {
+  background-color: var(--main-color-deeper);
+}
+
+.side-panel > div:nth-child(2),
+.mobile-side-panel > div:nth-child(3) {
+  background-color: #222;
+}
+.side-panel > div:nth-child(2):active,
+.mobile-side-panel > div:nth-child(3):active {
+  background-color: #333;
 }
