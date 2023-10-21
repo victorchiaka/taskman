@@ -104,10 +104,29 @@
     display: none;
   }
 
+  #preview-btn {
+    display: flex;
+    width: 9em;
+    padding: 0 1em;
+    font-size: medium;
+    background-color: #222;
+    border-radius: 0.6em;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1.3em 0 0 1.3em;
+  }
+
+  #preview-btn:active {
+    background-color: #333;
+  }
+
   .mobile-side-panel {
     background-color: #000000dc;
     width: 20em;
     height: 100vh;
+    position: fixed;
+    transition: all 1.2s ease-in;
+    left: -100%;
   }
 
   #side-panel-close {
@@ -125,5 +144,13 @@
 
   #side-panel-close:active {
     background-color: #333;
+  }
+
+  .show-mobile-side-panel {
+    left: 0px;
+  }
+
+  .reomve-mobile-side-panel {
+    left: -100%;
   }
 }
