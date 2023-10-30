@@ -23,11 +23,11 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#b3b3b3"
      inkscape:document-units="mm"
-     inkscape:zoom="0.71090067"
-     inkscape:cx="372.06323"
-     inkscape:cy="343.22657"
-     inkscape:window-width="1888"
-     inkscape:window-height="979"
+     inkscape:zoom="1.5765702"
+     inkscape:cx="98.314684"
+     inkscape:cy="24.737243"
+     inkscape:window-width="1465"
+     inkscape:window-height="991"
      inkscape:window-x="26"
      inkscape:window-y="23"
      inkscape:window-maximized="0"
@@ -41,19 +41,19 @@
      transform="translate(-6.0854313,-57.679166)">
     <path
        id="path1"
-       style="fill:#25c28e;fill-opacity:1;stroke-width:0.0421697"
-       d="m 13.791495,57.679166 a 4.012061,1.9436339 0 0 0 -4.012056,1.94363 4.012061,1.9436339 0 0 0 4.012056,1.94362 4.012061,1.9436339 0 0 0 4.012173,-1.94362 4.012061,1.9436339 0 0 0 -4.012173,-1.94363 z m -5.9851852,4.221925 c -0.9525732,-4.53e-4 -1.7200549,0.352864 -1.7208778,0.792125 -8.3e-4,0.439263 0.7653672,0.793244 1.7179406,0.793662 l 4.2311734,0.002 v 1.383673 0.711701 l -0.03995,-0.0189 -4.439601,2.196858 c -0.666446,0.329738 -0.6812731,0.842555 -0.033367,1.149855 0.6479072,0.307296 1.705948,0.289231 2.3723609,-0.04053 l 3.7776611,-1.869237 3.786006,1.869525 c 0.66708,0.329435 1.725343,0.34695 2.372595,0.03933 0.647311,-0.307594 0.631275,-0.820437 -0.03584,-1.149856 l -4.44653,-2.19572 -0.03995,0.01901 V 64.05657 63.490694 l 4.228118,0.002 c 0.952571,4.04e-4 1.720163,-0.35292 1.720986,-0.792183 8.86e-4,-0.439261 -0.76548,-0.793187 -1.718048,-0.793604 l -5.386573,-0.0024 v -4.47e-4 z" />
+       style="fill:#25c28e;fill-opacity:1;stroke-width:0.0261469"
+       d="m 13.717484,58.766374 a 1.9039347,1.5745962 0 0 0 -1.903933,1.574593 1.9039347,1.5745962 0 0 0 1.903933,1.574585 1.9039347,1.5745962 0 0 0 1.903988,-1.574585 1.9039347,1.5745962 0 0 0 -1.903988,-1.574593 z m -2.840287,3.420308 c -0.452046,-3.67e-4 -0.816256,0.285866 -0.816647,0.641724 -3.94e-4,0.35586 0.363207,0.642631 0.815254,0.64297 l 2.007915,0.0016 v 1.120955 0.57657 l -0.01896,-0.01531 -2.106826,1.779741 c -0.316263,0.26713 -0.323299,0.682579 -0.01584,0.931532 0.307466,0.248949 0.809563,0.234314 1.125811,-0.03283 l 1.7927,-1.514325 1.796659,1.514558 c 0.316565,0.266885 0.818767,0.281075 1.125922,0.03186 0.307183,-0.249191 0.299573,-0.664661 -0.017,-0.931533 l -2.110113,-1.778819 -0.01896,0.0154 v -1.237893 -0.458433 l 2.006465,0.0016 c 0.452045,3.28e-4 0.816308,-0.285911 0.816699,-0.641771 4.2e-4,-0.355858 -0.363261,-0.642584 -0.815305,-0.642922 l -2.556213,-0.0019 v -3.62e-4 z" />
     <text
        xml:space="preserve"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.4562px;font-family:Poppins;-inkscape-font-specification:'Poppins, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.871338"
-       x="18.289305"
-       y="79.007584"
+       x="18.232201"
+       y="76.068596"
        id="text1"
-       transform="scale(1.1452116,0.8732011)"><tspan
+       transform="scale(1.1452116,0.87320108)"><tspan
          sodipodi:role="line"
          id="tspan1"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.4562px;font-family:Poppins;-inkscape-font-specification:'Poppins, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#ffffff;stroke-width:0.871338"
-         x="18.289305"
-         y="79.007584">Taskman</tspan></text>
+         x="18.232201"
+         y="76.068596">Taskman</tspan></text>
   </g>
 </svg>

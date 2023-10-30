@@ -57,6 +57,11 @@
   justify-content: space-between;
 }
 
+#header-container>a {
+  display: grid;
+  place-items: center;
+}
+
 #nav-button {
   display: none;
 }

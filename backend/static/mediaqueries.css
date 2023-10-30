@@ -16,8 +16,8 @@
   }
 
   .nav-dash {
-    height: 0.2em;
-    width: 2em;
+    height: 0.2rem;
+    width: 1.8rem;
     background-color: white;
     transition: transform 1s;
   }
