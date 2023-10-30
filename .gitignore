@@ -1,9 +1,9 @@
-**.editorconfig
-**node_modules/
-.venv
-*.pyc
-*.pyo
-*__pycache__/
-*.py[cod]
+# **.editorconfig
+# **node_modules/
+# .venv
+# *.pyc
+# *.pyo
+# *__pycache__/
+# *.py[cod]
 
-*.env
+# *.env
