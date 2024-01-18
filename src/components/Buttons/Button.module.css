@@ -1,0 +1,16 @@
+.homeSignupButton {
+  background-color: var(--main-accent-40);
+  font-size: 1rem;
+  padding: .5rem 2.5rem;
+  border-radius: .5rem;
+  backdrop-filter: blur(0.25rem);
+  border: none;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  transition: backgroun-color 0.25s 0s ease-out;
+}
+
+.homeSignupButton:active {
+  background-color: var(--main-accent-50);
+}

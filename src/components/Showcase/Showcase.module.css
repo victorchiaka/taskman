@@ -1,0 +1,76 @@
+:root {
+  --accent: #aed1b1;
+  --accent-50: #aed1b13d;
+
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.1);
+}
+
+.showcase {
+  width: fit-content;
+  grid-template-columns: repeat(3, 324px);
+  display: grid;
+  width: 100%;
+  justify-content: center;
+  margin-top: 4rem;
+  margin-left: auto;
+  margin-right: auto;
+  gap: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .showcase {
+    grid-template-columns: 1fr;
+    padding: 0 2rem;
+    max-width: 428px;
+  }
+}
+@media (min-width: 768px) and (max-width: 1060px) {
+  .showcase {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .showcaseCard:last-child {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    max-width: 428px;
+  }
+}
+.showcaseCard::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--glass-bg);
+  z-index: -2;
+}
+
+.showcaseCard {
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  justify-content: space-between;
+  position: relative;
+  align-items: center;
+  overflow: clip;
+  border-radius: 0.5rem;
+  padding: 2.5rem;
+  row-gap: 1.5rem;
+  backdrop-filter: blur(0.5rem);
+  border: 1px solid var(--glass-border);
+  background-color: var(--glass-bg);
+
+  /* animation */
+  transition: all 400ms 0s ease-in;
+}
+
+.showcaseCard:hover {
+  border-color: var(--accent-50);
+}
+
+.showcaseCard img {
+  aspect-ratio: 1;
+}
+.showcaseCard h4 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}

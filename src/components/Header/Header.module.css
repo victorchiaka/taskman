@@ -1,0 +1,21 @@
+.homeHeader {
+  text-align: center;
+  width: 100%;
+  padding: 2rem 0;
+}
+
+.title {
+  font-size: clamp(3rem, 15vw, 7rem);
+}
+
+.homeHeaderIntro {
+  padding: 1.5rem 0 0 0;
+  line-height: 1.5;
+}
+.homeHeaderIntro > span {
+  background-color: var(--main-accent-20);
+  color: var(--main-accent);
+  backdrop-filter: blur(0.5rem);
+  padding: 0 0.5rem;
+  border-radius: 0.25rem;
+}
