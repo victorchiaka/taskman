@@ -1,0 +1,39 @@
+.homeSignup {
+  background-color: var(--main-accent-40);
+  font-size: 1rem;
+  padding: 0.5rem 2.5rem;
+  border-radius: 0.5rem;
+  backdrop-filter: blur(0.25rem);
+  border: none;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  transition: backgroun-color 0.25s 0s ease-out;
+}
+
+.homeSignup:active {
+  background-color: var(--main-accent-50);
+}
+
+.cancel {
+  padding: var(--golden-input-padding-y) var(--golden-input-padding-x);
+  border: none;
+  border-radius: var(--golden-ratio-border-radius);
+  background-color: rgb(78, 78, 78);
+}
+
+.cancel:active {
+  background-color: rgba(78, 78, 78, 0.6);
+}
+
+.confirm {
+  padding: calc(var(--golden-input-padding-y) + 0.1rem)
+    calc(var(--golden-input-padding-x) + 0.1rem);
+  border: none;
+  border-radius: var(--golden-ratio-border-radius);
+  background-color: var(--main-accent);
+}
+
+.confirm:active {
+  background-color: var(--main-accent-60);
+}
