@@ -1,8 +1,8 @@
 import Button from "../Button/Button";
-import Modal from "../Modal";
+import PropTypes from "prop-types";
 
 function Form(props) {
-  let { title, type, fields } = props.template;
+  let { fields, confirmText } = props.template;
 
   const renderFields = (fields) => {
     return fields.map((field) => {
@@ -17,20 +17,22 @@ function Form(props) {
   };
 
   return (
-    <Modal>
-      <form className="form" onSubmit={(e) => e.preventDefault()}>
-        <div>
-          <h4>Taskman {type}</h4>
-          <h4>{title}</h4>
-        </div>
-        {renderFields(fields)}
-        <div className="action-buttons-container">
-          <Button type="cancel" text="Cancel" />
-          <Button type="confirm" text="Register" />
-        </div>
-      </form>
-    </Modal>
+    <form className="form" onSubmit={(e) => e.preventDefault()}>
+      {renderFields(fields)}
+      <div className="action-buttons-container">
+        <Button type="cancel" text="Cancel" />
+        <Button type="confirm" text={confirmText} />
+      </div>
+    </form>
   );
 }
+
+Form.propTypes = {
+  template: PropTypes.object,
+  title: PropTypes.string,
+  type: PropTypes.string,
+  fields: PropTypes.array,
+  confirmText: PropTypes.string,
+};
 
 export default Form;
