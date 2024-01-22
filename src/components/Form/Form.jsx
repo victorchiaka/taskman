@@ -1,8 +1,7 @@
-import Button from "../Button/Button";
 import PropTypes from "prop-types";
 
 function Form(props) {
-  let { fields, confirmText } = props.template;
+  let { fields } = props.template;
 
   const renderFields = (fields) => {
     return fields.map((field) => {
@@ -19,10 +18,6 @@ function Form(props) {
   return (
     <form className="form" onSubmit={(e) => e.preventDefault()}>
       {renderFields(fields)}
-      <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" />
-        <Button type="confirm" text={confirmText} />
-      </div>
     </form>
   );
 }

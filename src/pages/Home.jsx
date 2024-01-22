@@ -4,8 +4,13 @@ import HomeSignupButton from "../components/Button/Button";
 import { HomeHeader } from "../components/Header/Header";
 import Showcase from "../components/Showcase/Showcase";
 import Modal from "../components/Modal";
+import Button from "../components/Button/Button";
+
+import { useState } from "react";
 
 function Home() {
+  const [active, setActive] = useState(false);
+
   const loginTemplate = {
     title: "Login",
     type: "authentication",
@@ -21,7 +26,6 @@ function Home() {
         name: "email",
       },
     ],
-    confirmText: "Login",
   };
 
   const registerTemplate = {
@@ -44,7 +48,6 @@ function Home() {
         name: "password",
       },
     ],
-    confirmText: "Register",
   };
 
   return (
@@ -52,8 +55,12 @@ function Home() {
       <Background />
       <div className="header-container">
         <HomeHeader />
-        <HomeSignupButton text="Sign in" type="homeSignup" />
-        <Modal>
+        <HomeSignupButton
+          text="Sign in"
+          type="homeSignup"
+          onClick={() => setActive(true)}
+        />
+        <Modal isActive={active}>
           <div className="auth-tab">
             <div className="auth-header">
               <p>Taskman authentication</p>
@@ -70,6 +77,14 @@ function Home() {
             </label>
             <div className="tab-content">
               <Form template={registerTemplate} />
+              <div className="action-buttons-container">
+                <Button
+                  type="cancel"
+                  text="Cancel"
+                  onClick={() => setActive(false)}
+                />
+                <Button type="confirm" text="Register" />
+              </div>
             </div>
             <input
               type="radio"
@@ -82,6 +97,14 @@ function Home() {
             </label>
             <div className="tab-content">
               <Form template={loginTemplate} />
+              <div className="action-buttons-container">
+                <Button
+                  type="cancel"
+                  text="Cancel"
+                  onClick={() => setActive(false)}
+                />
+                <Button type="confirm" text="Login" />
+              </div>
             </div>
           </div>
         </Modal>
