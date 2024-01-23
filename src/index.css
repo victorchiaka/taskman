@@ -164,3 +164,19 @@ img {
 .auth-tab-option:checked + .tab-label + .tab-content {
   display: block;
 }
+
+.spinner {
+  margin-top: 0.3rem;
+  width: 2.8rem;
+  height: 0.75rem;
+  animation: spin 0.45s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

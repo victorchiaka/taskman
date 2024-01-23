@@ -5,11 +5,13 @@ import { HomeHeader } from "../components/Header/Header";
 import Showcase from "../components/Showcase/Showcase";
 import Modal from "../components/Modal";
 import Button from "../components/Button/Button";
+import Loading1 from "@assets/loading-1.svg";
 
 import { useState } from "react";
 
 function Home() {
   const [active, setActive] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const loginTemplate = {
     title: "Login",
@@ -83,7 +85,16 @@ function Home() {
                   text="Cancel"
                   onClick={() => setActive(false)}
                 />
-                <Button type="confirm" text="Register" />
+                <Button
+                  type="confirm"
+                  text={
+                    isLoading ? (
+                      <img className="spinner" src={Loading1}></img>
+                    ) : (
+                      "Register"
+                    )
+                  }
+                />
               </div>
             </div>
             <input
@@ -103,7 +114,16 @@ function Home() {
                   text="Cancel"
                   onClick={() => setActive(false)}
                 />
-                <Button type="confirm" text="Login" />
+                <Button
+                  type="confirm"
+                  text={
+                    isLoading ? (
+                      <img className="spinner" src={Loading1}></img>
+                    ) : (
+                      "Login"
+                    )
+                  }
+                />
               </div>
             </div>
           </div>
