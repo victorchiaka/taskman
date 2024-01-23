@@ -10,7 +10,7 @@ export function Button(props) {
 }
 
 Button.propTypes = {
-  text: PropTypes.string,
+  text: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   type: PropTypes.string,
   onClick: PropTypes.func,
 };

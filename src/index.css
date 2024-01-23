@@ -83,6 +83,10 @@ img {
   align-items: center;
 }
 
+input::placeholder {
+  color: transparent;
+}
+
 .form input {
   background-color: inherit;
   outline: none;
@@ -109,6 +113,7 @@ img {
   transition: 300ms all ease-in-out;
 }
 
+.form div:has(input:not(:placeholder-shown)) label,
 .form div:has(input:focus) label {
   top: 0.7rem;
   left: 0.3;
@@ -139,6 +144,10 @@ img {
   margin-bottom: 0.3rem;
 }
 
+.tab {
+  display: flex;
+}
+
 .auth-tab-option {
   appearance: none;
 }
@@ -150,19 +159,21 @@ img {
   line-height: 2;
 }
 
+.tab-content.active {
+  display: block;
+}
+
 .tab-label {
+  cursor: default;
   padding: 0.2rem 0.5rem;
   margin: 1rem 0.8rem 0.5rem 0;
   border-radius: var(--golden-ratio-border-radius);
   transition: all ease-in-out 500ms;
+  list-style: none;
 }
 
-.auth-tab-option:checked + .tab-label {
+.tab-label.active {
   background-color: rgba(0, 0, 0, 0.281);
-}
-
-.auth-tab-option:checked + .tab-label + .tab-content {
-  display: block;
 }
 
 .spinner {
