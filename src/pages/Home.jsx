@@ -18,10 +18,10 @@ function Home() {
   const [isLoginLoading, setIsLoginLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("register");
 
-  const [loginEmail, setLoginEmail] = useState("");
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
 
   if (!active && isLoginLoading) {
@@ -47,11 +47,11 @@ function Home() {
   };
 
   const registerRequest = (userData) => {
-    const endpoint = `${BASE}/auth/register`;
     const request = new XMLHttpRequest();
+
     setIsRegisterLoading(true);
     return new Promise((resolve, reject) => {
-      request.open("POST", endpoint, true);
+      request.open("POST", `${BASE}/auth/register`, true);
       request.setRequestHeader("Content-Type", "application/json");
       request.onload = () => {
         setIsRegisterLoading(false);
@@ -62,6 +62,37 @@ function Home() {
       request.onerror = (err) => reject(err);
       request.send(JSON.stringify(userData));
     });
+  };
+
+  const loginRequest = (userData) => {
+    const request = new XMLHttpRequest();
+    setIsLoginLoading(true);
+    return new Promise((resolve, reject) => {
+      request.open("POST", `${BASE}/auth/login`, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.onload = () => {
+        setIsLoginLoading(false);
+        request.readyState == 4 && request.status == 200
+          ? console.log(resolve(JSON.parse(request.response)))
+          : reject(Error(request.statusText));
+      };
+      request.onerror = (err) => reject(err);
+      request.send(JSON.stringify(userData));
+    });
+  };
+
+  const makeLoginRequest = () => {
+    const userData = {
+      email: loginEmail,
+      password: loginPassword,
+    };
+    loginRequest(userData)
+      .then((res) => {
+        console.log(res["tokens"]["access"]);
+      })
+      .catch((rej) => {
+        console.log(rej);
+      });
   };
 
   return (
@@ -176,7 +207,7 @@ function Home() {
                         "Login"
                       )
                     }
-                    onClick={() => setIsLoginLoading(true)}
+                    onClick={makeLoginRequest}
                   />
                 </div>
               </form>
