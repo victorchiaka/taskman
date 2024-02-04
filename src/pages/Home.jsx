@@ -5,8 +5,8 @@ import Showcase from "../components/Showcase/Showcase";
 import Modal from "../components/Modal";
 import { useState } from "react";
 import API_BASE from "../../config";
-
 import AuthForm from "../components/Form/AuthForm";
+import { useToast } from "../components/utils/hooks";
 
 const BASE = API_BASE;
 
@@ -17,6 +17,7 @@ const BASE = API_BASE;
  */
 function Home() {
   const [active, setActive] = useState(false);
+  const showToast = useToast();
 
   const registerRequest = (userData) => {
     const request = new XMLHttpRequest();
@@ -27,7 +28,7 @@ function Home() {
       request.onload = () => {
         request.readyState == 4 && request.status == 201
           ? console.log(resolve(JSON.parse(request.response)))
-          : reject(Error(request.statusText));
+          : reject(JSON.parse(request.response));
       };
       request.onerror = (err) => reject(err);
       request.send(JSON.stringify(userData));
@@ -42,7 +43,7 @@ function Home() {
       request.onload = () => {
         request.readyState == 4 && request.status == 200
           ? console.log(resolve(JSON.parse(request.response)))
-          : reject(Error(request.statusText));
+          : reject(JSON.parse(request.response));
       };
       request.onerror = (err) => reject(err);
       request.send(JSON.stringify(userData));
@@ -57,19 +58,21 @@ function Home() {
     registerRequest(userData)
       .then((res) => {
         console.log(res);
+        showToast.success(res["message"]);
       })
       .catch((rej) => {
-        console.log(rej);
+        showToast.error(rej["message"]);
       });
   }
 
   const handleLoginSubmit = (userData) => {
+    showToast.error("Test error");
     loginRequest(userData)
       .then((res) => {
-        console.log(res["tokens"]["access"]);
+        showToast.success(res["message"]);
       })
       .catch((rej) => {
-        console.log(rej);
+        showToast.error(rej["message"]);
       });
   }
 

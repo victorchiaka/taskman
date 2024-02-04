@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useInput } from "../../hooks";
+import { useInput } from "../utils/hooks";
 import Input from "../Input";
 import Button from "../Button/Button";
 import LoadingSpinner from "@assets/loading-spinner.svg";
