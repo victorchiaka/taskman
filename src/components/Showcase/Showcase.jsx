@@ -1,9 +1,9 @@
 import ShowcaseCard from "./ShowcaseCard";
 import styles from "./Showcase.module.css";
 
-import AddTaskImage from '@assets/add-tasks.svg';
-import ExamTaskImage from '@assets/exams-tasks.svg';
-import TaskStatisticsImage from '@assets/task-statistics.svg'
+import AddTaskImage from "@assets/add-tasks.svg";
+import ExamTaskImage from "@assets/exams-tasks.svg";
+import TaskStatisticsImage from "@assets/task-statistics.svg";
 
 const showcaseImages = [
   {
@@ -27,7 +27,7 @@ function Showcase() {
   return (
     <div className={styles.showcase}>
       {showcaseImages.map((image) => {
-        return (<ShowcaseCard {...image} key={image.url} />);
+        return <ShowcaseCard {...image} key={image.url} />;
       })}
     </div>
   );
