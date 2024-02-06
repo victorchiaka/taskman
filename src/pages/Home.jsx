@@ -6,7 +6,7 @@ import Modal from "../components/Modal";
 import { useState } from "react";
 import API_BASE from "../../config";
 import AuthForm from "../components/Form/AuthForm";
-import { useToast } from "../components/utils/hooks";
+import { useToast, useAuth } from "../components/utils/hooks";
 
 const BASE = API_BASE;
 
@@ -18,6 +18,7 @@ const BASE = API_BASE;
 function Home() {
   const [active, setActive] = useState(false);
   const showToast = useToast();
+  const { login } = useAuth();
 
   const registerRequest = (userData) => {
     const request = new XMLHttpRequest();
@@ -58,6 +59,7 @@ function Home() {
     registerRequest(userData)
       .then((res) => {
         console.log(res);
+        login(res["tokens"]);
         showToast.success(res["message"]);
       })
       .catch((rej) => {
@@ -69,6 +71,7 @@ function Home() {
     showToast.error("Test error");
     loginRequest(userData)
       .then((res) => {
+        login(res["tokens"]);
         showToast.success(res["message"]);
       })
       .catch((rej) => {

@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { useState } from "react";
 import styles from "./Toast.module.css";
 import PropTypes from "prop-types";
 import { capitalize } from "../../components/utils/text-manipulation";
@@ -6,8 +6,7 @@ import info from "@assets/info.svg";
 import success from "@assets/success.svg";
 import warning from "@assets/warning.svg";
 import close from "@assets/close.svg"
-
-export const ToastContext = createContext(null);
+import { ToastContext } from "../../Contexts";
 
 export const ToastProvider = ({ children }) => {
 
