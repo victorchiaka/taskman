@@ -14,26 +14,24 @@ export const ToastProvider = ({ children }) => {
   const [toasts, setToasts] = useState([]);
 
   const addToast = (message, type = "info", options = {}) => {
-    const { duration = 3000 } = options;
+    const { duration = 5000 } = options;
     const toast = {
       id: Date.now(),
       message,
-      type
+      type,
+      duration
     };
 
     setToasts([...toasts, toast]);
 
-    toasts.forEach((t) => {
-      setTimeout(() => {
-        removeToast(t.id)
-      }, duration)
-    });
+    setTimeout(() => {
+      removeToast(toast.id)
+    }, duration)
 
   };
 
   const removeToast = (id) => {
-    const updatedToasts = toasts.filter((toast) => toast.id !== id);
-    setToasts(updatedToasts);
+    setToasts((toasts) => toasts.filter((toast) => toast.id !== id));
   };
 
   const setIcons = (type) => {
