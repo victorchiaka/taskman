@@ -8,5 +8,6 @@ export default function ProtectedRoutes() {
   console.log("Is Authenticate: ", isAuthenticated);
   console.log("Authenticated user: ", authUser);
 
-  return isAuthenticated == true ? <Outlet /> : <Navigate to="/" />;
+  // return isAuthenticated == true ? <Outlet /> : <Navigate to="/" />;
+  return <Outlet />;
 }

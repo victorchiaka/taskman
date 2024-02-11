@@ -1,0 +1,47 @@
+.homeBody {
+  padding: 0 0.25rem;
+  margin-bottom: 3rem;
+}
+
+.dashboard {
+  margin: 0;
+  height: 100vh;
+}
+
+.dashboard > * {
+  font-size: 15px;
+}
+
+.dashboardBody {
+  display: flex;
+  flex-direction: row;
+}
+
+.dashboardMain {
+  padding: 2rem 0.8rem;
+}
+
+.collection {
+  background-color: var(--main-accent);
+  padding: 0.5rem;
+  border-radius: 7px;
+  cursor: default;
+}
+
+@media (min-width: 578px) {
+  .homeBody {
+    padding: 0 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .homeBody {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 1024) {
+  .homeBody {
+    padding: 0 4rem;
+  }
+}

@@ -1,3 +1,7 @@
+:root {
+  --dashboard-header-accent: rgba(49, 49, 49, 0.904);
+}
+
 .homeHeader {
   text-align: center;
   width: 100%;
@@ -18,4 +22,51 @@
   backdrop-filter: blur(0.5rem);
   padding: 0 0.5rem;
   border-radius: 0.25rem;
+}
+
+.dashboardHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: fit-content;
+  padding: 0.7rem 1rem;
+
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(4.5px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.dashboardTitle {
+  font-size: 1.4rem;
+  color: var(--main-accent);
+}
+
+.dashboardHeader > nav > ul {
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+  align-items: center;
+  gap: 1.4rem;
+}
+
+.dashboardHeader > nav > ul > * {
+  cursor: default;
+}
+
+.dashboardHeader > nav > ul > li:hover {
+  color: var(--main-accent);
+  transition: color 0.3s;
+}
+
+.dashboardHeader > nav > ul > li:last-child {
+  background-color: rgb(233, 42, 42);
+  border-radius: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  color: white;
+}
+
+.dashboardHeader > nav > ul > li:last-child:active {
+  background-color: rgba(255, 23, 23, 0.747);
 }

@@ -8,6 +8,7 @@ import API_BASE from "../../config";
 import AuthForm from "../components/Form/AuthForm";
 import { useToast, useAuth } from "../components/utils/hooks";
 import { useNavigate } from "react-router-dom";
+import styles from "./Pages.module.css";
 
 const BASE = API_BASE;
 
@@ -61,7 +62,6 @@ function Home() {
   const handleRegisterSubmit = (userData) => {
     registerRequest(userData)
       .then((res) => {
-        console.log(res);
         auth.login(res["tokens"]);
         showToast.success(res["message"]);
         navigate("/dashboard");
@@ -84,7 +84,7 @@ function Home() {
   }
 
   return (
-    <>
+    <div className={styles.homeBody}>
       <Background />
       <div className="header-container">
         <HomeHeader />
@@ -102,7 +102,7 @@ function Home() {
         </Modal>
       </div>
       <Showcase />
-    </>
+    </div>
   );
 }
 

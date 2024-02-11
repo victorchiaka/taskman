@@ -18,6 +18,7 @@ export const useInput = initialValue => {
 
 /**
  * Custom hook for displaying toast messages.
+ * 
  * @returns {object|string} An object containing functions for displaying different types of toast messages,
  * or a string indicating that the hook must be used within a ToastProvider.
  */
@@ -62,6 +63,7 @@ export const useToast = () => {
 
 /**
  * Custom hook for managing user authentication state and actions.
+ * 
  * @returns {object} An object containing authentication-related state and functions.
  */
 export const useAuth = () => {

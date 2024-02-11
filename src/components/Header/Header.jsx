@@ -13,8 +13,8 @@ export function HomeHeader() {
 
 function DashboardHeader() {
   return (
-    <header>
-      <h1>Taskam</h1>
+    <header className={styles.dashboardHeader}>
+      <h1 className={styles.dashboardTitle}>Taskman</h1>
       <nav>
         <ul>
           <li>Home</li>
