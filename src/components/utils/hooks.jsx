@@ -1,6 +1,5 @@
-import { useState } from "react";
-import { useContext } from "react";
-import { ToastContext } from "../../Contexts";
+import { useState, useContext } from "react";
+import { AuthContext, ToastContext } from "../../Contexts";
 import { jwtDecode } from "jwt-decode";
 
 /**
@@ -66,40 +65,41 @@ export const useToast = () => {
  * @returns {object} An object containing authentication-related state and functions.
  */
 export const useAuth = () => {
-  const [authUser, setAuthUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const { authUser, setAuthUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   /**
-   * Function to handle user login.
-   * @param {object} tokens Object containing access and refresh tokens.
-   * @returns {object} Decoded access token.
-   */
+  * Function to handle user login.
+  * @param {object} tokens Object containing access and refresh tokens.
+  */
   const login = (tokens) => {
     const access = String(tokens["access"]);
     const refresh = String(tokens["refresh"]);
     const decodedAccessToken = jwtDecode(access);
-    setAuthUser(decodedAccessToken.username);
-    setIsAuthenticated(true);
+
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
-    return decodedAccessToken;
-  };
+
+    setIsAuthenticated(true);
+    setAuthUser(decodedAccessToken.username);
+  }
 
   /**
    * Function to handle user logout.
    * @param{} accepts no parameter
-   */
+  */
   const logout = () => {
-    setAuthUser(null);
-    setIsAuthenticated(false);
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
-  };
+
+    setIsAuthenticated(false);
+    setAuthUser(null);
+  }
 
   return {
     authUser,
     isAuthenticated,
     login,
-    logout
+    logout,
   };
-};
+}

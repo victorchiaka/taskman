@@ -1,20 +1,21 @@
 import { AuthContext } from "../../Contexts";
 import PropTypes from "prop-types";
-import { useAuth } from "../utils/hooks";
+import { useState } from "react";
 
 const AuthProvider = ({ children }) => {
+  
+  const [authUser, setAuthUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const { authUser, isAuthenticated, login, logout } = useAuth(); // Use the useAuth hook
-
-  const authProviderValue = {
+  const authValue = {
     authUser,
+    setAuthUser,
     isAuthenticated,
-    login,
-    logout
-  };
+    setIsAuthenticated
+  }
 
   return (
-    <AuthContext.Provider value={authProviderValue}>
+    <AuthContext.Provider value={authValue}>
       {children}
     </AuthContext.Provider>
   )
