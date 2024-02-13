@@ -1,10 +1,13 @@
 import { Outlet, Navigate } from "react-router-dom";
-
-/**
- * NOTE: this small clause is just to simulate authentication and authorization
- */
-const auth = { token: false };
+import { useAuth } from "../components/utils/hooks";
 
 export default function ProtectedRoutes() {
-  return auth.token ? <Outlet /> : <Navigate to="/" />;
+
+  const { authUser, isAuthenticated } = useAuth();
+
+  console.log("Is Authenticate: ", isAuthenticated);
+  console.log("Authenticated user: ", authUser);
+
+  // return isAuthenticated == true ? <Outlet /> : <Navigate to="/" />;
+  return <Outlet />;
 }

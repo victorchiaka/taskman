@@ -9,7 +9,7 @@ const showcaseImages = [
   {
     url: AddTaskImage,
     title: "Add Task",
-    info: "Create and add tasks in collections",
+    info: "Create and add tasks in Collectionss",
   },
   {
     url: ExamTaskImage,
