@@ -1,5 +1,11 @@
 import styles from "./Header.module.css";
 
+/**
+ * HomeHeader component.
+ * Renders the header for the home page.
+ *
+ * @returns {JSX.Element} The rendered HomeHeader component.
+ */
 export function HomeHeader() {
   return (
     <header className={styles.homeHeader}>
@@ -11,6 +17,12 @@ export function HomeHeader() {
   );
 }
 
+/**
+ * DashboardHeader component.
+ * Renders the header for the dashboard.
+ *
+ * @returns {JSX.Element} The rendered DashboardHeader component.
+ */
 function DashboardHeader() {
   return (
     <header className={styles.dashboardHeader}>
