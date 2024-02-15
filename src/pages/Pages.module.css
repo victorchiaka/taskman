@@ -25,9 +25,13 @@
 
 .createCollections {
   background-color: var(--main-accent);
-  padding: 0.8rem 0.7rem;
+  padding: 0.6rem 0.7rem;
   border-radius: 7px;
   cursor: default;
+}
+
+.createCollections:active {
+  background-color: rgba(118, 221, 59, 0.822);
 }
 
 .sideBarTriggerContainer {
