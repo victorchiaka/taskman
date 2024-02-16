@@ -1,5 +1,7 @@
 :root {
   --dashboard-header-accent: rgba(49, 49, 49, 0.904);
+  --danger: rgb(233, 42, 42);
+  --danger-active: rgba(255, 23, 23, 0.747);
 }
 
 .homeHeader {
@@ -24,7 +26,13 @@
   border-radius: 0.25rem;
 }
 
+/*
+ * TODO: Having issues here with the position: sticky, i'll come back to it
+ */
 .dashboardHeader {
+  top: 0;
+  z-index: 5;
+  position: sticky;
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -32,7 +40,6 @@
   justify-content: space-between;
   height: fit-content;
   padding: 0.7rem 1rem;
-
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4.5px);
   border-bottom: 1px solid rgba(255, 255, 255, 0.18);
@@ -43,7 +50,7 @@
   color: var(--main-accent);
 }
 
-.dashboardHeader > nav > ul {
+.desktopNav > ul {
   display: flex;
   flex-direction: row;
   list-style: none;
@@ -51,22 +58,129 @@
   gap: 1.4rem;
 }
 
-.dashboardHeader > nav > ul > * {
+.desktopNav > ul > *,
+.mobileNav > * {
   cursor: default;
 }
 
-.dashboardHeader > nav > ul > li:hover {
+.desktopNav > ul > li:hover {
   color: var(--main-accent);
   transition: color 0.3s;
 }
 
-.dashboardHeader > nav > ul > li:last-child {
-  background-color: rgb(233, 42, 42);
+.desktopNav > ul > li:last-child {
+  background-color: var(--danger);
   border-radius: 0.5rem;
   padding: 0.6rem 0.5rem;
   color: white;
 }
 
-.dashboardHeader > nav > ul > li:last-child:active {
-  background-color: rgba(255, 23, 23, 0.747);
+.mobileNav > li:last-child {
+  color: var(--danger);
+}
+
+.desktopNav > ul > li:last-child:active {
+  background-color: var(--danger-active);
+}
+
+.mobileNav > li:last-child:active {
+  color: var(--danger-active);
+}
+
+.hamburger {
+  width: fit-content;
+  height: fit-content;
+  background-color: transparent;
+  border: none;
+  display: none;
+}
+
+.hamburgerStroke {
+  background-color: rgb(255, 255, 255);
+  width: 1.7rem;
+  height: 0.2rem;
+  transition: transform 900ms;
+}
+
+.hamburgerStroke:nth-child(2) {
+  margin-top: 0.3rem;
+}
+.hamburgerStroke:nth-child(3) {
+  margin-top: 0.3rem;
+}
+
+.hamburger.open > .hamburgerStroke:nth-child(1) {
+  transform: rotate(45deg) translateY(0.35rem);
+}
+
+.hamburger.open > .hamburgerStroke:nth-child(3) {
+  transform: rotate(-45deg) translateY(-0.35rem);
+}
+
+.hamburger.open > .hamburgerStroke:nth-child(2) {
+  display: none;
+}
+
+.mobileNav {
+  z-index: 4;
+  position: fixed;
+  top: 4rem;
+  left: 2rem;
+  right: 2rem;
+  background-color: rgba(82, 82, 82, 0.39);
+  backdrop-filter: blur(15px);
+  box-shadow: 1px 1px 3px black;
+  list-style: none;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0;
+
+  display: none;
+}
+
+.mobileNav > li {
+  animation-name: moveToLeft;
+  animation-delay: 0s;
+  transition: all 1s ease-out;
+}
+
+.mobileNav > li:first-child {
+  animation-duration: 0.7s;
+}
+
+.mobileNav > li:nth-child(2) {
+  animation-duration: 1s;
+}
+.mobileNav > li:nth-child(3) {
+  animation-duration: 1.3s;
+}
+
+@media (max-width: 651px) {
+  .hamburger {
+    display: inline-block;
+  }
+  .desktopNav {
+    display: none;
+  }
+  .mobileNav {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 371px) {
+  .mobileNav {
+    left: 1.4rem;
+    right: 1.4rem;
+  }
+}
+
+.mobileNav > li {
+  margin: 1rem 0;
+}
+
+@keyframes moveToLeft {
+  0% {
+    transform: translateX(500px);
+  }
 }

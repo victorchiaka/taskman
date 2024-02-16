@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Background from "../components/Background/Background";
-import DashboardHeader from "../components/Header/Header";
+import DashboardHeader, { MobileNav } from "../components/Header/Header";
 import Sidebar, { MobileSideBar } from "../components/Sidebar/Sidebar";
 import styles from "./Pages.module.css";
 import Collections from "../components/Collections/Collections";
@@ -16,11 +16,13 @@ import Modal from "../components/Modal";
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
+  const [openMobileNav, setOpenMobileNav] = useState(false);
 
   return (
     <div className={styles.dashboard}>
       <Background />
-      <DashboardHeader />
+      <DashboardHeader setOpenMobileNav={setOpenMobileNav} />
+      <MobileNav openMobileNav={openMobileNav} />
       <div className={styles.dashboardBody}>
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className={styles.mobileSideBarContainer}>
