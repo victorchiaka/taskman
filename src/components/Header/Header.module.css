@@ -26,6 +26,10 @@
   border-radius: 0.25rem;
 }
 
+.dashboard {
+  margin-top: 9rem;
+}
+
 /*
  * TODO: Having issues here with the position: sticky, i'll come back to it
  */
