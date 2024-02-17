@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
  */
 export const MobileSideBar = ({ activeTab, setActiveTab, setActive }) => {
   return (
-    <section className={styles.mobileSideBar}>
+    <section className={`${styles.mobileSideBar} ${styles.moveSidebar}`}>
       <div className={styles.sideBarTriggerContainer}>
         <img onClick={() => setActive(false)} src={DashboardIcon} className={styles.mobileSidebarTrigger}></img>
       </div>

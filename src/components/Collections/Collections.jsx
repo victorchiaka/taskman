@@ -17,6 +17,24 @@ function Collections() {
       <Collection />
       <Collection />
       <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
+      <Collection />
     </div>
   )
 }

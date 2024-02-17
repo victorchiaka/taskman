@@ -24,6 +24,10 @@
   width: 100%;
 }
 
+.dashboardMain > div:first-child {
+  margin: 0.5rem 0 0 0.8rem;
+}
+
 .createCollections {
   background-color: var(--main-accent);
   padding: 0.6rem 0.7rem;
@@ -82,5 +86,9 @@
 @media (max-width: 359px) {
   .dashboardMain {
     padding: 2rem 0px;
+  }
+
+  .dashboardMain > div:first-child {
+    margin: 0 0 0 0.8rem;
   }
 }

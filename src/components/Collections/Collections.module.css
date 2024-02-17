@@ -1,13 +1,20 @@
 .collections {
-  margin-top: 1rem;
+  margin: 1rem 0;
   padding: 2rem 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-
   gap: 1.5rem;
-
-  height: 39rem;
+  height: 81vh;
   overflow-y: scroll;
+}
+
+.collections::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.collections::-webkit-scrollbar-thumb {
+  background-color: var(--main-accent);
+  border-radius: 0.3rem;
 }
 
 .collectionCard {
@@ -41,4 +48,16 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
+}
+
+@media (max-width: 1632px) {
+  .collections {
+    height: 41rem;
+  }
+}
+
+@media (max-width: 651px) {
+  .collections {
+    height: 40rem;
+  }
 }
