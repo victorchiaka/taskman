@@ -1,7 +1,5 @@
 :root {
   --dashboard-header-accent: rgba(49, 49, 49, 0.904);
-  --danger: rgb(233, 42, 42);
-  --danger-active: rgba(255, 23, 23, 0.747);
 }
 
 .homeHeader {

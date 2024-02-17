@@ -1,18 +1,20 @@
 import { useState } from "react";
 import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
+import Edit from "@assets/edit.svg";
+import Delete from "@assets/delete.svg";
 
 const CollectionOption = () => {
   return (
-    <>
-      <div>Rename Collection</div>
-      <div>Delete Collection</div>
-    </>
+    <div className={styles.collectionOption}>
+      <p>Edit <img src={Edit}></img></p>
+      <p>Delete <img src={Delete}></img></p>
+    </div>
   );
 }
 
 const Collection = () => {
-  const [openCollectionOption, setOpenCollectionOption] = useState(true);
+  const [openCollectionOption, setOpenCollectionOption] = useState(false);
 
   return (
     <div className={styles.collectionCard}>
@@ -24,8 +26,8 @@ const Collection = () => {
         <h3>Goal</h3>
         <small>Thurs: 11 Jan 2024</small>
       </div>
-
-      { openCollectionOption && <CollectionOption />}
+      
+      {openCollectionOption && <CollectionOption />}
     </div>
   )
 }

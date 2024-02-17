@@ -21,7 +21,8 @@
   background-color: rgba(61, 61, 61, 0.6);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.11);
-  min-height: 12rem;
+  min-height: 10rem;
+  max-height: 11rem;
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
@@ -60,4 +61,39 @@
   .collections {
     height: 40rem;
   }
+}
+
+.collectionOption {
+  width: fit-content;
+  height: fit-content;
+  padding: 0.3rem 0.5rem;
+  position: absolute;
+  right: 1.3rem;
+  top: 3rem;
+  background-color: rgba(34, 33, 33, 0.89);
+  cursor: default;
+  box-shadow: 1px 1px 1px black;
+}
+
+.collectionOption > p {
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
+.collectionOption > p:first-child:hover {
+  color: var(--main-accent);
+}
+.collectionOption > p:first-child:active {
+  color: var(--main-accent-50);
+}
+
+.collectionOption > p:last-child:hover {
+  color: var(--danger);
+}
+
+.collectionOption > p:last-child:active {
+  color: var(--danger-active);
 }

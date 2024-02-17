@@ -9,6 +9,8 @@
 }
 
 :root {
+  --danger: rgb(233, 42, 42);
+  --danger-active: rgba(255, 23, 23, 0.747);
   --main-accent: #5a9a38;
   --main-accent-20: rgba(90, 154, 56, 0.2);
   --main-accent-40: rgba(90, 154, 56, 0.4);
