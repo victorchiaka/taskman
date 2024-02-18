@@ -44,7 +44,7 @@
   cursor: default;
 }
 
-@media (max-width: 653px) {
+@media (max-width: 634px) {
   .sideBar {
     display: none;
   }
