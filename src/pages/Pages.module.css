@@ -7,6 +7,7 @@
   margin: 0;
   height: 100vh;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 .dashboard > * {
@@ -23,11 +24,19 @@
   width: 100%;
 }
 
+.dashboardMain > div:first-child {
+  margin: 0.5rem 0 0 0.8rem;
+}
+
 .createCollections {
   background-color: var(--main-accent);
-  padding: 0.8rem 0.7rem;
+  padding: 0.6rem 0.7rem;
   border-radius: 7px;
   cursor: default;
+}
+
+.createCollections:active {
+  background-color: rgba(118, 221, 59, 0.822);
 }
 
 .sideBarTriggerContainer {
@@ -38,9 +47,10 @@
   display: none;
 }
 
-@media (max-width: 651px) {
-  .mobileSideBarContainer {
-    display: block;
+@media (max-width: 659px) {
+  .dashboardMain {
+    padding-left: 0;
+    padding-right: 0;
   }
 }
 
@@ -62,14 +72,24 @@
   }
 }
 
-@media (max-width: 651px) {
+@media (max-width: 634px) {
   .sideBarTriggerContainer {
     display: flex;
-    margin-top: 1rem;
+    margin-top: 2.5rem;
     width: fit-content;
     padding: 1px;
     border: 1px solid rgb(61, 60, 60);
     border-radius: 7px;
     margin-left: 1rem;
+  }
+}
+
+@media (max-width: 359px) {
+  .dashboardMain {
+    padding: 2rem 0px;
+  }
+
+  .dashboardMain > div:first-child {
+    margin: 0 0 0 0.8rem;
   }
 }

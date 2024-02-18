@@ -1,16 +1,28 @@
 .collections {
+  margin: 1rem 0;
   padding: 2rem 1rem;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-
   gap: 1.5rem;
+  height: 81vh;
+  overflow-y: scroll;
+}
+
+.collections::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.collections::-webkit-scrollbar-thumb {
+  background-color: var(--main-accent);
+  border-radius: 0.3rem;
 }
 
 .collectionCard {
   background-color: rgba(61, 61, 61, 0.6);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.11);
-  min-height: 12rem;
+  min-height: 10rem;
+  max-height: 11rem;
   border-radius: 1rem;
   padding: 1rem;
   display: flex;
@@ -37,4 +49,51 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
+}
+
+@media (max-width: 1632px) {
+  .collections {
+    height: 41rem;
+  }
+}
+
+@media (max-width: 651px) {
+  .collections {
+    height: 40rem;
+  }
+}
+
+.collectionOption {
+  width: fit-content;
+  height: fit-content;
+  padding: 0.3rem 0.5rem;
+  position: absolute;
+  right: 1.3rem;
+  top: 3rem;
+  background-color: rgba(34, 33, 33, 0.89);
+  cursor: default;
+  box-shadow: 1px 1px 1px black;
+}
+
+.collectionOption > p {
+  font-size: 0.8rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
+.collectionOption > p:first-child:hover {
+  color: var(--main-accent);
+}
+.collectionOption > p:first-child:active {
+  color: var(--main-accent-50);
+}
+
+.collectionOption > p:last-child:hover {
+  color: var(--danger);
+}
+
+.collectionOption > p:last-child:active {
+  color: var(--danger-active);
 }

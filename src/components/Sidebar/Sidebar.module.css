@@ -27,6 +27,10 @@
   background-color: var(--main-accent);
 }
 
+.sideBarChildren.active:active {
+  background-color: rgba(118, 221, 59, 0.822);
+}
+
 .mobileSideBarContainer {
   display: none;
 }
@@ -40,7 +44,7 @@
   cursor: default;
 }
 
-@media (max-width: 651px) {
+@media (max-width: 634px) {
   .sideBar {
     display: none;
   }
