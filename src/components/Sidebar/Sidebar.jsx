@@ -12,9 +12,9 @@ import PropTypes from "prop-types";
  * @param {function} props.setActive - The function to set the active state.
  * @returns {JSX.Element} The rendered MobileSideBar component.
  */
-export const MobileSideBar = ({ activeTab, setActiveTab, setActive }) => {
+export const MobileSideBar = ({ active, activeTab, setActiveTab, setActive }) => {
   return (
-    <section className={`${styles.mobileSideBar} ${styles.moveSidebar}`}>
+    <section className={`${styles.mobileSideBar} ${active ? styles.sideBarActive : ""}`}>
       <div className={styles.sideBarTriggerContainer}>
         <img onClick={() => setActive(false)} src={DashboardIcon} className={styles.mobileSidebarTrigger}></img>
       </div>
@@ -47,6 +47,7 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
 }
 
 MobileSideBar.propTypes = {
+  active: PropTypes.bool,
   activeTab: PropTypes.string,
   setActiveTab: PropTypes.func,
   setActive: PropTypes.func

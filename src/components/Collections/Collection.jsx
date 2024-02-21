@@ -3,6 +3,7 @@ import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
 import Edit from "@assets/edit.svg";
 import Delete from "@assets/delete.svg";
+import PropTypes from "prop-types";
 
 const CollectionOption = () => {
   return (
@@ -13,7 +14,7 @@ const CollectionOption = () => {
   );
 }
 
-const Collection = () => {
+const Collection = ({ collection }) => {
   const [openCollectionOption, setOpenCollectionOption] = useState(false);
 
   return (
@@ -23,13 +24,16 @@ const Collection = () => {
         <img onClick={() => setOpenCollectionOption(!openCollectionOption)} src={ThreeDotsNav} className={styles.options}></img>
       </div>
       <div>
-        <h3>Goal</h3>
-        <small>Thurs: 11 Jan 2024</small>
+        <h3>{collection.collection_name}</h3>
+        <small>{collection.created_at}</small>
       </div>
-      
       {openCollectionOption && <CollectionOption />}
     </div>
   )
+}
+
+Collection.propTypes = {
+  collection: PropTypes.object
 }
 
 export default Collection;

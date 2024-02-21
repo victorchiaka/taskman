@@ -16,6 +16,7 @@ import Modal from "../components/Modal";
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
+
   const [openMobileNav, setOpenMobileNav] = useState(false);
 
   return (
@@ -27,11 +28,10 @@ function Dashboard() {
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className={styles.mobileSideBarContainer}>
           <Modal isActive={active} >
-            <MobileSideBar activeTab={activeTab} setActiveTab={setActiveTab} setActive={setActive} />
+            <MobileSideBar active={active} activeTab={activeTab} setActiveTab={setActiveTab} setActive={setActive} />
           </Modal>
         </div>
         <main className={styles.dashboardMain}>
-          <div>Taskman Collections:&nbsp; <span className={styles.createCollections}>New Collections</span></div>
           <div className={styles.sideBarTriggerContainer}>
             <img onClick={() => setActive(true)} src={DashboardIcon} className={styles.mobileSidebarTrigger}></img>
           </div>

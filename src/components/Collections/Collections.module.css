@@ -4,8 +4,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   gap: 1.5rem;
-  height: 81vh;
-  overflow-y: scroll;
+
+  max-height: 83vh;
+  overflow-y: auto;
 }
 
 .collections::-webkit-scrollbar {
@@ -51,16 +52,25 @@
   border-radius: 50%;
 }
 
-@media (max-width: 1632px) {
-  .collections {
-    height: 41rem;
+.instanceAction {
+  margin: 0.8rem 0 0.8rem 1rem;
+}
+
+@media (max-width: 662px) {
+  .instanceAction {
+    font-size: 0.9rem;
   }
 }
 
-@media (max-width: 651px) {
-  .collections {
-    height: 40rem;
-  }
+.createCollections {
+  background-color: var(--main-accent);
+  padding: 0.6rem 0.7rem;
+  border-radius: 7px;
+  cursor: default;
+}
+
+.createCollections:active {
+  background-color: rgba(118, 221, 59, 0.822);
 }
 
 .collectionOption {
