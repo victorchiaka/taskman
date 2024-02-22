@@ -1,39 +1,51 @@
 import { useState } from "react";
 import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
-import Edit from "@assets/edit.svg";
-import Delete from "@assets/delete.svg";
+import Options from "../../ui/Options";
+
 import PropTypes from "prop-types";
 
-const CollectionOption = () => {
-  return (
-    <div className={styles.collectionOption}>
-      <p>Edit <img src={Edit}></img></p>
-      <p>Delete <img src={Delete}></img></p>
-    </div>
-  );
-}
+const Collection = ({ collection, onClick }) => {
+  const options = ["Edit", "Delete"];
 
-const Collection = ({ collection }) => {
-  const [openCollectionOption, setOpenCollectionOption] = useState(false);
+  const [openOptions, setOpenOptions] = useState(false);
+
+  const handleCollectionClick = () => {
+    onClick(collection);
+  };
+
+  const collectionColor = {
+    backgroundColor: collection.color_code,
+    width: " 2rem",
+    height: "2rem",
+    borderRadius: "50%",
+  };
 
   return (
-    <div className={styles.collectionCard}>
+    <div className={styles.collectionCard} onClick={handleCollectionClick}>
       <div>
-        <div className={styles.collectionColor}></div>
-        <img onClick={() => setOpenCollectionOption(!openCollectionOption)} src={ThreeDotsNav} className={styles.options}></img>
+        <div style={collectionColor}></div>
+        <img
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenOptions(!openOptions);
+          }}
+          src={ThreeDotsNav}
+          className={styles.options}
+        ></img>
       </div>
       <div>
         <h3>{collection.collection_name}</h3>
         <small>{collection.created_at}</small>
       </div>
-      {openCollectionOption && <CollectionOption />}
+      {openOptions && <Options options={options} />}
     </div>
-  )
-}
+  );
+};
 
 Collection.propTypes = {
-  collection: PropTypes.object
-}
+  onClick: PropTypes.func,
+  collection: PropTypes.object,
+};
 
 export default Collection;
