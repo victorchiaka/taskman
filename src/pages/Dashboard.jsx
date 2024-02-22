@@ -27,7 +27,7 @@ function Dashboard() {
       <div className={styles.dashboardBody}>
         <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
         <div className={styles.mobileSideBarContainer}>
-          <Modal isActive={active} >
+          <Modal setIsActive={setActive} isActive={active} >
             <MobileSideBar active={active} activeTab={activeTab} setActiveTab={setActiveTab} setActive={setActive} />
           </Modal>
         </div>

@@ -93,7 +93,7 @@ function Home() {
           type="homeSignup"
           onClick={() => setActive(true)}
         />
-        <Modal isActive={active} isForm={true}>
+        <Modal setIsActive={setActive} isActive={active} isForm={true}>
           <AuthForm setActive={setActive}
             preventDefaultAction={preventDefaultAction}
             handleRegisterSubmit={handleRegisterSubmit}
