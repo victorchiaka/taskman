@@ -56,7 +56,7 @@ const AuthForm = ({ preventDefaultAction, setActive, handleRegisterSubmit, handl
   }
 
   return (
-    <div className="auth-tab">
+    <div className="auth-tab" onClick={e => e.stopPropagation()}>
       <div className="auth-header">
         <p>Taskman authentication</p>
       </div>
