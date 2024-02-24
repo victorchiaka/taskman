@@ -4,10 +4,7 @@ import styles from "./Collections.module.css";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 
-// Dummy data import for development
-import { data } from "./data";
-
-function Collections({ setCollectionFormActive }) {
+function Collections({ collections, setCollectionFormActive }) {
   const [displayTasksOptions, setDisplayTaskOptions] = useState({
     display: false,
     collection: null,
@@ -42,7 +39,7 @@ function Collections({ setCollectionFormActive }) {
           </div>
 
           <div className={styles.collections}>
-            {data.collections.map((collection) => (
+            {collections.map((collection) => (
               <Collection
                 onClick={displayTasks}
                 key={collection.id}
@@ -57,6 +54,7 @@ function Collections({ setCollectionFormActive }) {
 }
 
 Collections.propTypes = {
+  collections: PropTypes.object,
   setCollectionFormActive: PropTypes.func,
 };
 

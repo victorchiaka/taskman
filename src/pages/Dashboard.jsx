@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Background from "../components/Background/Background";
 import DashboardHeader, { MobileNav } from "../components/Header/Header";
 import Sidebar, { MobileSideBar } from "../components/Sidebar/Sidebar";
@@ -8,7 +8,10 @@ import DashboardIcon from "@assets/dashboard.svg";
 import Modal from "../components/Modal";
 import CollectionForm from "../components/Form/CollectionForm";
 import { useToast, useAuth } from "../components/utils/hooks";
-import { createCollectionRequest } from "../services/api";
+import {
+  createCollectionRequest,
+  getAllCollectionsRequest,
+} from "../services/api";
 
 /**
  * Dashboard component.
@@ -20,6 +23,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+  const [collections, setCollections] = useState([]);
   const showToast = useToast();
   const { jwtToken } = useAuth();
 
@@ -38,6 +42,22 @@ function Dashboard() {
         showToast.error(rej["message"]);
       });
   };
+
+  const handleGetAllCollections = () => {
+    getAllCollectionsRequest(jwtToken).then((res) => {
+      setCollections(res.collections);
+    });
+  };
+
+  useEffect(() => {
+    handleGetAllCollections();
+
+    const interval = setInterval(() => {
+      handleGetAllCollections();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -64,7 +84,10 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections setCollectionFormActive={setCollectionFormActive} />
+          <Collections
+            collections={collections}
+            setCollectionFormActive={setCollectionFormActive}
+          />
         </main>
       </div>
       <Modal

@@ -47,4 +47,28 @@ const createCollectionRequest = (collectionData, jwtToken) => {
   });
 };
 
-export { registerRequest, loginRequest, createCollectionRequest };
+const getAllCollectionsRequest = (jwtToken) => {
+  const request = new XMLHttpRequest();
+
+  return new Promise((resolve, reject) => {
+    request.open("GET", `${API_COLLECTION}/get-all`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        resolve(JSON.parse(request.response));
+      } else {
+        reject(JSON.parse(request.response));
+      }
+    };
+    request.onerror = (err) => reject(err);
+    request.send();
+  });
+};
+
+export {
+  registerRequest,
+  loginRequest,
+  createCollectionRequest,
+  getAllCollectionsRequest,
+};
