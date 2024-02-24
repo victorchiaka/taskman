@@ -1,12 +1,13 @@
 import { useState } from "react";
 import Collection from "./Collection";
 import styles from "./Collections.module.css";
+import Tasks from "../Tasks/Tasks";
+import PropTypes from "prop-types";
 
 // Dummy data import for development
 import { data } from "./data";
-import Tasks from "../Tasks/Tasks";
 
-function Collections() {
+function Collections({ setCollectionFormActive }) {
   const [displayTasksOptions, setDisplayTaskOptions] = useState({
     display: false,
     collection: null,
@@ -31,7 +32,12 @@ function Collections() {
           <div className={styles.instanceAction}>
             <div>
               Taskman Collections:&nbsp;{" "}
-              <span className={styles.createCollections}>New Collections</span>
+              <span
+                onClick={() => setCollectionFormActive(true)}
+                className={styles.createCollections}
+              >
+                New Collections
+              </span>
             </div>
           </div>
 
@@ -49,5 +55,9 @@ function Collections() {
     </>
   );
 }
+
+Collections.propTypes = {
+  setCollectionFormActive: PropTypes.func,
+};
 
 export default Collections;

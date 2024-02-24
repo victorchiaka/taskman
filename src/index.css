@@ -212,3 +212,37 @@ input::placeholder {
 .options > p:active {
   color: var(--main-accent-50);
 }
+
+.collection-form {
+  background-color: var(--main-form-accent);
+  padding: 1rem 0.9rem;
+  border-radius: var(--golden-ratio-border-radius);
+}
+
+.form-header {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+form .color {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.8rem;
+  width: 100%;
+}
+
+.form .color > * {
+  padding: 0;
+  margin: 0;
+}
+
+form .color > label {
+  position: static;
+  width: fit-content;
+  background: inherit;
+}
+
+form .color > input {
+  width: 3.5rem;
+  height: 1.5rem;
+}

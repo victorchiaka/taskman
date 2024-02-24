@@ -8,17 +8,17 @@ import { jwtDecode } from "jwt-decode";
  * @param {*} initialValue - The initial value for the input state.
  * @returns {Array} - An array containing the input value and a function to update the input value.
  */
-export const useInput = initialValue => {
+export const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
   return [
-    { value, onChange: e => setValue(e.target.value) },
-    () => setValue(initialValue)
+    { value, onChange: (e) => setValue(e.target.value) },
+    () => setValue(initialValue),
   ];
 };
 
 /**
  * Custom hook for displaying toast messages.
- * 
+ *
  * @returns {object|string} An object containing functions for displaying different types of toast messages,
  * or a string indicating that the hook must be used within a ToastProvider.
  */
@@ -55,7 +55,7 @@ export const useToast = () => {
      */
     error(message) {
       showToast(message, "error");
-    }
+    },
   };
 
   return showToast ? toast : "useToast must be inside a ToastProvider";
@@ -63,17 +63,23 @@ export const useToast = () => {
 
 /**
  * Custom hook for managing user authentication state and actions.
- * 
+ *
  * @returns {object} An object containing authentication-related state and functions.
  */
 export const useAuth = () => {
-
-  const { authUser, setAuthUser, isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const {
+    authUser,
+    setAuthUser,
+    isAuthenticated,
+    setIsAuthenticated,
+    jwtToken,
+    setJwtToken,
+  } = useContext(AuthContext);
 
   /**
-  * Function to handle user login.
-  * @param {object} tokens Object containing access and refresh tokens.
-  */
+   * Function to handle user login.
+   * @param {object} tokens Object containing access and refresh tokens.
+   */
   const login = (tokens) => {
     const access = String(tokens["access"]);
     const refresh = String(tokens["refresh"]);
@@ -82,26 +88,29 @@ export const useAuth = () => {
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
 
+    setJwtToken(tokens["access"]);
     setIsAuthenticated(true);
     setAuthUser(decodedAccessToken.username);
-  }
+  };
 
   /**
    * Function to handle user logout.
    * @param{} accepts no parameter
-  */
+   */
   const logout = () => {
     localStorage.removeItem("access_token");
     localStorage.removeItem("refresh_token");
 
     setIsAuthenticated(false);
+    setJwtToken(null);
     setAuthUser(null);
-  }
+  };
 
   return {
     authUser,
     isAuthenticated,
     login,
     logout,
+    jwtToken,
   };
-}
+};
