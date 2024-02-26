@@ -1,4 +1,4 @@
-import { API_AUTH, API_COLLECTION } from "../../config";
+import { API_AUTH, API_COLLECTION, API_TASK } from "../../config";
 
 const registerRequest = (userData) => {
   const request = new XMLHttpRequest();
@@ -66,9 +66,27 @@ const getAllCollectionsRequest = (jwtToken) => {
   });
 };
 
+const createTaskRequest = (taskData, jwtToken) => {
+  const request = new XMLHttpRequest();
+
+  return new Promise((resolve, reject) => {
+    request.open("POST", `${API_TASK}/create`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 201
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
+    request.send(JSON.stringify(taskData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
   createCollectionRequest,
   getAllCollectionsRequest,
+  createTaskRequest,
 };

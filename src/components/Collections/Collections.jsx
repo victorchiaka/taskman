@@ -8,6 +8,7 @@ function Collections({
   collections,
   setCollectionFormActive,
   setTaskFormActive,
+  setActiveCollection,
 }) {
   const [displayTasksOptions, setDisplayTaskOptions] = useState({
     display: false,
@@ -15,6 +16,7 @@ function Collections({
   });
 
   const displayTasks = (collection) => {
+    setActiveCollection(collection.collection_name);
     setDisplayTaskOptions({
       display: true,
       collection: collection,
@@ -28,6 +30,7 @@ function Collections({
           setDisplayTaskOptions={setDisplayTaskOptions}
           collection={displayTasksOptions.collection}
           setTaskFormActive={setTaskFormActive}
+          setActiveCollection={setActiveCollection}
         />
       ) : (
         <>
@@ -62,6 +65,7 @@ Collections.propTypes = {
   collections: PropTypes.object,
   setCollectionFormActive: PropTypes.func,
   setTaskFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 export default Collections;

@@ -11,6 +11,7 @@ import { useToast } from "../components/utils/hooks";
 import {
   createCollectionRequest,
   getAllCollectionsRequest,
+  createTaskRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
 
@@ -27,6 +28,10 @@ function Dashboard() {
   const [taskFormActive, setTaskFormActive] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
 
+  const [activeCollection, setActiveCollection] = useState("");
+
+  console.log("Active Collection: ", activeCollection);
+
   const [collections, setCollections] = useState([]);
   const showToast = useToast();
 
@@ -40,12 +45,8 @@ function Dashboard() {
 
   const handleCreateCollection = (collectionData) => {
     createCollectionRequest(collectionData, jwtToken)
-      .then((res) => {
-        showToast.success(res["message"]);
-      })
-      .catch((rej) => {
-        showToast.error(rej["message"]);
-      });
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
   };
 
   const handleGetAllCollections = () => {
@@ -54,7 +55,11 @@ function Dashboard() {
     });
   };
 
-  const handleCreateTask = () => {};
+  const handleCreateTask = (taskData) => {
+    createTaskRequest(taskData, jwtToken)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
   useEffect(() => {
     handleGetAllCollections();
@@ -95,6 +100,7 @@ function Dashboard() {
             collections={collections}
             setTaskFormActive={setTaskFormActive}
             setCollectionFormActive={setCollectionFormActive}
+            setActiveCollection={setActiveCollection}
           />
         </main>
       </div>
@@ -117,7 +123,8 @@ function Dashboard() {
         <TaskForm
           setActive={setTaskFormActive}
           preventDefaultAction={preventDefaultAction}
-          handleCreateCollection={handleCreateTask}
+          handleCreateTask={handleCreateTask}
+          activeCollection={activeCollection}
         />
       </Modal>
     </div>

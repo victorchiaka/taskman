@@ -213,7 +213,7 @@ input::placeholder {
   color: var(--main-accent-50);
 }
 
-.collection-form {
+.collection-form, .task-form {
   background-color: var(--main-form-accent);
   padding: 1rem 0.9rem;
   border-radius: var(--golden-ratio-border-radius);

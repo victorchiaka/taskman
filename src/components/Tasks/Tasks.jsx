@@ -11,17 +11,19 @@ const TasksInstanceAction = ({
   collection,
   setDisplayTaskOptions,
   setTaskFormActive,
+  setActiveCollection,
 }) => {
   return (
     <div className={styles.instanceAction}>
       <div className={styles.tasksAction}>
         <span
-          onClick={() =>
+          onClick={() => {
+            setActiveCollection("");
             setDisplayTaskOptions({
               display: false,
               collection: "",
-            })
-          }
+            });
+          }}
           className="back-button"
         >
           <img src={back} />
@@ -40,13 +42,19 @@ const TasksInstanceAction = ({
   );
 };
 
-const Tasks = ({ collection, setDisplayTaskOptions, setTaskFormActive }) => {
+const Tasks = ({
+  collection,
+  setDisplayTaskOptions,
+  setTaskFormActive,
+  setActiveCollection,
+}) => {
   return (
     <>
       <TasksInstanceAction
         collection={collection}
         setDisplayTaskOptions={setDisplayTaskOptions}
         setTaskFormActive={setTaskFormActive}
+        setActiveCollection={setActiveCollection}
       />
       <div className={styles.tasks}>
         {data.tasks.map((task) => (
@@ -61,12 +69,14 @@ TasksInstanceAction.propTypes = {
   collection: PropTypes.object,
   setDisplayTaskOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 Tasks.propTypes = {
   collection: PropTypes.object,
   setDisplayTaskOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 export default Tasks;
