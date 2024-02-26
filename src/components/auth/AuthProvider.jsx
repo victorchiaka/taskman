@@ -5,15 +5,12 @@ import { useState } from "react";
 const AuthProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [jwtToken, setJwtToken] = useState(null);
 
   const authValue = {
     authUser,
     setAuthUser,
     isAuthenticated,
     setIsAuthenticated,
-    jwtToken,
-    setJwtToken,
   };
 
   return (

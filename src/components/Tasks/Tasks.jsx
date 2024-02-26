@@ -7,7 +7,11 @@ import PropTypes from "prop-types";
 // Dummy data for development
 import { data } from "./data";
 
-const TasksInstanceAction = ({ collection, setDisplayTaskOptions }) => {
+const TasksInstanceAction = ({
+  collection,
+  setDisplayTaskOptions,
+  setTaskFormActive,
+}) => {
   return (
     <div className={styles.instanceAction}>
       <div className={styles.tasksAction}>
@@ -25,7 +29,7 @@ const TasksInstanceAction = ({ collection, setDisplayTaskOptions }) => {
         </span>
         &nbsp; <h4>{collection.collection_name}</h4>
       </div>
-      <div className={styles.addTask}>
+      <div onClick={() => setTaskFormActive(true)} className={styles.addTask}>
         <img src={add} /> Add Task
       </div>
       <div className={styles.tasksInfo}>
@@ -36,12 +40,13 @@ const TasksInstanceAction = ({ collection, setDisplayTaskOptions }) => {
   );
 };
 
-const Tasks = ({ collection, setDisplayTaskOptions }) => {
+const Tasks = ({ collection, setDisplayTaskOptions, setTaskFormActive }) => {
   return (
     <>
       <TasksInstanceAction
         collection={collection}
         setDisplayTaskOptions={setDisplayTaskOptions}
+        setTaskFormActive={setTaskFormActive}
       />
       <div className={styles.tasks}>
         {data.tasks.map((task) => (
@@ -55,11 +60,13 @@ const Tasks = ({ collection, setDisplayTaskOptions }) => {
 TasksInstanceAction.propTypes = {
   collection: PropTypes.object,
   setDisplayTaskOptions: PropTypes.func,
+  setTaskFormActive: PropTypes.func,
 };
 
 Tasks.propTypes = {
   collection: PropTypes.object,
   setDisplayTaskOptions: PropTypes.func,
+  setTaskFormActive: PropTypes.func,
 };
 
 export default Tasks;

@@ -67,14 +67,8 @@ export const useToast = () => {
  * @returns {object} An object containing authentication-related state and functions.
  */
 export const useAuth = () => {
-  const {
-    authUser,
-    setAuthUser,
-    isAuthenticated,
-    setIsAuthenticated,
-    jwtToken,
-    setJwtToken,
-  } = useContext(AuthContext);
+  const { authUser, setAuthUser, isAuthenticated, setIsAuthenticated } =
+    useContext(AuthContext);
 
   /**
    * Function to handle user login.
@@ -88,7 +82,6 @@ export const useAuth = () => {
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
 
-    setJwtToken(tokens["access"]);
     setIsAuthenticated(true);
     setAuthUser(decodedAccessToken.username);
   };
@@ -102,7 +95,6 @@ export const useAuth = () => {
     localStorage.removeItem("refresh_token");
 
     setIsAuthenticated(false);
-    setJwtToken(null);
     setAuthUser(null);
   };
 
@@ -111,6 +103,5 @@ export const useAuth = () => {
     isAuthenticated,
     login,
     logout,
-    jwtToken,
   };
 };

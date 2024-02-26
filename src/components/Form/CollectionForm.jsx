@@ -20,9 +20,6 @@ const CollectionForm = ({
     setIsCreationLoading(false);
   };
 
-  console.log("Color", collectionColor.value);
-  console.log("Collection Name", collectionName.value);
-
   const createCollection = () => {
     setIsCreationLoading(true);
     handleCreateCollection({

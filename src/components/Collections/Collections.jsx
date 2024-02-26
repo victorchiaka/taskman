@@ -4,7 +4,11 @@ import styles from "./Collections.module.css";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 
-function Collections({ collections, setCollectionFormActive }) {
+function Collections({
+  collections,
+  setCollectionFormActive,
+  setTaskFormActive,
+}) {
   const [displayTasksOptions, setDisplayTaskOptions] = useState({
     display: false,
     collection: null,
@@ -23,6 +27,7 @@ function Collections({ collections, setCollectionFormActive }) {
         <Tasks
           setDisplayTaskOptions={setDisplayTaskOptions}
           collection={displayTasksOptions.collection}
+          setTaskFormActive={setTaskFormActive}
         />
       ) : (
         <>
@@ -56,6 +61,7 @@ function Collections({ collections, setCollectionFormActive }) {
 Collections.propTypes = {
   collections: PropTypes.object,
   setCollectionFormActive: PropTypes.func,
+  setTaskFormActive: PropTypes.func,
 };
 
 export default Collections;

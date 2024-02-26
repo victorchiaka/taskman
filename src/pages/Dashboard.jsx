@@ -7,11 +7,12 @@ import Collections from "../components/Collections/Collections";
 import DashboardIcon from "@assets/dashboard.svg";
 import Modal from "../components/Modal";
 import CollectionForm from "../components/Form/CollectionForm";
-import { useToast, useAuth } from "../components/utils/hooks";
+import { useToast } from "../components/utils/hooks";
 import {
   createCollectionRequest,
   getAllCollectionsRequest,
 } from "../services/api";
+import TaskForm from "../components/Form/TaskForm";
 
 /**
  * Dashboard component.
@@ -22,10 +23,14 @@ import {
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
+
+  const [taskFormActive, setTaskFormActive] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+
   const [collections, setCollections] = useState([]);
   const showToast = useToast();
-  const { jwtToken } = useAuth();
+
+  const jwtToken = localStorage.getItem("access_token");
 
   const [openMobileNav, setOpenMobileNav] = useState(false);
 
@@ -48,6 +53,8 @@ function Dashboard() {
       setCollections(res.collections);
     });
   };
+
+  const handleCreateTask = () => {};
 
   useEffect(() => {
     handleGetAllCollections();
@@ -86,6 +93,7 @@ function Dashboard() {
           </div>
           <Collections
             collections={collections}
+            setTaskFormActive={setTaskFormActive}
             setCollectionFormActive={setCollectionFormActive}
           />
         </main>
@@ -99,6 +107,17 @@ function Dashboard() {
           setActive={setCollectionFormActive}
           preventDefaultAction={preventDefaultAction}
           handleCreateCollection={handleCreateCollection}
+        />
+      </Modal>
+      <Modal
+        setIsActive={setTaskFormActive}
+        isActive={taskFormActive}
+        isForm={true}
+      >
+        <TaskForm
+          setActive={setTaskFormActive}
+          preventDefaultAction={preventDefaultAction}
+          handleCreateCollection={handleCreateTask}
         />
       </Modal>
     </div>
