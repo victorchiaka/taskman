@@ -175,7 +175,74 @@ input::placeholder {
   }
 }
 
+/* For tasks and other /dashboard operations */
+.back-button {
+  padding: 0.2rem 0.4rem 0.2rem 0.2rem;
+  border-radius: 0.3rem;
+  background-color: rgb(53, 53, 53);
+}
 
-::-webkit-scrollbar {
-  width: 0px;
+.back-button:active {
+  background-color: rgba(53, 53, 53, 0.884);
+}
+
+.options {
+  width: fit-content;
+  height: fit-content;
+  padding: 0.3rem 0.5rem;
+  position: absolute;
+  right: 2.3rem;
+  top: 0.5rem;
+  background-color: rgba(34, 33, 33, 0.89);
+  cursor: default;
+  box-shadow: 1px 1px 1px black;
+}
+
+.options > p {
+  font-size: 0.65rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.2rem 0;
+}
+
+.options > p:hover {
+  color: var(--main-accent);
+}
+.options > p:active {
+  color: var(--main-accent-50);
+}
+
+.collection-form, .task-form {
+  background-color: var(--main-form-accent);
+  padding: 1rem 0.9rem;
+  border-radius: var(--golden-ratio-border-radius);
+}
+
+.form-header {
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+form .color {
+  display: flex;
+  flex-direction: row;
+  column-gap: 0.8rem;
+  width: 100%;
+}
+
+.form .color > * {
+  padding: 0;
+  margin: 0;
+}
+
+form .color > label {
+  position: static;
+  width: fit-content;
+  background: inherit;
+}
+
+form .color > input {
+  width: 3.5rem;
+  height: 1.5rem;
 }

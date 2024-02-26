@@ -4,13 +4,11 @@ import { HomeHeader } from "../components/Header/Header";
 import Showcase from "../components/Showcase/Showcase";
 import Modal from "../components/Modal";
 import { useState } from "react";
-import API_BASE from "../../config";
 import AuthForm from "../components/Form/AuthForm";
 import { useToast, useAuth } from "../components/utils/hooks";
 import { useNavigate } from "react-router-dom";
 import styles from "./Pages.module.css";
-
-const BASE = API_BASE;
+import { registerRequest, loginRequest } from "../services/api";
 
 /**
  * Renders the Home page component.
@@ -24,40 +22,9 @@ function Home() {
 
   const auth = useAuth();
 
-  const registerRequest = (userData) => {
-    const request = new XMLHttpRequest();
-
-    return new Promise((resolve, reject) => {
-      request.open("POST", `${BASE}/auth/register`, true);
-      request.setRequestHeader("Content-Type", "application/json");
-      request.onload = () => {
-        request.readyState == 4 && request.status == 201
-          ? console.log(resolve(JSON.parse(request.response)))
-          : reject(JSON.parse(request.response));
-      };
-      request.onerror = (err) => reject(err);
-      request.send(JSON.stringify(userData));
-    });
-  };
-
-  const loginRequest = (userData) => {
-    const request = new XMLHttpRequest();
-    return new Promise((resolve, reject) => {
-      request.open("POST", `${BASE}/auth/login`, true);
-      request.setRequestHeader("Content-Type", "application/json");
-      request.onload = () => {
-        request.readyState == 4 && request.status == 200
-          ? console.log(resolve(JSON.parse(request.response)))
-          : reject(JSON.parse(request.response));
-      };
-      request.onerror = (err) => reject(err);
-      request.send(JSON.stringify(userData));
-    });
-  };
-
-  const preventDefaultAction = e => {
+  const preventDefaultAction = (e) => {
     e.preventDefault();
-  }
+  };
 
   const handleRegisterSubmit = (userData) => {
     registerRequest(userData)
@@ -69,7 +36,7 @@ function Home() {
       .catch((rej) => {
         showToast.error(rej["message"]);
       });
-  }
+  };
 
   const handleLoginSubmit = (userData) => {
     loginRequest(userData)
@@ -81,7 +48,7 @@ function Home() {
       .catch((rej) => {
         showToast.error(rej["message"]);
       });
-  }
+  };
 
   return (
     <div className={styles.homeBody}>
@@ -93,8 +60,9 @@ function Home() {
           type="homeSignup"
           onClick={() => setActive(true)}
         />
-        <Modal isActive={active} isForm={true}>
-          <AuthForm setActive={setActive}
+        <Modal setIsActive={setActive} isActive={active} isForm={true}>
+          <AuthForm
+            setActive={setActive}
             preventDefaultAction={preventDefaultAction}
             handleRegisterSubmit={handleRegisterSubmit}
             handleLoginSubmit={handleLoginSubmit}

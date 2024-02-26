@@ -7,7 +7,7 @@
   padding: 2rem 1rem;
   height: 100vh;
   max-width: fit-content;
-  background-color: rgba(1, 2, 1, 0.819);
+  background-color: rgba(1, 2, 1, 0.911);
 }
 
 .sideBarTriggerContainer {
@@ -31,10 +31,6 @@
   background-color: rgba(118, 221, 59, 0.822);
 }
 
-.mobileSideBarContainer {
-  display: none;
-}
-
 .sideBarChildren {
   background-color: rgb(34, 34, 34);
   width: 17.5rem;
@@ -49,7 +45,17 @@
     display: none;
   }
 
-  .mobileSideBar {
+  .mobileSideBar.sideBarActive {
     display: block;
+    animation: moveSidebarRight 400ms;
+  }
+}
+
+@keyframes moveSidebarRight {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
   }
 }

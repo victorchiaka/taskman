@@ -1,35 +1,51 @@
 import { useState } from "react";
 import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
-import Edit from "@assets/edit.svg";
-import Delete from "@assets/delete.svg";
+import Options from "../../ui/Options";
 
-const CollectionOption = () => {
+import PropTypes from "prop-types";
+
+const Collection = ({ collection, onClick }) => {
+  const options = ["Edit", "Delete"];
+
+  const [openOptions, setOpenOptions] = useState(false);
+
+  const handleCollectionClick = () => {
+    onClick(collection);
+  };
+
+  const collectionColor = {
+    backgroundColor: collection.color_code,
+    width: " 2rem",
+    height: "2rem",
+    borderRadius: "50%",
+  };
+
   return (
-    <div className={styles.collectionOption}>
-      <p>Edit <img src={Edit}></img></p>
-      <p>Delete <img src={Delete}></img></p>
+    <div className={styles.collectionCard} onClick={handleCollectionClick}>
+      <div>
+        <div style={collectionColor}></div>
+        <img
+          onClick={(e) => {
+            e.stopPropagation();
+            setOpenOptions(!openOptions);
+          }}
+          src={ThreeDotsNav}
+          className={styles.options}
+        ></img>
+      </div>
+      <div>
+        <h3>{collection.collection_name}</h3>
+        <small>{collection.created_at}</small>
+      </div>
+      {openOptions && <Options options={options} />}
     </div>
   );
-}
+};
 
-const Collection = () => {
-  const [openCollectionOption, setOpenCollectionOption] = useState(false);
-
-  return (
-    <div className={styles.collectionCard}>
-      <div>
-        <div className={styles.collectionColor}></div>
-        <img onClick={() => setOpenCollectionOption(!openCollectionOption)} src={ThreeDotsNav} className={styles.options}></img>
-      </div>
-      <div>
-        <h3>Goal</h3>
-        <small>Thurs: 11 Jan 2024</small>
-      </div>
-      
-      {openCollectionOption && <CollectionOption />}
-    </div>
-  )
-}
+Collection.propTypes = {
+  onClick: PropTypes.func,
+  collection: PropTypes.object,
+};
 
 export default Collection;

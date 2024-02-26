@@ -12,18 +12,53 @@ import PropTypes from "prop-types";
  * @param {function} props.setActive - The function to set the active state.
  * @returns {JSX.Element} The rendered MobileSideBar component.
  */
-export const MobileSideBar = ({ activeTab, setActiveTab, setActive }) => {
+export const MobileSideBar = ({
+  active,
+  activeTab,
+  setActiveTab,
+  setActive,
+}) => {
   return (
-    <section className={`${styles.mobileSideBar} ${styles.moveSidebar}`}>
+    <section
+      onClick={(e) => e.stopPropagation()}
+      className={`${styles.mobileSideBar} ${
+        active ? styles.sideBarActive : ""
+      }`}
+    >
       <div className={styles.sideBarTriggerContainer}>
-        <img onClick={() => setActive(false)} src={DashboardIcon} className={styles.mobileSidebarTrigger}></img>
+        <img
+          onClick={() => setActive(false)}
+          src={DashboardIcon}
+          className={styles.mobileSidebarTrigger}
+        ></img>
       </div>
-      <div className={`${styles.sideBarChildren} ${activeTab === "tasks" ? styles.active : ""}`} onClick={() => setActiveTab("tasks")}>Tasks</div>
-      <div className={`${styles.sideBarChildren} ${activeTab === "exam-counter" ? styles.active : ""}`} onClick={() => setActiveTab("exam-counter")}>Exam counter</div>
-      <div className={`${styles.sideBarChildren} ${activeTab === "statistics" ? styles.active : ""}`} onClick={() => setActiveTab("statistics")}>Statistics</div>
+      <div
+        className={`${styles.sideBarChildren} ${
+          activeTab === "tasks" ? styles.active : ""
+        }`}
+        onClick={() => setActiveTab("tasks")}
+      >
+        Tasks
+      </div>
+      <div
+        className={`${styles.sideBarChildren} ${
+          activeTab === "exam-counter" ? styles.active : ""
+        }`}
+        onClick={() => setActiveTab("exam-counter")}
+      >
+        Exam counter
+      </div>
+      <div
+        className={`${styles.sideBarChildren} ${
+          activeTab === "statistics" ? styles.active : ""
+        }`}
+        onClick={() => setActiveTab("statistics")}
+      >
+        Statistics
+      </div>
     </section>
   );
-}
+};
 
 /**
  * Sidebar component.
@@ -38,23 +73,45 @@ const Sidebar = ({ activeTab, setActiveTab }) => {
   return (
     <>
       <section className={styles.sideBar}>
-        <div className={`${styles.sideBarChildren} ${activeTab === "tasks" ? styles.active : ""}`} onClick={() => setActiveTab("tasks")}>Tasks</div>
-        <div className={`${styles.sideBarChildren} ${activeTab === "exam-counter" ? styles.active : ""}`} onClick={() => setActiveTab("exam-counter")}>Exam counter</div>
-        <div className={`${styles.sideBarChildren} ${activeTab === "statistics" ? styles.active : ""}`} onClick={() => setActiveTab("statistics")}>Statistics</div>
+        <div
+          className={`${styles.sideBarChildren} ${
+            activeTab === "tasks" ? styles.active : ""
+          }`}
+          onClick={() => setActiveTab("tasks")}
+        >
+          Tasks
+        </div>
+        <div
+          className={`${styles.sideBarChildren} ${
+            activeTab === "exam-counter" ? styles.active : ""
+          }`}
+          onClick={() => setActiveTab("exam-counter")}
+        >
+          Exam counter
+        </div>
+        <div
+          className={`${styles.sideBarChildren} ${
+            activeTab === "statistics" ? styles.active : ""
+          }`}
+          onClick={() => setActiveTab("statistics")}
+        >
+          Statistics
+        </div>
       </section>
     </>
-  )
-}
+  );
+};
 
 MobileSideBar.propTypes = {
+  active: PropTypes.bool,
   activeTab: PropTypes.string,
   setActiveTab: PropTypes.func,
-  setActive: PropTypes.func
-}
+  setActive: PropTypes.func,
+};
 
 Sidebar.propTypes = {
   activeTab: PropTypes.string,
-  setActiveTab: PropTypes.func
-}
+  setActiveTab: PropTypes.func,
+};
 
 export default Sidebar;
