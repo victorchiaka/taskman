@@ -3,25 +3,56 @@ import back from "@assets/back.svg";
 import add from "@assets/add.svg";
 import Task from "./Task";
 import PropTypes from "prop-types";
+import { getCollectionTasksRequest } from "../../services/api";
+import { useEffect, useState } from "react";
+import { getCollectionStatisticsRequest } from "../../services/api";
 
-// Dummy data for development
-import { data } from "./data";
+const TasksInstanceAction = ({ props }) => {
+  const {
+    collection,
+    setDisplayTasksOptions,
+    setTaskFormActive,
+    setActiveCollection,
+  } = props;
 
-const TasksInstanceAction = ({
-  collection,
-  setDisplayTaskOptions,
-  setTaskFormActive,
-  setActiveCollection,
-}) => {
+  const [collectionStatistics, setCollectionStatistics] = useState({
+    all: 0,
+    completed: 0,
+  });
+
+  const handleGetCollectionStatisticsRequest = () => {
+    const data = {
+      collection_name: collection.collection_name,
+    };
+
+    getCollectionStatisticsRequest(data).then((res) => {
+      const stats = res["stats"];
+      setCollectionStatistics({
+        all: stats["overall_count"],
+        completed: stats["completed_count"],
+      });
+    });
+  };
+
+  useEffect(() => {
+    handleGetCollectionStatisticsRequest();
+
+    const interval = setInterval(() => {
+      handleGetCollectionStatisticsRequest();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className={styles.instanceAction}>
       <div className={styles.tasksAction}>
         <span
           onClick={() => {
             setActiveCollection("");
-            setDisplayTaskOptions({
+            setDisplayTasksOptions({
               display: false,
-              collection: "",
+              collection: {},
             });
           }}
           className="back-button"
@@ -35,8 +66,8 @@ const TasksInstanceAction = ({
         <img src={add} /> Add Task
       </div>
       <div className={styles.tasksInfo}>
-        <div>All {collection.task_count}</div>
-        <div>Completed 0</div>
+        <div>All: {collectionStatistics.all}</div>
+        <div>Completed: {collectionStatistics.completed}</div>
       </div>
     </div>
   );
@@ -44,20 +75,39 @@ const TasksInstanceAction = ({
 
 const Tasks = ({
   collection,
-  setDisplayTaskOptions,
+  setDisplayTasksOptions,
   setTaskFormActive,
   setActiveCollection,
 }) => {
+  const [tasks, setTasks] = useState([]);
+
+  const handleGetCollectionTasks = () => {
+    const data = { collection_id: collection.id };
+    getCollectionTasksRequest(data)
+      .then((res) => setTasks(res["tasks"]))
+      .catch((rej) => console.error(rej["message"]));
+  };
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleGetCollectionTasks();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const taskInstanceOptionProps = {
+    collection: collection,
+    setDisplayTasksOptions: setDisplayTasksOptions,
+    setTaskFormActive: setTaskFormActive,
+    setActiveCollection: setActiveCollection,
+  };
+
   return (
     <>
-      <TasksInstanceAction
-        collection={collection}
-        setDisplayTaskOptions={setDisplayTaskOptions}
-        setTaskFormActive={setTaskFormActive}
-        setActiveCollection={setActiveCollection}
-      />
+      <TasksInstanceAction props={taskInstanceOptionProps} />
       <div className={styles.tasks}>
-        {data.tasks.map((task) => (
+        {tasks.map((task) => (
           <Task key={task.id} task={task} />
         ))}
       </div>
@@ -66,15 +116,16 @@ const Tasks = ({
 };
 
 TasksInstanceAction.propTypes = {
+  props: PropTypes.object,
   collection: PropTypes.object,
-  setDisplayTaskOptions: PropTypes.func,
+  setDisplayTasksOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
 };
 
 Tasks.propTypes = {
   collection: PropTypes.object,
-  setDisplayTaskOptions: PropTypes.func,
+  setDisplayTasksOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
 };
