@@ -1,4 +1,11 @@
-import { API_AUTH, API_COLLECTION, API_TASK } from "../../config";
+import {
+  API_AUTH,
+  API_COLLECTION,
+  API_STATISTICS,
+  API_TASK,
+} from "../../config";
+
+const jwtToken = localStorage.getItem("access_token");
 
 const registerRequest = (userData) => {
   const request = new XMLHttpRequest();
@@ -30,7 +37,7 @@ const loginRequest = (userData) => {
   });
 };
 
-const createCollectionRequest = (collectionData, jwtToken) => {
+const createCollectionRequest = (collectionData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -47,11 +54,11 @@ const createCollectionRequest = (collectionData, jwtToken) => {
   });
 };
 
-const getAllCollectionsRequest = (jwtToken) => {
+const getAllCollectionsRequest = () => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
-    request.open("GET", `${API_COLLECTION}/get-all`, true);
+    request.open("GET", `${API_COLLECTION}/get-all`);
     request.setRequestHeader("Content-Type", "application/json");
     request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
     request.onload = () => {
@@ -66,7 +73,7 @@ const getAllCollectionsRequest = (jwtToken) => {
   });
 };
 
-const createTaskRequest = (taskData, jwtToken) => {
+const createTaskRequest = (taskData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -83,10 +90,48 @@ const createTaskRequest = (taskData, jwtToken) => {
   });
 };
 
+const getCollectionTasksRequest = (requestData) => {
+  const request = new XMLHttpRequest();
+
+  return new Promise((resolve, reject) => {
+    request.open("POST", `${API_COLLECTION}/get-tasks`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+
+    request.onload = function () {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(request.statusText);
+    };
+    request.onerror = () => reject(request.statusText);
+    request.send(JSON.stringify(requestData));
+  });
+};
+
+const getCollectionStatisticsRequest = (requestData) => {
+  const request = new XMLHttpRequest();
+
+  return new Promise((resolve, reject) => {
+    request.open("POST", `${API_STATISTICS}/get-collection-statistics`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+
+    request.onload = function () {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(request.statusText);
+    };
+    request.onerror = () => reject(request.statusText);
+    request.send(JSON.stringify(requestData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
   createCollectionRequest,
   getAllCollectionsRequest,
   createTaskRequest,
+  getCollectionTasksRequest,
+  getCollectionStatisticsRequest,
 };

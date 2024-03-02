@@ -13,7 +13,11 @@ const Task = ({ task }) => {
   };
 
   return (
-    <div style={borderColor} className={styles.taskCard}>
+    <div
+      title={task.task_description}
+      style={borderColor}
+      className={styles.taskCard}
+    >
       <div className={styles.taskHeader}>
         <h4>{task.task_name}</h4>
         <img

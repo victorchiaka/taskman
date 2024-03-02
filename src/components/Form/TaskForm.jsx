@@ -12,7 +12,7 @@ const TaskForm = ({
   activeCollection,
 }) => {
   const [isCreationLoading, setIsCreationLoading] = useState(false);
-  const [taskColor, setTaskColor] = useInput("#fff");
+  const [taskColor, setTaskColor] = useInput("#ffffff");
   const [taskName, setTaskName] = useInput("");
   const [taskDescription, setTaskDescription] = useInput("");
 

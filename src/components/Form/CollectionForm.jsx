@@ -11,7 +11,7 @@ const CollectionForm = ({
   handleCreateCollection,
 }) => {
   const [isCreationLoading, setIsCreationLoading] = useState(false);
-  const [collectionColor, setCollectionColor] = useInput("#fff");
+  const [collectionColor, setCollectionColor] = useInput("#ffffff");
   const [collectionName, setCollectionName] = useInput("");
 
   const resetStates = () => {

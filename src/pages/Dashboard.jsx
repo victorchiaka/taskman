@@ -24,41 +24,32 @@ import TaskForm from "../components/Form/TaskForm";
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
-
   const [taskFormActive, setTaskFormActive] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
-
   const [activeCollection, setActiveCollection] = useState("");
-
-  console.log("Active Collection: ", activeCollection);
-
   const [collections, setCollections] = useState([]);
+  const [openMobileNav, setOpenMobileNav] = useState(false);
   const showToast = useToast();
 
-  const jwtToken = localStorage.getItem("access_token");
-
-  const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [displayTasksOptions, setDisplayTasksOptions] = useState({
+    display: false,
+    collection: null,
+  });
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
   };
 
   const handleCreateCollection = (collectionData) => {
-    createCollectionRequest(collectionData, jwtToken)
+    createCollectionRequest(collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
   const handleGetAllCollections = () => {
-    getAllCollectionsRequest(jwtToken).then((res) => {
+    getAllCollectionsRequest().then((res) => {
       setCollections(res.collections);
     });
-  };
-
-  const handleCreateTask = (taskData) => {
-    createTaskRequest(taskData, jwtToken)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
   };
 
   useEffect(() => {
@@ -71,21 +62,49 @@ function Dashboard() {
     return () => clearInterval(interval);
   }, []);
 
+  const interval = setInterval(() => {
+    handleGetAllCollections();
+  }, 500);
+
+  clearInterval(interval);
+
+  const handleCreateTask = (taskData) => {
+    createTaskRequest(taskData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const mobileSidebarProps = {
+    active: false,
+    activeTab: activeTab,
+    setActiveTab: setActiveTab,
+    setActive: setActive,
+  };
+
+  const sideBarProps = {
+    activeTab: activeTab,
+    setActiveTab: setActiveTab,
+  };
+
+  const collectionProps = {
+    collections: collections,
+    setTaskFormActive: setTaskFormActive,
+    setCollectionFormActive: setCollectionFormActive,
+    setActiveCollection: setActiveCollection,
+    displayTasksOptions,
+    setDisplayTasksOptions,
+  };
+
   return (
     <div className={styles.dashboard}>
       <Background />
       <DashboardHeader setOpenMobileNav={setOpenMobileNav} />
       <MobileNav openMobileNav={openMobileNav} />
       <div className={styles.dashboardBody}>
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Sidebar props={sideBarProps} />
         <div className={styles.mobileSideBarContainer}>
           <Modal setIsActive={setActive} isActive={active}>
-            <MobileSideBar
-              active={active}
-              activeTab={activeTab}
-              setActiveTab={setActiveTab}
-              setActive={setActive}
-            />
+            <MobileSideBar props={mobileSidebarProps} />
           </Modal>
         </div>
         <main className={styles.dashboardMain}>
@@ -96,12 +115,7 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections
-            collections={collections}
-            setTaskFormActive={setTaskFormActive}
-            setCollectionFormActive={setCollectionFormActive}
-            setActiveCollection={setActiveCollection}
-          />
+          <Collections props={collectionProps} />
         </main>
       </div>
       <Modal
