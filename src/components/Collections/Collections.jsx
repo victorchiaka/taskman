@@ -1,23 +1,21 @@
-import { useState } from "react";
 import Collection from "./Collection";
 import styles from "./Collections.module.css";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 
-function Collections({
-  collections,
-  setCollectionFormActive,
-  setTaskFormActive,
-  setActiveCollection,
-}) {
-  const [displayTasksOptions, setDisplayTaskOptions] = useState({
-    display: false,
-    collection: null,
-  });
+function Collections({ props }) {
+  const {
+    collections,
+    setCollectionFormActive,
+    setTaskFormActive,
+    setActiveCollection,
+    displayTasksOptions,
+    setDisplayTasksOptions,
+  } = props;
 
   const displayTasks = (collection) => {
     setActiveCollection(collection.collection_name);
-    setDisplayTaskOptions({
+    setDisplayTasksOptions({
       display: true,
       collection: collection,
     });
@@ -27,7 +25,7 @@ function Collections({
     <>
       {displayTasksOptions.display ? (
         <Tasks
-          setDisplayTaskOptions={setDisplayTaskOptions}
+          setDisplayTasksOptions={setDisplayTasksOptions}
           collection={displayTasksOptions.collection}
           setTaskFormActive={setTaskFormActive}
           setActiveCollection={setActiveCollection}
@@ -62,10 +60,15 @@ function Collections({
 }
 
 Collections.propTypes = {
+  props: PropTypes.object,
   collections: PropTypes.object,
   setCollectionFormActive: PropTypes.func,
   setTaskFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
+  display: PropTypes.bool,
+  displayTasksOptions: PropTypes.object,
+  setDisplayTasksOptions: PropTypes.func,
+  collection: PropTypes.object,
 };
 
 export default Collections;
