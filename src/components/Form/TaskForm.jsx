@@ -5,12 +5,14 @@ import Input from "../Input";
 import PropTypes from "prop-types";
 import LoadingSpinner from "@assets/loading-spinner.svg";
 
-const TaskForm = ({
-  setActive,
-  preventDefaultAction,
-  handleCreateTask,
-  activeCollection,
-}) => {
+const TaskForm = ({ props }) => {
+  const {
+    setActive,
+    preventDefaultAction,
+    handleCreateTask,
+    activeCollection,
+  } = props;
+
   const [isCreationLoading, setIsCreationLoading] = useState(false);
   const [taskColor, setTaskColor] = useInput("#ffffff");
   const [taskName, setTaskName] = useInput("");
@@ -85,6 +87,7 @@ const TaskForm = ({
 };
 
 TaskForm.propTypes = {
+  props: PropTypes.object,
   setActive: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateTask: PropTypes.func,

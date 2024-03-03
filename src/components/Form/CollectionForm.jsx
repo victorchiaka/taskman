@@ -5,11 +5,9 @@ import LoadingSpinner from "@assets/loading-spinner.svg";
 import { useInput } from "../utils/hooks";
 import PropTypes from "prop-types";
 
-const CollectionForm = ({
-  setActive,
-  preventDefaultAction,
-  handleCreateCollection,
-}) => {
+const CollectionForm = ({ props }) => {
+  const { setActive, preventDefaultAction, handleCreateCollection } = props;
+
   const [isCreationLoading, setIsCreationLoading] = useState(false);
   const [collectionColor, setCollectionColor] = useInput("#ffffff");
   const [collectionName, setCollectionName] = useInput("");
@@ -73,6 +71,7 @@ const CollectionForm = ({
 };
 
 CollectionForm.propTypes = {
+  props: PropTypes.object,
   setActive: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateCollection: PropTypes.func,

@@ -21,15 +21,17 @@ function Collections({ props }) {
     });
   };
 
+  const tasksProps = {
+    setDisplayTasksOptions: setDisplayTasksOptions,
+    collection: displayTasksOptions.collection,
+    setTaskFormActive: setTaskFormActive,
+    setActiveCollection: setActiveCollection,
+  };
+
   return (
     <>
       {displayTasksOptions.display ? (
-        <Tasks
-          setDisplayTasksOptions={setDisplayTasksOptions}
-          collection={displayTasksOptions.collection}
-          setTaskFormActive={setTaskFormActive}
-          setActiveCollection={setActiveCollection}
-        />
+        <Tasks props={tasksProps} />
       ) : (
         <>
           <div className={styles.instanceAction}>

@@ -95,6 +95,19 @@ function Dashboard() {
     setDisplayTasksOptions,
   };
 
+  const taskFormProps = {
+    setActive: setTaskFormActive,
+    preventDefaultAction: preventDefaultAction,
+    handleCreateTask: handleCreateTask,
+    activeCollection: activeCollection,
+  };
+
+  const collectionFormProps = {
+    setActive: setCollectionFormActive,
+    preventDefaultAction: preventDefaultAction,
+    handleCreateCollection: handleCreateCollection,
+  };
+
   return (
     <div className={styles.dashboard}>
       <Background />
@@ -123,23 +136,14 @@ function Dashboard() {
         isActive={collectionFormActive}
         isForm={true}
       >
-        <CollectionForm
-          setActive={setCollectionFormActive}
-          preventDefaultAction={preventDefaultAction}
-          handleCreateCollection={handleCreateCollection}
-        />
+        <CollectionForm props={collectionFormProps} />
       </Modal>
       <Modal
         setIsActive={setTaskFormActive}
         isActive={taskFormActive}
         isForm={true}
       >
-        <TaskForm
-          setActive={setTaskFormActive}
-          preventDefaultAction={preventDefaultAction}
-          handleCreateTask={handleCreateTask}
-          activeCollection={activeCollection}
-        />
+        <TaskForm props={taskFormProps} />
       </Modal>
     </div>
   );
