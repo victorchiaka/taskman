@@ -101,7 +101,7 @@ const getCollectionTasksRequest = (requestData) => {
     request.onload = function () {
       request.readyState == 4 && request.status == 200
         ? resolve(JSON.parse(request.response))
-        : reject(request.statusText);
+        : reject(JSON.parse(request.response));
     };
     request.onerror = () => reject(request.statusText);
     request.send(JSON.stringify(requestData));
@@ -119,9 +119,25 @@ const getCollectionStatisticsRequest = (requestData) => {
     request.onload = function () {
       request.readyState == 4 && request.status == 200
         ? resolve(JSON.parse(request.response))
-        : reject(request.statusText);
+        : reject(JSON.parse(request.response));
     };
     request.onerror = () => reject(request.statusText);
+    request.send(JSON.stringify(requestData));
+  });
+};
+
+const deleteCollectionRequest = (requestData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("DELETE", `${API_COLLECTION}/delete`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
     request.send(JSON.stringify(requestData));
   });
 };
@@ -134,4 +150,5 @@ export {
   createTaskRequest,
   getCollectionTasksRequest,
   getCollectionStatisticsRequest,
+  deleteCollectionRequest,
 };

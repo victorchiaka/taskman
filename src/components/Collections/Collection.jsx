@@ -6,7 +6,10 @@ import Options from "../../ui/Options";
 import PropTypes from "prop-types";
 
 const Collection = ({ collection, onClick }) => {
-  const options = ["Edit", "Delete"];
+  const optionProps = {
+    collection: collection,
+    options: ["Edit", "Delete"],
+  };
 
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -38,7 +41,7 @@ const Collection = ({ collection, onClick }) => {
         <h3>{collection.collection_name}</h3>
         <small>{collection.created_at}</small>
       </div>
-      {openOptions && <Options options={options} />}
+      {openOptions && <Options props={optionProps} />}
     </div>
   );
 };
