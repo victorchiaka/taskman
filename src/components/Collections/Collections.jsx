@@ -12,6 +12,9 @@ function Collections({ props }) {
     displayTasksOptions,
     setDisplayTasksOptions,
     setIsCollectionEdit,
+    isTaskEdit,
+    setIsTaskEdit,
+    setActiveTask,
   } = props;
 
   const displayTasks = (collection) => {
@@ -27,6 +30,9 @@ function Collections({ props }) {
     collection: displayTasksOptions.collection,
     setTaskFormActive: setTaskFormActive,
     setActiveCollection: setActiveCollection,
+    isTaskEdit: isTaskEdit,
+    setIsTaskEdit: setIsTaskEdit,
+    setActiveTask: setActiveTask,
   };
 
   return (

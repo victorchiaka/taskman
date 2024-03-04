@@ -13,6 +13,7 @@ import {
   getAllCollectionsRequest,
   createTaskRequest,
   editCollectionRequest,
+  editTaskRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
 
@@ -28,7 +29,9 @@ function Dashboard() {
   const [taskFormActive, setTaskFormActive] = useState(false);
   const [isCollectionEdit, setIsCollectionEdit] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+  const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [activeCollection, setActiveCollection] = useState("");
+  const [activeTask, setActiveTask] = useState("");
   const [collections, setCollections] = useState([]);
   const [openMobileNav, setOpenMobileNav] = useState(false);
 
@@ -67,6 +70,12 @@ function Dashboard() {
       .catch((rej) => showToast.error(rej["message"]));
   };
 
+  const handleEditTask = (taskData) => {
+    editTaskRequest(taskData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
   const mobileSidebarProps = {
     active: false,
     activeTab: activeTab,
@@ -79,7 +88,7 @@ function Dashboard() {
     setActiveTab: setActiveTab,
   };
 
-  const collectionProps = {
+  const collectionsProps = {
     collections: collections,
     setTaskFormActive: setTaskFormActive,
     setCollectionFormActive: setCollectionFormActive,
@@ -88,6 +97,9 @@ function Dashboard() {
     setDisplayTasksOptions: setDisplayTasksOptions,
     isCollectionEdit: isCollectionEdit,
     setIsCollectionEdit: setIsCollectionEdit,
+    isTaskEdit: isTaskEdit,
+    setIsTaskEdit: setIsTaskEdit,
+    setActiveTask: setActiveTask,
   };
 
   const taskFormProps = {
@@ -95,6 +107,11 @@ function Dashboard() {
     preventDefaultAction: preventDefaultAction,
     handleCreateTask: handleCreateTask,
     activeCollection: activeCollection,
+    activeTask: activeTask,
+    setActiveTask: setActiveTask,
+    isTaskEdit: isTaskEdit,
+    setIsTaskEdit: setIsTaskEdit,
+    handleEditTask: handleEditTask,
   };
 
   const collectionFormProps = {
@@ -138,7 +155,7 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections props={collectionProps} />
+          <Collections props={collectionsProps} />
         </main>
       </div>
       <Modal

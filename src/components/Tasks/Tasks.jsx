@@ -79,6 +79,8 @@ const Tasks = ({ props }) => {
     setDisplayTasksOptions,
     setTaskFormActive,
     setActiveCollection,
+    setIsTaskEdit: setIsTaskEdit,
+    setActiveTask: setActiveTask,
   } = props;
 
   const [tasks, setTasks] = useState([]);
@@ -110,7 +112,13 @@ const Tasks = ({ props }) => {
       <TasksInstanceAction props={taskInstanceOptionProps} />
       <div className={styles.tasks}>
         {tasks.map((task) => (
-          <Task key={task.id} task={task} />
+          <Task
+            key={task.id}
+            task={task}
+            setTaskFormActive={setTaskFormActive}
+            setIsTaskEdit={setIsTaskEdit}
+            setActiveTask={setActiveTask}
+          />
         ))}
       </div>
     </>

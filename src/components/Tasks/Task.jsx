@@ -4,9 +4,35 @@ import styles from "./Tasks.module.css";
 import threeDotsNav from "@assets/three-dots-nav.svg";
 import Options from "../../ui/Options";
 
-const Task = ({ task }) => {
-  const options = ["Edit title", "Mark as done"];
+const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   const [openOptions, setOpenOptions] = useState(false);
+
+  const handleEditTaskDescription = () => {
+    setTaskFormActive(true);
+    setIsTaskEdit(true);
+    setActiveTask(task.task_name);
+  };
+
+  const handleMarkTaskAsCompleted = () => {};
+
+  const handleDeleteTask = () => {};
+
+  const optionProps = {
+    options: [
+      {
+        optionName: "Edit description",
+        onClick: handleEditTaskDescription,
+      },
+      {
+        optionName: "Mark as complete",
+        onClick: handleMarkTaskAsCompleted,
+      },
+      {
+        optionName: "Delete",
+        onClick: handleDeleteTask,
+      },
+    ],
+  };
 
   const borderColor = {
     borderLeft: `0.4rem solid ${task.color_code}`,
@@ -29,7 +55,7 @@ const Task = ({ task }) => {
         />
       </div>
       <p>{task.task_description}</p>
-      {openOptions && <Options options={options} />}
+      {openOptions && <Options props={optionProps} />}
     </div>
   );
 };

@@ -90,6 +90,22 @@ const createTaskRequest = (taskData) => {
   });
 };
 
+const editTaskRequest = (requestData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("PATCH", `${API_TASK}/edit-decription`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
+    request.send(JSON.stringify(requestData));
+  });
+};
+
 const getCollectionTasksRequest = (requestData) => {
   const request = new XMLHttpRequest();
 
@@ -168,4 +184,5 @@ export {
   getCollectionStatisticsRequest,
   deleteCollectionRequest,
   editCollectionRequest,
+  editTaskRequest,
 };

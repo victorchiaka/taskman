@@ -39,6 +39,7 @@ const CollectionForm = ({ props }) => {
 
     resetStates();
     setActive(false);
+    setIsCollectionEdit(false);
   };
 
   const editCollectionName = () => {
@@ -46,11 +47,7 @@ const CollectionForm = ({ props }) => {
       collection_name: activeCollection,
       new_collection_name: newCollectionName.value,
     });
-    console.log("Active Collectionnnnnnn: ", activeCollection);
-    console.log("New Collection Name: ", newCollectionName.value);
     resetStates();
-    setActive(false);
-    setIsCollectionEdit(false);
   };
 
   return (
