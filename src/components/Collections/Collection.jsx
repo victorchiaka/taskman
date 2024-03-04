@@ -5,10 +5,19 @@ import Options from "../../ui/Options";
 
 import PropTypes from "prop-types";
 
-const Collection = ({ collection, onClick }) => {
+const Collection = ({
+  collection,
+  onClick,
+  setIsCollectionEdit,
+  setCollectionFormActive,
+  setActiveCollection,
+}) => {
   const optionProps = {
     collection: collection,
     options: ["Edit", "Delete"],
+    setIsCollectionEdit: setIsCollectionEdit,
+    setCollectionFormActive: setCollectionFormActive,
+    setActiveCollection: setActiveCollection,
   };
 
   const [openOptions, setOpenOptions] = useState(false);
@@ -49,6 +58,9 @@ const Collection = ({ collection, onClick }) => {
 Collection.propTypes = {
   onClick: PropTypes.func,
   collection: PropTypes.object,
+  setIsCollectionEdit: PropTypes.func,
+  setCollectionFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 export default Collection;

@@ -12,6 +12,7 @@ import {
   createCollectionRequest,
   getAllCollectionsRequest,
   createTaskRequest,
+  editCollectionRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
 
@@ -25,10 +26,12 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
   const [taskFormActive, setTaskFormActive] = useState(false);
+  const [isCollectionEdit, setIsCollectionEdit] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
   const [activeCollection, setActiveCollection] = useState("");
   const [collections, setCollections] = useState([]);
   const [openMobileNav, setOpenMobileNav] = useState(false);
+
   const showToast = useToast();
 
   const [displayTasksOptions, setDisplayTasksOptions] = useState({
@@ -52,21 +55,11 @@ function Dashboard() {
     });
   };
 
-  useEffect(() => {
-    handleGetAllCollections();
-
-    const interval = setInterval(() => {
-      handleGetAllCollections();
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const interval = setInterval(() => {
-    handleGetAllCollections();
-  }, 500);
-
-  clearInterval(interval);
+  const handleEditCollection = (collectionData) => {
+    editCollectionRequest(collectionData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
   const handleCreateTask = (taskData) => {
     createTaskRequest(taskData)
@@ -91,8 +84,10 @@ function Dashboard() {
     setTaskFormActive: setTaskFormActive,
     setCollectionFormActive: setCollectionFormActive,
     setActiveCollection: setActiveCollection,
-    displayTasksOptions,
-    setDisplayTasksOptions,
+    displayTasksOptions: displayTasksOptions,
+    setDisplayTasksOptions: setDisplayTasksOptions,
+    isCollectionEdit: isCollectionEdit,
+    setIsCollectionEdit: setIsCollectionEdit,
   };
 
   const taskFormProps = {
@@ -106,7 +101,22 @@ function Dashboard() {
     setActive: setCollectionFormActive,
     preventDefaultAction: preventDefaultAction,
     handleCreateCollection: handleCreateCollection,
+    isCollectionEdit: isCollectionEdit,
+    setIsCollectionEdit: setIsCollectionEdit,
+    activeCollection: activeCollection,
+    setActiveCollection: setActiveCollection,
+    handleEditCollection: handleEditCollection,
   };
+
+  useEffect(() => {
+    handleGetAllCollections();
+
+    const interval = setInterval(() => {
+      handleGetAllCollections();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={styles.dashboard}>

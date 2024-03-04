@@ -11,6 +11,7 @@ function Collections({ props }) {
     setActiveCollection,
     displayTasksOptions,
     setDisplayTasksOptions,
+    setIsCollectionEdit,
   } = props;
 
   const displayTasks = (collection) => {
@@ -50,8 +51,11 @@ function Collections({ props }) {
             {collections.map((collection) => (
               <Collection
                 onClick={displayTasks}
-                key={collection.id}
                 collection={collection}
+                key={collection.id}
+                setIsCollectionEdit={setIsCollectionEdit}
+                setActiveCollection={setActiveCollection}
+                setCollectionFormActive={setCollectionFormActive}
               />
             ))}
           </div>
@@ -71,6 +75,7 @@ Collections.propTypes = {
   displayTasksOptions: PropTypes.object,
   setDisplayTasksOptions: PropTypes.func,
   collection: PropTypes.object,
+  setIsCollectionEdit: PropTypes.func,
 };
 
 export default Collections;

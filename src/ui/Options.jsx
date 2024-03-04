@@ -3,9 +3,20 @@ import { deleteCollectionRequest } from "../services/api";
 import { useToast } from "../components/utils/hooks";
 
 const Options = ({ props }) => {
-  const { collection, options } = props;
+  const {
+    collection,
+    options,
+    setIsCollectionEdit,
+    setCollectionFormActive,
+    setActiveCollection,
+  } = props;
 
   const showToast = useToast();
+
+  const handleEditCollectionClick = () => {
+    setIsCollectionEdit(true);
+    setCollectionFormActive(true);
+  };
 
   const handleDeleteCollection = (collectionName) => {
     const data = { collection_name: collectionName };
@@ -16,10 +27,11 @@ const Options = ({ props }) => {
 
   const handleOptionClick = (index, e) => {
     e.stopPropagation();
+    setActiveCollection(collection.collection_name);
 
-    if (index == 1) {
-      handleDeleteCollection(collection.collection_name);
-    }
+    index == 1
+      ? handleDeleteCollection(collection.collection_name)
+      : handleEditCollectionClick();
   };
 
   return (
@@ -39,6 +51,9 @@ Options.propTypes = {
   props: PropTypes.object,
   collection: PropTypes.object,
   options: PropTypes.array,
+  setIsCollectionEdit: PropTypes.func,
+  setCollectionFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 export default Options;

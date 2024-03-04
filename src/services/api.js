@@ -142,6 +142,22 @@ const deleteCollectionRequest = (requestData) => {
   });
 };
 
+const editCollectionRequest = (requestData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("PATCH", `${API_COLLECTION}/edit`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
+    request.send(JSON.stringify(requestData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
@@ -151,4 +167,5 @@ export {
   getCollectionTasksRequest,
   getCollectionStatisticsRequest,
   deleteCollectionRequest,
+  editCollectionRequest,
 };

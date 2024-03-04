@@ -6,15 +6,27 @@ import { useInput } from "../utils/hooks";
 import PropTypes from "prop-types";
 
 const CollectionForm = ({ props }) => {
-  const { setActive, preventDefaultAction, handleCreateCollection } = props;
+  const {
+    setActive,
+    preventDefaultAction,
+    handleCreateCollection,
+    isCollectionEdit,
+    setIsCollectionEdit,
+    activeCollection,
+    setActiveCollection,
+    handleEditCollection,
+  } = props;
 
   const [isCreationLoading, setIsCreationLoading] = useState(false);
   const [collectionColor, setCollectionColor] = useInput("#ffffff");
   const [collectionName, setCollectionName] = useInput("");
+  const [newCollectionName, setNewCollectionName] = useInput("");
 
   const resetStates = () => {
     setCollectionColor("#fff");
     setCollectionName("");
+    setNewCollectionName("");
+    setActiveCollection("");
     setIsCreationLoading(false);
   };
 
@@ -29,43 +41,97 @@ const CollectionForm = ({ props }) => {
     setActive(false);
   };
 
+  const editCollectionName = () => {
+    handleEditCollection({
+      collection_name: activeCollection,
+      new_collection_name: newCollectionName.value,
+    });
+    console.log("Active Collectionnnnnnn: ", activeCollection);
+    console.log("New Collection Name: ", newCollectionName.value);
+    resetStates();
+    setActive(false);
+    setIsCollectionEdit(false);
+  };
+
   return (
     <form
       className="form collection-form"
       onSubmit={(e) => preventDefaultAction(e)}
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="form-header">
-        <p>Taskman Collection</p>
-      </div>
-      <Input
-        required
-        name="collection-color"
-        title="Color"
-        type="color"
-        {...collectionColor}
-      />
-      <Input
-        required
-        name="collection-name"
-        title="Collection Name"
-        type="text"
-        {...collectionName}
-      />
-      <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" onClick={() => setActive(false)} />
-        <Button
-          onClick={createCollection}
-          type="confirm"
-          text={
-            isCreationLoading ? (
-              <img className="spinner" src={LoadingSpinner}></img>
-            ) : (
-              "Create"
-            )
-          }
-        />
-      </div>
+      {isCollectionEdit ? (
+        <>
+          <div className="form-header">
+            <p>Taskman - Edit Collection</p>
+          </div>
+          <Input
+            required
+            name="new-collection-name"
+            title="New Collection Name"
+            type="text"
+            {...newCollectionName}
+          />
+          <div className="action-buttons-container">
+            <Button
+              type="cancel"
+              text="Cancel"
+              onClick={() => {
+                setActive(false);
+                setIsCollectionEdit(false);
+              }}
+            />
+            <Button
+              onClick={editCollectionName}
+              type="confirm"
+              text={
+                isCreationLoading ? (
+                  <img className="spinner" src={LoadingSpinner}></img>
+                ) : (
+                  "Edit"
+                )
+              }
+            />
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="form-header">
+            <p>Taskman Collection</p>
+          </div>
+          <Input
+            required
+            name="collection-color"
+            title="Color"
+            type="color"
+            {...collectionColor}
+          />
+          <Input
+            required
+            name="collection-name"
+            title="Collection Name"
+            type="text"
+            {...collectionName}
+          />
+          <div className="action-buttons-container">
+            <Button
+              type="cancel"
+              text="Cancel"
+              onClick={() => setActive(false)}
+            />
+            <Button
+              onClick={createCollection}
+              type="confirm"
+              text={
+                isCreationLoading ? (
+                  <img className="spinner" src={LoadingSpinner}></img>
+                ) : (
+                  "Create"
+                )
+              }
+            />
+          </div>
+        </>
+      )}
     </form>
   );
 };
@@ -75,6 +141,11 @@ CollectionForm.propTypes = {
   setActive: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateCollection: PropTypes.func,
+  isCollectionEdit: PropTypes.bool,
+  setIsCollectionEdit: PropTypes.func,
+  activeCollection: PropTypes.string,
+  setActiveCollection: PropTypes.func,
+  handleEditCollection: PropTypes.func,
 };
 
 export default CollectionForm;
