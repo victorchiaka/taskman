@@ -19,10 +19,15 @@ const Options = ({ props }) => {
   };
 
   const handleDeleteCollection = (collectionName) => {
-    const data = { collection_name: collectionName };
-    deleteCollectionRequest(data)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+    const deleteActionConfirmationMessage =
+      "Have you completed all the tasks in this collection?";
+    if (window.confirm(deleteActionConfirmationMessage)) {
+      const data = { collection_name: collectionName };
+      deleteCollectionRequest(data)
+        .then((res) => showToast.success(res["message"]))
+        .catch((rej) => showToast.error(rej["message"]));
+    }
+    return;
   };
 
   const handleOptionClick = (index, e) => {
