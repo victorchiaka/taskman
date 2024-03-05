@@ -2,11 +2,49 @@ import { useState } from "react";
 import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
 import Options from "../../ui/Options";
+import { deleteCollectionRequest } from "../../services/api";
+import { useToast } from "../utils/hooks";
 
 import PropTypes from "prop-types";
 
-const Collection = ({ collection, onClick }) => {
-  const options = ["Edit", "Delete"];
+const Collection = ({
+  collection,
+  onClick,
+  setIsCollectionEdit,
+  setCollectionFormActive,
+  setActiveCollection,
+}) => {
+  const showToast = useToast();
+
+  const handleDeleteCollection = () => {
+    const confirmDeleteMessage =
+      "Have you completed all the tasks in this collection";
+    if (confirm(confirmDeleteMessage)) {
+      deleteCollectionRequest({ collection_name: collection.collection_name })
+        .then((res) => showToast.success(res["message"]))
+        .catch((rej) => showToast.error(rej["message"]));
+    }
+    return;
+  };
+
+  const handleEditCollection = () => {
+    setIsCollectionEdit(true);
+    setCollectionFormActive(true);
+    setActiveCollection(collection.collection_name);
+  };
+
+  const optionProps = {
+    options: [
+      {
+        optionName: "Edit",
+        onClick: handleEditCollection,
+      },
+      {
+        optionName: "Delete",
+        onClick: handleDeleteCollection,
+      },
+    ],
+  };
 
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -38,7 +76,7 @@ const Collection = ({ collection, onClick }) => {
         <h3>{collection.collection_name}</h3>
         <small>{collection.created_at}</small>
       </div>
-      {openOptions && <Options options={options} />}
+      {openOptions && <Options props={optionProps} />}
     </div>
   );
 };
@@ -46,6 +84,9 @@ const Collection = ({ collection, onClick }) => {
 Collection.propTypes = {
   onClick: PropTypes.func,
   collection: PropTypes.object,
+  setIsCollectionEdit: PropTypes.func,
+  setCollectionFormActive: PropTypes.func,
+  setActiveCollection: PropTypes.func,
 };
 
 export default Collection;

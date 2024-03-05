@@ -50,6 +50,13 @@ function Home() {
       });
   };
 
+  const authFormProps = {
+    setActive: setActive,
+    preventDefaultAction: preventDefaultAction,
+    handleRegisterSubmit: handleRegisterSubmit,
+    handleLoginSubmit: handleLoginSubmit,
+  };
+
   return (
     <div className={styles.homeBody}>
       <Background />
@@ -61,12 +68,7 @@ function Home() {
           onClick={() => setActive(true)}
         />
         <Modal setIsActive={setActive} isActive={active} isForm={true}>
-          <AuthForm
-            setActive={setActive}
-            preventDefaultAction={preventDefaultAction}
-            handleRegisterSubmit={handleRegisterSubmit}
-            handleLoginSubmit={handleLoginSubmit}
-          />
+          <AuthForm props={authFormProps} />
         </Modal>
       </div>
       <Showcase />

@@ -12,6 +12,8 @@ import {
   createCollectionRequest,
   getAllCollectionsRequest,
   createTaskRequest,
+  editCollectionRequest,
+  editTaskRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
 
@@ -25,10 +27,14 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
   const [active, setActive] = useState(false);
   const [taskFormActive, setTaskFormActive] = useState(false);
+  const [isCollectionEdit, setIsCollectionEdit] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+  const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [activeCollection, setActiveCollection] = useState("");
+  const [activeTask, setActiveTask] = useState("");
   const [collections, setCollections] = useState([]);
   const [openMobileNav, setOpenMobileNav] = useState(false);
+
   const showToast = useToast();
 
   const [displayTasksOptions, setDisplayTasksOptions] = useState({
@@ -52,24 +58,20 @@ function Dashboard() {
     });
   };
 
-  useEffect(() => {
-    handleGetAllCollections();
-
-    const interval = setInterval(() => {
-      handleGetAllCollections();
-    }, 500);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  const interval = setInterval(() => {
-    handleGetAllCollections();
-  }, 500);
-
-  clearInterval(interval);
+  const handleEditCollection = (collectionData) => {
+    editCollectionRequest(collectionData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
   const handleCreateTask = (taskData) => {
     createTaskRequest(taskData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const handleEditTask = (taskData) => {
+    editTaskRequest(taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
@@ -86,14 +88,52 @@ function Dashboard() {
     setActiveTab: setActiveTab,
   };
 
-  const collectionProps = {
+  const collectionsProps = {
     collections: collections,
     setTaskFormActive: setTaskFormActive,
     setCollectionFormActive: setCollectionFormActive,
     setActiveCollection: setActiveCollection,
-    displayTasksOptions,
-    setDisplayTasksOptions,
+    displayTasksOptions: displayTasksOptions,
+    setDisplayTasksOptions: setDisplayTasksOptions,
+    isCollectionEdit: isCollectionEdit,
+    setIsCollectionEdit: setIsCollectionEdit,
+    isTaskEdit: isTaskEdit,
+    setIsTaskEdit: setIsTaskEdit,
+    setActiveTask: setActiveTask,
   };
+
+  const taskFormProps = {
+    setActive: setTaskFormActive,
+    preventDefaultAction: preventDefaultAction,
+    handleCreateTask: handleCreateTask,
+    activeCollection: activeCollection,
+    activeTask: activeTask,
+    setActiveTask: setActiveTask,
+    isTaskEdit: isTaskEdit,
+    setIsTaskEdit: setIsTaskEdit,
+    handleEditTask: handleEditTask,
+  };
+
+  const collectionFormProps = {
+    setActive: setCollectionFormActive,
+    preventDefaultAction: preventDefaultAction,
+    handleCreateCollection: handleCreateCollection,
+    isCollectionEdit: isCollectionEdit,
+    setIsCollectionEdit: setIsCollectionEdit,
+    activeCollection: activeCollection,
+    setActiveCollection: setActiveCollection,
+    handleEditCollection: handleEditCollection,
+  };
+
+  useEffect(() => {
+    handleGetAllCollections();
+
+    const interval = setInterval(() => {
+      handleGetAllCollections();
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <div className={styles.dashboard}>
@@ -115,7 +155,7 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections props={collectionProps} />
+          <Collections props={collectionsProps} />
         </main>
       </div>
       <Modal
@@ -123,23 +163,14 @@ function Dashboard() {
         isActive={collectionFormActive}
         isForm={true}
       >
-        <CollectionForm
-          setActive={setCollectionFormActive}
-          preventDefaultAction={preventDefaultAction}
-          handleCreateCollection={handleCreateCollection}
-        />
+        <CollectionForm props={collectionFormProps} />
       </Modal>
       <Modal
         setIsActive={setTaskFormActive}
         isActive={taskFormActive}
         isForm={true}
       >
-        <TaskForm
-          setActive={setTaskFormActive}
-          preventDefaultAction={preventDefaultAction}
-          handleCreateTask={handleCreateTask}
-          activeCollection={activeCollection}
-        />
+        <TaskForm props={taskFormProps} />
       </Modal>
     </div>
   );

@@ -73,12 +73,16 @@ const TasksInstanceAction = ({ props }) => {
   );
 };
 
-const Tasks = ({
-  collection,
-  setDisplayTasksOptions,
-  setTaskFormActive,
-  setActiveCollection,
-}) => {
+const Tasks = ({ props }) => {
+  const {
+    collection,
+    setDisplayTasksOptions,
+    setTaskFormActive,
+    setActiveCollection,
+    setIsTaskEdit: setIsTaskEdit,
+    setActiveTask: setActiveTask,
+  } = props;
+
   const [tasks, setTasks] = useState([]);
 
   const handleGetCollectionTasks = () => {
@@ -108,7 +112,13 @@ const Tasks = ({
       <TasksInstanceAction props={taskInstanceOptionProps} />
       <div className={styles.tasks}>
         {tasks.map((task) => (
-          <Task key={task.id} task={task} />
+          <Task
+            key={task.id}
+            task={task}
+            setTaskFormActive={setTaskFormActive}
+            setIsTaskEdit={setIsTaskEdit}
+            setActiveTask={setActiveTask}
+          />
         ))}
       </div>
     </>
@@ -124,6 +134,7 @@ TasksInstanceAction.propTypes = {
 };
 
 Tasks.propTypes = {
+  props: PropTypes.object,
   collection: PropTypes.object,
   setDisplayTasksOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,

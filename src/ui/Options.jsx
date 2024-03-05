@@ -1,12 +1,19 @@
 import PropTypes from "prop-types";
 
-const Options = ({ options }) => {
+const Options = ({ props }) => {
+  const { options } = props;
+
+  const handleOptionClicks = (e, onClick) => {
+    e.stopPropagation();
+    onClick();
+  };
+
   return (
     <div className="options">
-      {options.map((option, key) => {
+      {options.map((option, index) => {
         return (
-          <p onClick={(e) => e.stopPropagation()} key={key}>
-            {option}
+          <p onClick={(e) => handleOptionClicks(e, option.onClick)} key={index}>
+            {option.optionName}
           </p>
         );
       })}
@@ -15,6 +22,7 @@ const Options = ({ options }) => {
 };
 
 Options.propTypes = {
+  props: PropTypes.object,
   options: PropTypes.array,
 };
 
