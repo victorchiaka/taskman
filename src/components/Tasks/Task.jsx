@@ -54,10 +54,6 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   } else {
     options = [
       {
-        optionName: "Edit description",
-        onClick: handleEditTaskDescription,
-      },
-      {
         optionName: "Delete",
         onClick: handleDeleteTask,
       },
