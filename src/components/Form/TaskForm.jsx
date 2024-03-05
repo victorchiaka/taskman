@@ -128,6 +128,11 @@ TaskForm.propTypes = {
   preventDefaultAction: PropTypes.func,
   handleCreateTask: PropTypes.func,
   activeCollection: PropTypes.string,
+  isTaskEdit: PropTypes.bool,
+  setIsTaskEdit: PropTypes.func,
+  activeTask: PropTypes.string,
+  setActiveTask: PropTypes.func,
+  handleEditTask: PropTypes.func,
 };
 
 export default TaskForm;

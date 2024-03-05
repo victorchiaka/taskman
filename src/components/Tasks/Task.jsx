@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import styles from "./Tasks.module.css";
 import threeDotsNav from "@assets/three-dots-nav.svg";
 import Options from "../../ui/Options";
+import { updateCompletedTaskRequest } from "../../services/api";
+import { useToast } from "../utils/hooks";
 
 const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
+  const showToast = useToast();
   const [openOptions, setOpenOptions] = useState(false);
 
   const handleEditTaskDescription = () => {
@@ -13,7 +16,11 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
     setActiveTask(task.task_name);
   };
 
-  const handleMarkTaskAsCompleted = () => {};
+  const handleMarkTaskAsCompleted = () => {
+    updateCompletedTaskRequest({ task_name: task.task_name })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
   const handleDeleteTask = () => {};
 
@@ -38,14 +45,24 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
     borderLeft: `0.4rem solid ${task.color_code}`,
   };
 
+  const completedBorderColor = {
+    borderLeft: `0.4rem solid #3a3a3a`,
+  };
+
+  const completedStrikeText = {
+    textDecoration: `line-through`,
+  };
+
   return (
     <div
       title={task.task_description}
-      style={borderColor}
+      style={task.is_completed ? completedBorderColor : borderColor}
       className={styles.taskCard}
     >
       <div className={styles.taskHeader}>
-        <h4>{task.task_name}</h4>
+        <h4 style={task.is_completed ? completedStrikeText : null}>
+          {task.task_name}
+        </h4>
         <img
           onClick={(e) => {
             e.stopPropagation();
@@ -54,7 +71,9 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
           src={threeDotsNav}
         />
       </div>
-      <p>{task.task_description}</p>
+      <p style={task.is_completed ? completedStrikeText : null}>
+        {task.task_description}
+      </p>
       {openOptions && <Options props={optionProps} />}
     </div>
   );
@@ -62,6 +81,9 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
 
 Task.propTypes = {
   task: PropTypes.object,
+  setTaskFormActive: PropTypes.func,
+  setIsTaskEdit: PropTypes.func,
+  setActiveTask: PropTypes.func,
 };
 
 export default Task;

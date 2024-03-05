@@ -68,27 +68,6 @@ const CollectionForm = ({ props }) => {
             type="text"
             {...newCollectionName}
           />
-          <div className="action-buttons-container">
-            <Button
-              type="cancel"
-              text="Cancel"
-              onClick={() => {
-                setActive(false);
-                setIsCollectionEdit(false);
-              }}
-            />
-            <Button
-              onClick={editCollectionName}
-              type="confirm"
-              text={
-                isCreationLoading ? (
-                  <img className="spinner" src={LoadingSpinner}></img>
-                ) : (
-                  "Edit"
-                )
-              }
-            />
-          </div>
         </>
       ) : (
         <>
@@ -109,26 +88,24 @@ const CollectionForm = ({ props }) => {
             type="text"
             {...collectionName}
           />
-          <div className="action-buttons-container">
-            <Button
-              type="cancel"
-              text="Cancel"
-              onClick={() => setActive(false)}
-            />
-            <Button
-              onClick={createCollection}
-              type="confirm"
-              text={
-                isCreationLoading ? (
-                  <img className="spinner" src={LoadingSpinner}></img>
-                ) : (
-                  "Create"
-                )
-              }
-            />
-          </div>
         </>
       )}
+      <div className="action-buttons-container">
+        <Button type="cancel" text="Cancel" onClick={() => setActive(false)} />
+        <Button
+          onClick={isCollectionEdit ? editCollectionName : createCollection}
+          type="confirm"
+          text={
+            isCreationLoading ? (
+              <img className="spinner" src={LoadingSpinner}></img>
+            ) : isCollectionEdit ? (
+              "Edit"
+            ) : (
+              "Create"
+            )
+          }
+        />
+      </div>
     </form>
   );
 };
