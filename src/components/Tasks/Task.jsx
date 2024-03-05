@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 import styles from "./Tasks.module.css";
 import threeDotsNav from "@assets/three-dots-nav.svg";
 import Options from "../../ui/Options";
-import { updateCompletedTaskRequest } from "../../services/api";
+import {
+  updateCompletedTaskRequest,
+  deleteTaskRequest,
+} from "../../services/api";
 import { useToast } from "../utils/hooks";
 
 const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
@@ -22,10 +25,19 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleDeleteTask = () => {};
+  const handleDeleteTask = () => {
+    if (confirm("Are you sure you want to delete this task?")) {
+      deleteTaskRequest({ task_name: task.task_name })
+        .then((res) => showToast.success(res["message"]))
+        .catch((rej) => showToast.error(rej["message"]));
+    }
+    return;
+  };
 
-  const optionProps = {
-    options: [
+  let options = [];
+
+  if (!task.is_completed) {
+    options = [
       {
         optionName: "Edit description",
         onClick: handleEditTaskDescription,
@@ -38,7 +50,22 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
         optionName: "Delete",
         onClick: handleDeleteTask,
       },
-    ],
+    ];
+  } else {
+    options = [
+      {
+        optionName: "Edit description",
+        onClick: handleEditTaskDescription,
+      },
+      {
+        optionName: "Delete",
+        onClick: handleDeleteTask,
+      },
+    ];
+  }
+
+  const optionProps = {
+    options: options,
   };
 
   const borderColor = {
