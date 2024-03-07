@@ -130,7 +130,7 @@ function Dashboard() {
 
     const interval = setInterval(() => {
       handleGetAllCollections();
-    }, 500);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);

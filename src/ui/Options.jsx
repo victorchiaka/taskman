@@ -12,7 +12,14 @@ const Options = ({ props }) => {
     <div className="options">
       {options.map((option, index) => {
         return (
-          <p onClick={(e) => handleOptionClicks(e, option.onClick)} key={index}>
+          <p
+            className={
+              option.optionName.match(/delete/i) ? "delete-option" : ""
+            }
+            onClick={(e) => handleOptionClicks(e, option.onClick)}
+            key={index}
+          >
+            {option.icon ? <img src={option.icon} /> : ""}
             {option.optionName}
           </p>
         );

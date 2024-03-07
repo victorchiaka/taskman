@@ -1,6 +1,8 @@
 import { useState } from "react";
 import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
+import deleteIcon from "@assets/delete.svg";
+import editIcon from "@assets/edit.svg";
 import Options from "../../ui/Options";
 import { deleteCollectionRequest } from "../../services/api";
 import { useToast } from "../utils/hooks";
@@ -38,10 +40,12 @@ const Collection = ({
       {
         optionName: "Edit",
         onClick: handleEditCollection,
+        icon: editIcon,
       },
       {
         optionName: "Delete",
         onClick: handleDeleteCollection,
+        icon: deleteIcon,
       },
     ],
   };
