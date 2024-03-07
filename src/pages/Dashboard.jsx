@@ -14,6 +14,7 @@ import {
   createTaskRequest,
   editCollectionRequest,
   editTaskRequest,
+  createExamCounterRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
 import ExamCounters from "../components/ExamCounter/ExamCounters";
@@ -134,9 +135,16 @@ function Dashboard() {
     handleEditCollection: handleEditCollection,
   };
 
+  const handleCreateExamCounter = (examCounterData) => {
+    createExamCounterRequest(examCounterData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
   const examCounterFormProps = {
     setActive: setExamFormActive,
     preventDefaultAction: preventDefaultAction,
+    handleCreateExamCounter: handleCreateExamCounter,
   };
 
   useEffect(() => {

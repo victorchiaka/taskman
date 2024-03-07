@@ -207,7 +207,7 @@ const editCollectionRequest = (requestData) => {
   });
 };
 
-const createExamCounter = (examCounterData) => {
+const createExamCounterRequest = (examCounterData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("POST", `${API_EXAM_COUNTER}/create`, true);
@@ -236,5 +236,5 @@ export {
   editTaskRequest,
   updateCompletedTaskRequest,
   deleteTaskRequest,
-  createExamCounter,
+  createExamCounterRequest,
 };
