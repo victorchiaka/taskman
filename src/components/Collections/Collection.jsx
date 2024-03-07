@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
 import deleteIcon from "@assets/delete.svg";
 import editIcon from "@assets/edit.svg";
@@ -64,7 +63,7 @@ const Collection = ({
   };
 
   return (
-    <div className={styles.collectionCard} onClick={handleCollectionClick}>
+    <div className="collection-card" onClick={handleCollectionClick}>
       <div>
         <div style={collectionColor}></div>
         <img
@@ -73,8 +72,7 @@ const Collection = ({
             setOpenOptions(!openOptions);
           }}
           src={ThreeDotsNav}
-          className={styles.options}
-        ></img>
+        />
       </div>
       <div>
         <h3>{collection.collection_name}</h3>

@@ -1,5 +1,4 @@
 import Collection from "./Collection";
-import styles from "./Collections.module.css";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 
@@ -41,19 +40,19 @@ function Collections({ props }) {
         <Tasks props={tasksProps} />
       ) : (
         <>
-          <div className={styles.instanceAction}>
+          <div className="instance-action">
             <div>
               Taskman Collections:&nbsp;{" "}
               <span
                 onClick={() => setCollectionFormActive(true)}
-                className={styles.createCollections}
+                className="create-action"
               >
-                New Collections
+                New Collection
               </span>
             </div>
           </div>
 
-          <div className={styles.collections}>
+          <div className="dashboard-contents-container">
             {collections.map((collection) => (
               <Collection
                 onClick={displayTasks}
