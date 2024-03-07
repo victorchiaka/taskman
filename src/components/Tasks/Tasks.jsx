@@ -20,12 +20,14 @@ const TasksInstanceAction = ({ props }) => {
     completed: 0,
   });
 
+  const jwtToken = localStorage.getItem("access_token");
+
   const handleGetCollectionStatisticsRequest = () => {
     const data = {
       collection_name: collection.collection_name,
     };
 
-    getCollectionStatisticsRequest(data).then((res) => {
+    getCollectionStatisticsRequest(jwtToken, data).then((res) => {
       const stats = res["stats"];
       setCollectionStatistics({
         all: stats["overall_count"],
@@ -84,10 +86,11 @@ const Tasks = ({ props }) => {
   } = props;
 
   const [tasks, setTasks] = useState([]);
+  const jwtToken = localStorage.getItem("access_token");
 
   const handleGetCollectionTasks = () => {
     const data = { collection_id: collection.id };
-    getCollectionTasksRequest(data)
+    getCollectionTasksRequest(jwtToken, data)
       .then((res) => setTasks(res["tasks"]))
       .catch((rej) => console.error(rej["message"]));
   };

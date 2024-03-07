@@ -1,9 +1,28 @@
 import PropTypes from "prop-types";
 import ExamCounter from "./ExamCounter";
-import data from "./data";
+import { getAllExamCountersRequest } from "../../services/api";
+import { useEffect, useState } from "react";
 
 const ExamCounters = ({ props }) => {
   const { setExamFormActive } = props;
+
+  const [examCounters, setExamCounters] = useState([]);
+  const jwtToken = localStorage.getItem("access_token");
+
+  const handleGetAllExamCounters = () => {
+    getAllExamCountersRequest(jwtToken).then((res) =>
+      setExamCounters(res.exam_counters)
+    );
+  };
+
+  useEffect(() => {
+    handleGetAllExamCounters();
+    const interval = setInterval(() => {
+      handleGetAllExamCounters();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [examCounters]);
 
   return (
     <>
@@ -19,7 +38,10 @@ const ExamCounters = ({ props }) => {
         </div>
       </div>
       <div className="dashboard-contents-container">
-        {data.exam_counters.map((examCounter) => (
+        {/* {data.exam_counters.map((examCounter) => (
+          <ExamCounter key={examCounter.id} examCounter={examCounter} />
+        ))} */}
+        {examCounters.map((examCounter) => (
           <ExamCounter key={examCounter.id} examCounter={examCounter} />
         ))}
       </div>

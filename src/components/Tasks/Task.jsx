@@ -15,6 +15,7 @@ import { useToast } from "../utils/hooks";
 const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   const showToast = useToast();
   const [openOptions, setOpenOptions] = useState(false);
+  const jwtToken = localStorage.getItem("access_token");
 
   const handleEditTaskDescription = () => {
     setTaskFormActive(true);
@@ -23,14 +24,14 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   };
 
   const handleMarkTaskAsCompleted = () => {
-    updateCompletedTaskRequest({ task_name: task.task_name })
+    updateCompletedTaskRequest(jwtToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
   const handleDeleteTask = () => {
     if (confirm("Are you sure you want to delete this task?")) {
-      deleteTaskRequest({ task_name: task.task_name })
+      deleteTaskRequest(jwtToken, { task_name: task.task_name })
         .then((res) => showToast.success(res["message"]))
         .catch((rej) => showToast.error(rej["message"]));
     }

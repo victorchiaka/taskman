@@ -1,10 +1,11 @@
 import Collection from "./Collection";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
+import { getAllCollectionsRequest } from "../../services/api";
+import { useState, useEffect } from "react";
 
 function Collections({ props }) {
   const {
-    collections,
     setCollectionFormActive,
     setTaskFormActive,
     setActiveCollection,
@@ -15,6 +16,25 @@ function Collections({ props }) {
     setIsTaskEdit,
     setActiveTask,
   } = props;
+
+  const [collections, setCollections] = useState([]);
+  const jwtToken = localStorage.getItem("access_token");
+
+  const handleGetAllCollections = () => {
+    getAllCollectionsRequest(jwtToken).then((res) => {
+      setCollections(res.collections);
+    });
+  };
+
+  useEffect(() => {
+    handleGetAllCollections();
+
+    const interval = setInterval(() => {
+      handleGetAllCollections();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const displayTasks = (collection) => {
     setActiveCollection(collection.collection_name);

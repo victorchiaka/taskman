@@ -6,8 +6,6 @@ import {
   API_TASK,
 } from "../../config";
 
-const jwtToken = localStorage.getItem("access_token");
-
 const registerRequest = (userData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
@@ -38,7 +36,7 @@ const loginRequest = (userData) => {
   });
 };
 
-const createCollectionRequest = (collectionData) => {
+const createCollectionRequest = (jwtToken, collectionData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -55,7 +53,7 @@ const createCollectionRequest = (collectionData) => {
   });
 };
 
-const getAllCollectionsRequest = () => {
+const getAllCollectionsRequest = (jwtToken) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -74,7 +72,7 @@ const getAllCollectionsRequest = () => {
   });
 };
 
-const createTaskRequest = (taskData) => {
+const createTaskRequest = (jwtToken, taskData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -91,7 +89,7 @@ const createTaskRequest = (taskData) => {
   });
 };
 
-const editTaskRequest = (requestData) => {
+const editTaskRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("PATCH", `${API_TASK}/edit-decription`, true);
@@ -107,7 +105,7 @@ const editTaskRequest = (requestData) => {
   });
 };
 
-const updateCompletedTaskRequest = (requestData) => {
+const updateCompletedTaskRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("PATCH", `${API_TASK}/update-completed`, true);
@@ -123,7 +121,7 @@ const updateCompletedTaskRequest = (requestData) => {
   });
 };
 
-const deleteTaskRequest = (requestData) => {
+const deleteTaskRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("DELETE", `${API_TASK}/delete`, true);
@@ -139,7 +137,7 @@ const deleteTaskRequest = (requestData) => {
   });
 };
 
-const getCollectionTasksRequest = (requestData) => {
+const getCollectionTasksRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -157,7 +155,7 @@ const getCollectionTasksRequest = (requestData) => {
   });
 };
 
-const getCollectionStatisticsRequest = (requestData) => {
+const getCollectionStatisticsRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
 
   return new Promise((resolve, reject) => {
@@ -175,7 +173,7 @@ const getCollectionStatisticsRequest = (requestData) => {
   });
 };
 
-const deleteCollectionRequest = (requestData) => {
+const deleteCollectionRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("DELETE", `${API_COLLECTION}/delete`, true);
@@ -191,7 +189,7 @@ const deleteCollectionRequest = (requestData) => {
   });
 };
 
-const editCollectionRequest = (requestData) => {
+const editCollectionRequest = (jwtToken, requestData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("PATCH", `${API_COLLECTION}/edit`, true);
@@ -207,7 +205,7 @@ const editCollectionRequest = (requestData) => {
   });
 };
 
-const createExamCounterRequest = (examCounterData) => {
+const createExamCounterRequest = (jwtToken, examCounterData) => {
   const request = new XMLHttpRequest();
   return new Promise((resolve, reject) => {
     request.open("POST", `${API_EXAM_COUNTER}/create`, true);
@@ -220,6 +218,25 @@ const createExamCounterRequest = (examCounterData) => {
     };
     request.onerror = (err) => reject(err);
     request.send(JSON.stringify(examCounterData));
+  });
+};
+
+const getAllExamCountersRequest = (jwtToken) => {
+  const request = new XMLHttpRequest();
+
+  return new Promise((resolve, reject) => {
+    request.open("GET", `${API_EXAM_COUNTER}/get-all`);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      if (request.readyState == 4 && request.status == 200) {
+        resolve(JSON.parse(request.response));
+      } else {
+        reject(JSON.parse(request.response));
+      }
+    };
+    request.onerror = (err) => reject(err);
+    request.send();
   });
 };
 
@@ -237,4 +254,5 @@ export {
   updateCompletedTaskRequest,
   deleteTaskRequest,
   createExamCounterRequest,
+  getAllExamCountersRequest,
 };
