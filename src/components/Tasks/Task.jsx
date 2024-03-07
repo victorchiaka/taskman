@@ -2,6 +2,9 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import styles from "./Tasks.module.css";
 import threeDotsNav from "@assets/three-dots-nav.svg";
+import deleteIcon from "@assets/delete.svg";
+import editIcon from "@assets/edit.svg";
+import doneIcon from "@assets/done.svg";
 import Options from "../../ui/Options";
 import {
   updateCompletedTaskRequest,
@@ -41,14 +44,17 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
       {
         optionName: "Edit description",
         onClick: handleEditTaskDescription,
+        icon: editIcon,
       },
       {
         optionName: "Mark as complete",
         onClick: handleMarkTaskAsCompleted,
+        icon: doneIcon,
       },
       {
         optionName: "Delete",
         onClick: handleDeleteTask,
+        icon: deleteIcon,
       },
     ];
   } else {

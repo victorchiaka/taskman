@@ -79,8 +79,8 @@ const Tasks = ({ props }) => {
     setDisplayTasksOptions,
     setTaskFormActive,
     setActiveCollection,
-    setIsTaskEdit: setIsTaskEdit,
-    setActiveTask: setActiveTask,
+    setIsTaskEdit,
+    setActiveTask,
   } = props;
 
   const [tasks, setTasks] = useState([]);
@@ -139,6 +139,8 @@ Tasks.propTypes = {
   setDisplayTasksOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
+  setIsTaskEdit: PropTypes.func,
+  setActiveTask: PropTypes.func,
 };
 
 export default Tasks;
