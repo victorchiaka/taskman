@@ -39,9 +39,9 @@ export const MobileSideBar = ({ props }) => {
       </div>
       <div
         className={`${styles.sideBarChildren} ${
-          activeTab === "exam-counter" ? styles.active : ""
+          activeTab === "examCounter" ? styles.active : ""
         }`}
-        onClick={() => setActiveTab("exam-counter")}
+        onClick={() => setActiveTab("examCounter")}
       >
         Exam counter
       </div>
@@ -82,9 +82,9 @@ const Sidebar = ({ props }) => {
         </div>
         <div
           className={`${styles.sideBarChildren} ${
-            activeTab === "exam-counter" ? styles.active : ""
+            activeTab === "examCounter" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("exam-counter")}
+          onClick={() => setActiveTab("examCounter")}
         >
           Exam counter
         </div>
