@@ -1,11 +1,11 @@
 import Collection from "./Collection";
-import styles from "./Collections.module.css";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
+import { getAllCollectionsRequest } from "../../services/api";
+import { useState, useEffect } from "react";
 
 function Collections({ props }) {
   const {
-    collections,
     setCollectionFormActive,
     setTaskFormActive,
     setActiveCollection,
@@ -16,6 +16,25 @@ function Collections({ props }) {
     setIsTaskEdit,
     setActiveTask,
   } = props;
+
+  const [collections, setCollections] = useState([]);
+  const jwtToken = localStorage.getItem("access_token");
+
+  const handleGetAllCollections = () => {
+    getAllCollectionsRequest(jwtToken).then((res) => {
+      setCollections(res.collections);
+    });
+  };
+
+  useEffect(() => {
+    handleGetAllCollections();
+
+    const interval = setInterval(() => {
+      handleGetAllCollections();
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const displayTasks = (collection) => {
     setActiveCollection(collection.collection_name);
@@ -41,19 +60,19 @@ function Collections({ props }) {
         <Tasks props={tasksProps} />
       ) : (
         <>
-          <div className={styles.instanceAction}>
+          <div className="instance-action">
             <div>
               Taskman Collections:&nbsp;{" "}
               <span
                 onClick={() => setCollectionFormActive(true)}
-                className={styles.createCollections}
+                className="create-action"
               >
-                New Collections
+                New Collection
               </span>
             </div>
           </div>
 
-          <div className={styles.collections}>
+          <div className="dashboard-contents-container">
             {collections.map((collection) => (
               <Collection
                 onClick={displayTasks}

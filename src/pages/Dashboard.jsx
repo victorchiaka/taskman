@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Background from "../components/Background/Background";
 import DashboardHeader, { MobileNav } from "../components/Header/Header";
 import Sidebar, { MobileSideBar } from "../components/Sidebar/Sidebar";
@@ -10,12 +10,15 @@ import CollectionForm from "../components/Form/CollectionForm";
 import { useToast } from "../components/utils/hooks";
 import {
   createCollectionRequest,
-  getAllCollectionsRequest,
   createTaskRequest,
   editCollectionRequest,
   editTaskRequest,
+  createExamCounterRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
+import ExamCounters from "../components/ExamCounter/ExamCounters";
+import Statistics from "../components/Statistics/Statistics";
+import ExamCounterForm from "../components/Form/ExamCounterForm";
 
 /**
  * Dashboard component.
@@ -29,13 +32,16 @@ function Dashboard() {
   const [taskFormActive, setTaskFormActive] = useState(false);
   const [isCollectionEdit, setIsCollectionEdit] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+
+  const [examFormActive, setExamFormActive] = useState(false);
   const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [activeCollection, setActiveCollection] = useState("");
   const [activeTask, setActiveTask] = useState("");
-  const [collections, setCollections] = useState([]);
   const [openMobileNav, setOpenMobileNav] = useState(false);
 
   const showToast = useToast();
+
+  const jwtToken = localStorage.getItem("access_token");
 
   const [displayTasksOptions, setDisplayTasksOptions] = useState({
     display: false,
@@ -47,31 +53,25 @@ function Dashboard() {
   };
 
   const handleCreateCollection = (collectionData) => {
-    createCollectionRequest(collectionData)
+    createCollectionRequest(jwtToken, collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleGetAllCollections = () => {
-    getAllCollectionsRequest().then((res) => {
-      setCollections(res.collections);
-    });
-  };
-
   const handleEditCollection = (collectionData) => {
-    editCollectionRequest(collectionData)
+    editCollectionRequest(jwtToken, collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
   const handleCreateTask = (taskData) => {
-    createTaskRequest(taskData)
+    createTaskRequest(jwtToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
   const handleEditTask = (taskData) => {
-    editTaskRequest(taskData)
+    editTaskRequest(jwtToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
@@ -89,7 +89,6 @@ function Dashboard() {
   };
 
   const collectionsProps = {
-    collections: collections,
     setTaskFormActive: setTaskFormActive,
     setCollectionFormActive: setCollectionFormActive,
     setActiveCollection: setActiveCollection,
@@ -100,6 +99,10 @@ function Dashboard() {
     isTaskEdit: isTaskEdit,
     setIsTaskEdit: setIsTaskEdit,
     setActiveTask: setActiveTask,
+  };
+
+  const examcounterProps = {
+    setExamFormActive: setExamFormActive,
   };
 
   const taskFormProps = {
@@ -125,15 +128,23 @@ function Dashboard() {
     handleEditCollection: handleEditCollection,
   };
 
-  useEffect(() => {
-    handleGetAllCollections();
+  const handleCreateExamCounter = (examCounterData) => {
+    createExamCounterRequest(jwtToken, examCounterData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
-    const interval = setInterval(() => {
-      handleGetAllCollections();
-    }, 1000);
+  const examCounterFormProps = {
+    setActive: setExamFormActive,
+    preventDefaultAction: preventDefaultAction,
+    handleCreateExamCounter: handleCreateExamCounter,
+  };
 
-    return () => clearInterval(interval);
-  }, []);
+  const tabs = {
+    tasks: <Collections props={collectionsProps} />,
+    examCounter: <ExamCounters props={examcounterProps} />,
+    statistics: <Statistics />,
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -155,7 +166,7 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections props={collectionsProps} />
+          {tabs[activeTab]}
         </main>
       </div>
       <Modal
@@ -171,6 +182,13 @@ function Dashboard() {
         isForm={true}
       >
         <TaskForm props={taskFormProps} />
+      </Modal>
+      <Modal
+        setIsActive={setExamFormActive}
+        isActive={examFormActive}
+        isForm={true}
+      >
+        <ExamCounterForm props={examCounterFormProps} />
       </Modal>
     </div>
   );

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import styles from "./Collections.module.css";
 import ThreeDotsNav from "@assets/three-dots-nav.svg";
 import deleteIcon from "@assets/delete.svg";
 import editIcon from "@assets/edit.svg";
@@ -18,11 +17,15 @@ const Collection = ({
 }) => {
   const showToast = useToast();
 
+  const jwtToken = localStorage.getItem("access_token");
+
   const handleDeleteCollection = () => {
     const confirmDeleteMessage =
       "Have you completed all the tasks in this collection";
     if (confirm(confirmDeleteMessage)) {
-      deleteCollectionRequest({ collection_name: collection.collection_name })
+      deleteCollectionRequest(jwtToken, {
+        collection_name: collection.collection_name,
+      })
         .then((res) => showToast.success(res["message"]))
         .catch((rej) => showToast.error(rej["message"]));
     }
@@ -64,7 +67,7 @@ const Collection = ({
   };
 
   return (
-    <div className={styles.collectionCard} onClick={handleCollectionClick}>
+    <div className="collection-card" onClick={handleCollectionClick}>
       <div>
         <div style={collectionColor}></div>
         <img
@@ -73,8 +76,7 @@ const Collection = ({
             setOpenOptions(!openOptions);
           }}
           src={ThreeDotsNav}
-          className={styles.options}
-        ></img>
+        />
       </div>
       <div>
         <h3>{collection.collection_name}</h3>

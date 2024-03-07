@@ -176,6 +176,27 @@ input::placeholder {
 }
 
 /* For tasks and other /dashboard operations */
+.instance-action {
+  margin: 0.8rem 0 0.8rem 1rem;
+}
+
+@media (max-width: 662px) {
+  .instance-action {
+    font-size: 0.9rem;
+  }
+}
+
+.create-action {
+  background-color: var(--main-accent);
+  padding: 0.6rem 0.7rem;
+  border-radius: 7px;
+  cursor: default;
+}
+
+.create-action:active {
+  background-color: rgba(118, 221, 59, 0.822);
+}
+
 .back-button {
   padding: 0.2rem 0.4rem 0.2rem 0.2rem;
   border-radius: 0.3rem;
@@ -184,6 +205,58 @@ input::placeholder {
 
 .back-button:active {
   background-color: rgba(53, 53, 53, 0.884);
+}
+
+.dashboard-contents-container {
+  padding: 2rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  gap: 1.5rem;
+
+  max-height: 83vh;
+  overflow-y: auto;
+}
+
+.dashboard-contents-container::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+.dashboard-contents-container::-webkit-scrollbar-thumb {
+  background-color: var(--main-accent);
+  border-radius: 0.3rem;
+}
+
+/* For Collection cards and Exam counter cards */
+
+.collection-card,
+.exam-counter-card {
+  background-color: rgba(61, 61, 61, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  min-height: 10rem;
+  max-height: 11rem;
+  border-radius: 1rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: default;
+
+  transition: transform 500ms, border-color 500ms;
+}
+
+.collection-card:hover,
+.exam-counter-card:hover {
+  transform: scale(102%);
+  backdrop-filter: blur(12px);
+  border-color: var(--main-accent-20);
+}
+
+.collection-card > div:first-child,
+.exam-counter-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .options {
@@ -223,6 +296,7 @@ input::placeholder {
 }
 
 .collection-form,
+.exam-counter-form,
 .task-form {
   background-color: var(--main-form-accent);
   padding: 1rem 0.9rem;
@@ -239,6 +313,10 @@ form .color {
   flex-direction: row;
   column-gap: 0.8rem;
   width: 100%;
+}
+
+.exam-counter-form > .color {
+  margin-top: 0.98rem;
 }
 
 .form .color > * {
