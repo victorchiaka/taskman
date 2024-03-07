@@ -82,6 +82,9 @@ Collections.propTypes = {
   setDisplayTasksOptions: PropTypes.func,
   collection: PropTypes.object,
   setIsCollectionEdit: PropTypes.func,
+  isTaskEdit: PropTypes.bool,
+  setIsTaskEdit: PropTypes.func,
+  setActiveTask: PropTypes.func,
 };
 
 export default Collections;

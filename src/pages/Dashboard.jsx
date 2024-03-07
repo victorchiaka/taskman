@@ -7,7 +7,7 @@ import Collections from "../components/Collections/Collections";
 import DashboardIcon from "@assets/dashboard.svg";
 import Modal from "../components/Modal";
 import CollectionForm from "../components/Form/CollectionForm";
-import { useToast } from "../components/utils/hooks";
+import { useAuth, useToast } from "../components/utils/hooks";
 import {
   createCollectionRequest,
   getAllCollectionsRequest,
@@ -41,6 +41,12 @@ function Dashboard() {
     display: false,
     collection: null,
   });
+
+  // const { isAuthenticated } = useAuth();
+  // const isDashboardPage =
+  //   window.location.href.includes("dashboard") &&
+  //   isAuthenticated &&
+  //   !displayTasksOptions.display;
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -130,7 +136,7 @@ function Dashboard() {
 
     const interval = setInterval(() => {
       handleGetAllCollections();
-    }, 500);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, []);
