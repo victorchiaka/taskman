@@ -3,7 +3,11 @@ import PropTypes from "prop-types";
 
 export function Button(props) {
   return (
-    <button className={props.type} onClick={props.onClick}>
+    <button
+      className={props.type}
+      type={props.type === "confirm" ? "submit" : ""}
+      onClick={props.onClick}
+    >
       {props.text}
     </button>
   );
