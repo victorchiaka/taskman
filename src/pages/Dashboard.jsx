@@ -16,6 +16,9 @@ import {
   editTaskRequest,
 } from "../services/api";
 import TaskForm from "../components/Form/TaskForm";
+import ExamCounters from "../components/ExamCounter/ExamCounters";
+import Statistics from "../components/Statistics/Statistics";
+import ExamCounterForm from "../components/Form/ExamCounterForm";
 
 /**
  * Dashboard component.
@@ -29,6 +32,8 @@ function Dashboard() {
   const [taskFormActive, setTaskFormActive] = useState(false);
   const [isCollectionEdit, setIsCollectionEdit] = useState(false);
   const [collectionFormActive, setCollectionFormActive] = useState(false);
+
+  const [examFormActive, setExamFormActive] = useState(false);
   const [isTaskEdit, setIsTaskEdit] = useState(false);
   const [activeCollection, setActiveCollection] = useState("");
   const [activeTask, setActiveTask] = useState("");
@@ -102,6 +107,10 @@ function Dashboard() {
     setActiveTask: setActiveTask,
   };
 
+  const examcounterProps = {
+    setExamFormActive: setExamFormActive,
+  };
+
   const taskFormProps = {
     setActive: setTaskFormActive,
     preventDefaultAction: preventDefaultAction,
@@ -125,6 +134,11 @@ function Dashboard() {
     handleEditCollection: handleEditCollection,
   };
 
+  const examCounterFormProps = {
+    setActive: setExamFormActive,
+    preventDefaultAction: preventDefaultAction,
+  };
+
   useEffect(() => {
     handleGetAllCollections();
 
@@ -134,6 +148,12 @@ function Dashboard() {
 
     return () => clearInterval(interval);
   }, []);
+
+  const tabs = {
+    tasks: <Collections props={collectionsProps} />,
+    examCounter: <ExamCounters props={examcounterProps} />,
+    statistics: <Statistics />,
+  };
 
   return (
     <div className={styles.dashboard}>
@@ -155,7 +175,7 @@ function Dashboard() {
               className={styles.mobileSidebarTrigger}
             ></img>
           </div>
-          <Collections props={collectionsProps} />
+          {tabs[activeTab]}
         </main>
       </div>
       <Modal
@@ -171,6 +191,13 @@ function Dashboard() {
         isForm={true}
       >
         <TaskForm props={taskFormProps} />
+      </Modal>
+      <Modal
+        setIsActive={setExamFormActive}
+        isActive={examFormActive}
+        isForm={true}
+      >
+        <ExamCounterForm props={examCounterFormProps} />
       </Modal>
     </div>
   );
