@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 const CountDown = ({ props }) => {
   const jwtToken = localStorage.getItem("access_token");
 
-  const { dueAt, examCounterName, textColor, updateExamCounterAsExpired } =
+  const { dueAt, examCounterName, textColor, updateExamCounterAsExpiredRequest } =
     props;
   const [countDown, setCountDown] = useState("");
 
   const updateExpired = () => {
-    updateExamCounterAsExpired(jwtToken, { paper_name: examCounterName })
+    updateExamCounterAsExpiredRequest(jwtToken, { paper_name: examCounterName })
       .then()
       .catch();
   };
@@ -60,7 +60,7 @@ CountDown.propTypes = {
   dueAt: PropTypes.string,
   examCounterName: PropTypes.string,
   textColor: PropTypes.string,
-  updateExamCounterAsExpired: PropTypes.func,
+  updateExamCounterAsExpiredRequest: PropTypes.func,
 };
 
 export default CountDown;

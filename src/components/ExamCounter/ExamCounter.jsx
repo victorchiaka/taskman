@@ -4,7 +4,10 @@ import Options from "../../ui/Options";
 import PropTypes from "prop-types";
 import CountDown from "./CountDown";
 
-import { updateExamCounterAsExpired } from "../../services/api";
+import {
+  updateExamCounterAsExpiredRequest,
+  deleteExamCounterRequest,
+} from "../../services/api";
 import { useToast } from "../utils/hooks";
 
 const ExamCounter = ({ examCounter }) => {
@@ -22,12 +25,20 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const handleMarkAsExpired = () => {
-    updateExamCounterAsExpired(jwtToken, { paper_name: examCounter.paper_name })
+    updateExamCounterAsExpiredRequest(jwtToken, {
+      paper_name: examCounter.paper_name,
+    })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleDeleteExamCounter = () => {};
+  const handleDeleteExamCounter = () => {
+    deleteExamCounterRequest(jwtToken, {
+      paper_name: examCounter.paper_name,
+    })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
 
   const optionProps = {
     options: [
@@ -46,7 +57,7 @@ const ExamCounter = ({ examCounter }) => {
     dueAt: examCounter.due_at,
     examCounterName: examCounter.paper_name,
     textColor: examCounterColor.backgroundColor,
-    updateExamCounterAsExpired: updateExamCounterAsExpired,
+    updateExamCounterAsExpiredRequest: updateExamCounterAsExpiredRequest,
   };
 
   return (
