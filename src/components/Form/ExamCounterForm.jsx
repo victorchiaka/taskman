@@ -14,7 +14,6 @@ const ExamCounterForm = ({ props }) => {
   const [paperColor, setPaperColor] = useInput("#ffffff");
   const [isCreationLoading, setIsCreationLoading] = useState(false);
 
-  console.log("DUE AT: ", dueAt.value);
   const resetStates = () => {
     setPaperName("");
     setPaperNumber("");
