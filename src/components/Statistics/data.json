@@ -1,0 +1,54 @@
+{
+  "completed_tasks": [
+    {
+      "color_code": "#9141ab",
+      "is_completed": true,
+      "task_description": "A Test to see if it works",
+      "task_name": "Test Task Completion"
+    }
+  ],
+  "uncompleted_tasks": [
+    {
+      "color_code": "#9141ac",
+      "is_completed": false,
+      "task_description": "A Test to see if this works",
+      "task_name": "Test Task Creation"
+    },
+    {
+      "color_code": "#ffffff",
+      "is_completed": false,
+      "task_description": "Just to confirm if the ajax is working properly",
+      "task_name": "Okay now it is working"
+    },
+    {
+      "color_code": "#19e11c",
+      "is_completed": false,
+      "task_description": "Okay let me just add a very long line of text here to check how far this can span and if the text will not overflow",
+      "task_name": "Test Task Alignment"
+    },
+    {
+      "color_code": "#8229db",
+      "is_completed": false,
+      "task_description": "Okay short text here",
+      "task_name": "A new task"
+    },
+    {
+      "color_code": "#986a44",
+      "is_completed": false,
+      "task_description": "a task to test things well",
+      "task_name": "Test Task"
+    },
+    {
+      "color_code": "#ff4d4d",
+      "is_completed": false,
+      "task_description": "Finish this project by latest saturday",
+      "task_name": "Finish this project."
+    },
+    {
+      "color_code": "#f93939",
+      "is_completed": false,
+      "task_description": "Test task",
+      "task_name": "Test task"
+    }
+  ]
+}

@@ -180,6 +180,12 @@ input::placeholder {
   margin: 0.8rem 0 0.8rem 1rem;
 }
 
+.select-dropdown {
+  background-color: var(--main-form-accent);
+  border-radius: 0.3rem;
+  text-align: center;
+}
+
 @media (max-width: 662px) {
   .instance-action {
     font-size: 0.9rem;
@@ -224,6 +230,13 @@ input::placeholder {
 .dashboard-contents-container::-webkit-scrollbar-thumb {
   background-color: var(--main-accent);
   border-radius: 0.3rem;
+}
+
+.chart-container {
+  max-width: 22rem;
+  max-height: 22rem;
+  margin: 0;
+  padding: 1rem 0;
 }
 
 /* For Collection cards and Exam counter cards */
