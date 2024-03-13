@@ -240,6 +240,22 @@ const getAllExamCountersRequest = (jwtToken) => {
   });
 };
 
+const updateExamCounterAsExpired = (jwtToken, examCounterData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("PATCH", `${API_EXAM_COUNTER}/update-expired`);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+      request.onerror = (err) => reject(err);
+    };
+    request.send(JSON.stringify(examCounterData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
@@ -255,4 +271,5 @@ export {
   deleteTaskRequest,
   createExamCounterRequest,
   getAllExamCountersRequest,
+  updateExamCounterAsExpired,
 };

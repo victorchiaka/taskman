@@ -245,6 +245,11 @@ input::placeholder {
   transition: transform 500ms, border-color 500ms;
 }
 
+.exam-counter-card {
+  gap: 1rem;
+  max-height: 13rem;
+}
+
 .collection-card:hover,
 .exam-counter-card:hover {
   transform: scale(102%);
@@ -257,6 +262,17 @@ input::placeholder {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.exam-counter-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.expired-counter {
+  text-decoration: line-through;
+  color: grey;
 }
 
 .options {

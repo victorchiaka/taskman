@@ -38,9 +38,6 @@ const ExamCounters = ({ props }) => {
         </div>
       </div>
       <div className="dashboard-contents-container">
-        {/* {data.exam_counters.map((examCounter) => (
-          <ExamCounter key={examCounter.id} examCounter={examCounter} />
-        ))} */}
         {examCounters.map((examCounter) => (
           <ExamCounter key={examCounter.id} examCounter={examCounter} />
         ))}
