@@ -272,6 +272,22 @@ const deleteExamCounterRequest = (jwtToken, examCounterData) => {
   });
 };
 
+const getStatisticsRequest = (jwtToken, collectionData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("POST", `${API_STATISTICS}/get-collection-statistics`);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${jwtToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+      request.onerror = (err) => reject(err);
+    };
+    request.send(JSON.stringify(collectionData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
@@ -289,4 +305,5 @@ export {
   getAllExamCountersRequest,
   updateExamCounterAsExpiredRequest,
   deleteExamCounterRequest,
+  getStatisticsRequest,
 };

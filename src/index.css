@@ -232,11 +232,10 @@ input::placeholder {
   border-radius: 0.3rem;
 }
 
-.chart-container {
-  max-width: 22rem;
-  max-height: 22rem;
-  margin: 0;
-  padding: 1rem 0;
+.statistics-dashboard {
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  height: fit-content;
+  place-items: center;
 }
 
 /* For Collection cards and Exam counter cards */

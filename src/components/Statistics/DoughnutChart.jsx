@@ -1,10 +1,7 @@
 import { Doughnut } from "react-chartjs-2";
 import PropTypes from "prop-types";
 
-const DoughnutChart = ({ completedTasks, uncompletedTasks }) => {
-  const completedCount = completedTasks.length;
-  const uncompletedCount = uncompletedTasks.length;
-
+const DoughnutChart = ({ completedCount, uncompletedCount }) => {
   const data = {
     labels: ["Completed Tasks", "Uncompleted Tasks"],
     datasets: [
@@ -24,8 +21,8 @@ const DoughnutChart = ({ completedTasks, uncompletedTasks }) => {
 };
 
 DoughnutChart.propTypes = {
-  completedTasks: PropTypes.array,
-  uncompletedTasks: PropTypes.array,
+  // completedTasks: PropTypes.array,
+  // uncompletedTasks: PropTypes.array,
 };
 
 export default DoughnutChart;
