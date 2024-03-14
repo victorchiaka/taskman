@@ -13,9 +13,16 @@ const DoughnutChart = ({ completedCount, uncompletedCount }) => {
     ],
   };
 
+  const style = {
+    Width: "15rem",
+    Height: "15rem",
+    minWidth: "11rem",
+    minHeight: "11rem",
+  };
+
   return (
     <div className="chart-container">
-      <Doughnut data={data} />
+      <Doughnut style={style} data={data} />
     </div>
   );
 };

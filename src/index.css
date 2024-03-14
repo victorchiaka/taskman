@@ -234,7 +234,7 @@ input::placeholder {
 
 .statistics-dashboard {
   grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
-  height: fit-content;
+  overflow-x: hidden;
   place-items: center;
 }
 
