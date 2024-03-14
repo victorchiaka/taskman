@@ -21,8 +21,8 @@ const DoughnutChart = ({ completedCount, uncompletedCount }) => {
 };
 
 DoughnutChart.propTypes = {
-  // completedTasks: PropTypes.array,
-  // uncompletedTasks: PropTypes.array,
+  completedCount: PropTypes.number,
+  uncompletedCount: PropTypes.number,
 };
 
 export default DoughnutChart;
