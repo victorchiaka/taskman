@@ -7,13 +7,13 @@ import PropTypes from "prop-types";
 
 const CollectionForm = ({ props }) => {
   const {
-    setActive,
+    edit,
+    setEdit,
+    setShowModal,
     preventDefaultAction,
     handleCreateCollection,
-    isCollectionEdit,
-    setIsCollectionEdit,
-    activeCollection,
-    setActiveCollection,
+    activeCollection = "",
+    setActiveCollection = () => undefined,
     handleEditCollection,
   } = props;
 
@@ -28,6 +28,8 @@ const CollectionForm = ({ props }) => {
     setNewCollectionName("");
     setActiveCollection("");
     setIsCreationLoading(false);
+    setEdit(false);
+    setShowModal(false);
   };
 
   const createCollection = () => {
@@ -38,8 +40,6 @@ const CollectionForm = ({ props }) => {
     });
 
     resetStates();
-    setActive(false);
-    setIsCollectionEdit(false);
   };
 
   const editCollectionName = () => {
@@ -56,7 +56,7 @@ const CollectionForm = ({ props }) => {
       onSubmit={(e) => preventDefaultAction(e)}
       onClick={(e) => e.stopPropagation()}
     >
-      {isCollectionEdit ? (
+      {edit ? (
         <>
           <div className="form-header">
             <p>Taskman - Edit Collection</p>
@@ -91,14 +91,18 @@ const CollectionForm = ({ props }) => {
         </>
       )}
       <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" onClick={() => setActive(false)} />
         <Button
-          onClick={isCollectionEdit ? editCollectionName : createCollection}
+          type="cancel"
+          text="Cancel"
+          onClick={() => setShowModal(false)}
+        />
+        <Button
+          onClick={edit ? editCollectionName : createCollection}
           type="confirm"
           text={
             isCreationLoading ? (
               <img className="spinner" src={LoadingSpinner}></img>
-            ) : isCollectionEdit ? (
+            ) : edit ? (
               "Edit"
             ) : (
               "Create"
@@ -112,11 +116,11 @@ const CollectionForm = ({ props }) => {
 
 CollectionForm.propTypes = {
   props: PropTypes.object,
-  setActive: PropTypes.func,
+  setShowModal: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateCollection: PropTypes.func,
-  isCollectionEdit: PropTypes.bool,
-  setIsCollectionEdit: PropTypes.func,
+  edit: PropTypes.bool,
+  setEdit: PropTypes.func,
   activeCollection: PropTypes.string,
   setActiveCollection: PropTypes.func,
   handleEditCollection: PropTypes.func,

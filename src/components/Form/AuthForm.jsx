@@ -9,18 +9,14 @@ import PropTypes from "prop-types";
  * Renders an Authentication form component.
  *
  * @param {Function} preventDefaultAction - A callback function to prevent the default form submission behavior.
- * @param {Function} setActive - A callback function passed down from the parent component to indicate the active state of the parent component.
+ * @param {Function} setShowModal - A callback function passed down from the parent component to indicate the active state of the parent component.
  * @param {Function} handleRegisterSubmit - A callback function to handle the registration form submission.
  * @param {Function} handleLoginSubmit - A callback function to handle the login form submission.
  * @returns {React.ReactNode} - A React element that renders the Authentication form.
  */
 const AuthForm = ({ props }) => {
-  const {
-    preventDefaultAction,
-    setActive,
-    handleRegisterSubmit,
-    handleLoginSubmit,
-  } = props;
+  const { preventDefaultAction, handleRegisterSubmit, handleLoginSubmit, setShowModal } =
+    props;
 
   const [username, setUsername] = useInput("");
   const [email, setEmail] = useInput("");
@@ -29,7 +25,7 @@ const AuthForm = ({ props }) => {
   const [loginPassword, setLoginPassword] = useInput("");
   const [loginLoading, setLoginLoading] = useState(false);
   const [registerLoading, setRegisterLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState("register");
+  const [activeTab, setShowModalTab] = useState("register");
 
   const resetStates = () => {
     setUsername("");
@@ -68,13 +64,13 @@ const AuthForm = ({ props }) => {
       <div className="tab">
         <li
           className={`tab-label ${activeTab === "register" ? "active" : ""}`}
-          onClick={() => setActiveTab("register")}
+          onClick={() => setShowModalTab("register")}
         >
           Register
         </li>
         <li
           className={`tab-label ${activeTab === "login" ? "active" : ""}`}
-          onClick={() => setActiveTab("login")}
+          onClick={() => setShowModalTab("login")}
         >
           Login
         </li>
@@ -102,7 +98,7 @@ const AuthForm = ({ props }) => {
             <Button
               type="cancel"
               text="Cancel"
-              onClick={() => setActive(false)}
+              onClick={() => setShowModal(false)}
             />
             <Button
               onClick={registerSubmit}
@@ -138,7 +134,7 @@ const AuthForm = ({ props }) => {
             <Button
               type="cancel"
               text="Cancel"
-              onClick={() => setActive(false)}
+              onClick={() => setShowModal(false)}
             />
             <Button
               onClick={loginSubmit}
@@ -161,7 +157,7 @@ const AuthForm = ({ props }) => {
 AuthForm.propTypes = {
   props: PropTypes.object,
   preventDefaultAction: PropTypes.func,
-  setActive: PropTypes.func,
+  setShowModal: PropTypes.func,
   handleRegisterSubmit: PropTypes.func,
   handleLoginSubmit: PropTypes.func,
 };
