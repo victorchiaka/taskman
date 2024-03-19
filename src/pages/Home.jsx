@@ -1,14 +1,11 @@
 import Background from "../components/Background/Background";
-import HomeSignupButton from "../components/Button/Button";
 import { HomeHeader } from "../components/Header/Header";
 import Showcase from "../components/Showcase/Showcase";
-import Modal from "../components/Modal";
-import { useState } from "react";
-import AuthForm from "../components/Form/AuthForm";
-import { useToast, useAuth } from "../components/utils/hooks";
-import { useNavigate } from "react-router-dom";
 import styles from "./Pages.module.css";
+import AuthFormModal from "../components/Modals/AuthFormModal";
+import { useNavigate } from "react-router-dom";
 import { registerRequest, loginRequest } from "../services/api";
+import { useToast, useAuth } from "../components/utils/hooks";
 
 /**
  * Renders the Home page component.
@@ -17,14 +14,13 @@ import { registerRequest, loginRequest } from "../services/api";
  */
 function Home() {
   const navigate = useNavigate();
-  const [active, setActive] = useState(false);
   const showToast = useToast();
 
   const auth = useAuth();
 
-  const preventDefaultAction = (e) => {
+  function preventDefaultAction(e) {
     e.preventDefault();
-  };
+  }
 
   const handleRegisterSubmit = (userData) => {
     registerRequest(userData)
@@ -50,8 +46,7 @@ function Home() {
       });
   };
 
-  const authFormProps = {
-    setActive: setActive,
+  const authFormModalProps = {
     preventDefaultAction: preventDefaultAction,
     handleRegisterSubmit: handleRegisterSubmit,
     handleLoginSubmit: handleLoginSubmit,
@@ -62,14 +57,7 @@ function Home() {
       <Background />
       <div className="header-container">
         <HomeHeader />
-        <HomeSignupButton
-          text="Sign in"
-          type="homeSignup"
-          onClick={() => setActive(true)}
-        />
-        <Modal setIsActive={setActive} isActive={active} isForm={true}>
-          <AuthForm props={authFormProps} />
-        </Modal>
+        <AuthFormModal props={authFormModalProps} />
       </div>
       <Showcase />
     </div>
