@@ -41,7 +41,7 @@
   align-items: center;
 }
 
-.addTask {
+/* .addTask {
   padding: 0.4rem 0.5rem 0.4rem 0.3rem;
   border-radius: 0.4rem;
   width: fit-content;
@@ -51,7 +51,7 @@
 
 .addTask:active {
   background-color: var(--main-accent-20);
-}
+} */
 
 .tasksInfo {
   display: flex;

@@ -9,29 +9,46 @@ import Options from "../../ui/Options";
 import {
   updateCompletedTaskRequest,
   deleteTaskRequest,
+  editTaskRequest,
 } from "../../services/api";
 import { useToast } from "../utils/hooks";
+import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 
-const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
+const Task = ({ task }) => {
   const showToast = useToast();
   const [openOptions, setOpenOptions] = useState(false);
-  const jwtToken = localStorage.getItem("access_token");
+  const [showModal, setShowModal] = useState(false);
+  const [activeTask, setActiveTask] = useState("");
+  const accessToken = localStorage.getItem("access_token");
 
-  const handleEditTaskDescription = () => {
-    setTaskFormActive(true);
-    setIsTaskEdit(true);
+  const setUpEditTaskDescription = () => {
+    setShowModal(true);
     setActiveTask(task.task_name);
   };
 
-  const handleMarkTaskAsCompleted = () => {
-    updateCompletedTaskRequest(jwtToken, { task_name: task.task_name })
+  const handleEditTaskDescription = (taskData) => {
+    editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
+  const handleMarkTaskAsCompleted = () => {
+    updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const editTaskDescriptionProps = {
+    activeTask: activeTask,
+    setActiveTask: setActiveTask,
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleEditTaskDescription: handleEditTaskDescription,
+  };
+
   const handleDeleteTask = () => {
     if (confirm("Are you sure you want to delete this task?")) {
-      deleteTaskRequest(jwtToken, { task_name: task.task_name })
+      deleteTaskRequest(accessToken, { task_name: task.task_name })
         .then((res) => showToast.success(res["message"]))
         .catch((rej) => showToast.error(rej["message"]));
     }
@@ -44,7 +61,7 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
     options = [
       {
         optionName: "Edit description",
-        onClick: handleEditTaskDescription,
+        onClick: setUpEditTaskDescription,
         icon: editIcon,
       },
       {
@@ -84,28 +101,31 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   };
 
   return (
-    <div
-      title={task.task_description}
-      style={task.is_completed ? completedBorderColor : borderColor}
-      className={styles.taskCard}
-    >
-      <div className={styles.taskHeader}>
-        <h4 style={task.is_completed ? completedStrikeText : null}>
-          {task.task_name}
-        </h4>
-        <img
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenOptions(!openOptions);
-          }}
-          src={threeDotsNav}
-        />
+    <>
+      <EditTaskDescriptionModal props={editTaskDescriptionProps} />
+      <div
+        title={task.task_description}
+        style={task.is_completed ? completedBorderColor : borderColor}
+        className={styles.taskCard}
+      >
+        <div className={styles.taskHeader}>
+          <h4 style={task.is_completed ? completedStrikeText : null}>
+            {task.task_name}
+          </h4>
+          <img
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenOptions(!openOptions);
+            }}
+            src={threeDotsNav}
+          />
+        </div>
+        <p style={task.is_completed ? completedStrikeText : null}>
+          {task.task_description}
+        </p>
+        {openOptions && <Options props={optionProps} />}
       </div>
-      <p style={task.is_completed ? completedStrikeText : null}>
-        {task.task_description}
-      </p>
-      {openOptions && <Options props={optionProps} />}
-    </div>
+    </>
   );
 };
 
