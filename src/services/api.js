@@ -288,6 +288,22 @@ const getStatisticsRequest = (jwtToken, collectionData) => {
   });
 };
 
+const deleteAcccountRequest = (accessToken, userData) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("DELETE", `${API_AUTH}/delete`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.setRequestHeader("Authorization", `Bearer ${accessToken}`);
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
+    request.send(JSON.stringify(userData));
+  });
+};
+
 export {
   registerRequest,
   loginRequest,
@@ -306,4 +322,5 @@ export {
   updateExamCounterAsExpiredRequest,
   deleteExamCounterRequest,
   getStatisticsRequest,
+  deleteAcccountRequest,
 };
