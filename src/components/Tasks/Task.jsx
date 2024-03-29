@@ -13,17 +13,37 @@ import {
 } from "../../services/api";
 import { useToast } from "../utils/hooks";
 import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
+import DeleteTaskModal from "../Modals/DeleteTaskModal";
 
 const Task = ({ task }) => {
+  const operations = {
+    NONE: "",
+    EDIT_DESCRIPTION: "editDescription",
+    DELETE_TASK: "deleteTask",
+  };
+
   const showToast = useToast();
   const [openOptions, setOpenOptions] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeTask, setActiveTask] = useState("");
   const accessToken = localStorage.getItem("access_token");
+  const [operation, setOperation] = useState(operations.NONE);
+  const [edit, setEdit] = useState(false);
 
-  const setUpEditTaskDescription = () => {
+  const setup = () => {
     setShowModal(true);
     setActiveTask(task.task_name);
+  };
+
+  const setEditTaskDescription = () => {
+    setEdit(true);
+    setOperation(operations.EDIT_DESCRIPTION);
+    setup();
+  };
+
+  const setDeleteTask = () => {
+    setOperation(operations.DELETE_TASK);
+    setup();
   };
 
   const handleEditTaskDescription = (taskData) => {
@@ -38,7 +58,15 @@ const Task = ({ task }) => {
       .catch((rej) => showToast.error(rej["message"]));
   };
 
+  const handleDeleteTask = () => {
+    deleteTaskRequest(accessToken, { task_name: task.task_name })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
   const editTaskDescriptionProps = {
+    edit: edit,
+    setEdit: setEdit,
     activeTask: activeTask,
     setActiveTask: setActiveTask,
     showModal: showModal,
@@ -46,13 +74,10 @@ const Task = ({ task }) => {
     handleEditTaskDescription: handleEditTaskDescription,
   };
 
-  const handleDeleteTask = () => {
-    if (confirm("Are you sure you want to delete this task?")) {
-      deleteTaskRequest(accessToken, { task_name: task.task_name })
-        .then((res) => showToast.success(res["message"]))
-        .catch((rej) => showToast.error(rej["message"]));
-    }
-    return;
+  const deleteTaskProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleDeleteTask: handleDeleteTask,
   };
 
   let options = [];
@@ -61,7 +86,7 @@ const Task = ({ task }) => {
     options = [
       {
         optionName: "Edit description",
-        onClick: setUpEditTaskDescription,
+        onClick: setEditTaskDescription,
         icon: editIcon,
       },
       {
@@ -71,7 +96,7 @@ const Task = ({ task }) => {
       },
       {
         optionName: "Delete",
-        onClick: handleDeleteTask,
+        onClick: setDeleteTask,
         icon: deleteIcon,
       },
     ];
@@ -79,7 +104,8 @@ const Task = ({ task }) => {
     options = [
       {
         optionName: "Delete",
-        onClick: handleDeleteTask,
+        onClick: setDeleteTask,
+        icon: deleteIcon,
       },
     ];
   }
@@ -102,7 +128,11 @@ const Task = ({ task }) => {
 
   return (
     <>
-      <EditTaskDescriptionModal props={editTaskDescriptionProps} />
+      {operation === operations.DELETE_TASK ? (
+        <DeleteTaskModal {...deleteTaskProps} />
+      ) : operation === operations.EDIT_DESCRIPTION ? (
+        <EditTaskDescriptionModal props={editTaskDescriptionProps} />
+      ) : null}
       <div
         title={task.task_description}
         style={task.is_completed ? completedBorderColor : borderColor}

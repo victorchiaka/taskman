@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import ExamCounter from "./ExamCounter";
 import { getAllExamCountersRequest } from "../../services/api";
 import { useEffect, useState } from "react";
+import ExamCounterModal from "../Modals/ExamCounterModal";
 
-const ExamCounters = ({ props }) => {
-  const { setExamFormActive } = props;
+const ExamCounters = () => {
 
   const [examCounters, setExamCounters] = useState([]);
   const jwtToken = localStorage.getItem("access_token");
@@ -29,12 +29,7 @@ const ExamCounters = ({ props }) => {
       <div className="instance-action">
         <div>
           Taskman Exam counter: &nbsp;{" "}
-          <span
-            className="create-action"
-            onClick={() => setExamFormActive(true)}
-          >
-            New Exam
-          </span>
+            <ExamCounterModal />
         </div>
       </div>
       <div className="dashboard-contents-container">

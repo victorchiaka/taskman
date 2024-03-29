@@ -13,21 +13,17 @@ import PropTypes from "prop-types";
  * @returns {JSX.Element} The rendered MobileSideBar component.
  */
 export const MobileSideBar = ({ props }) => {
-  const { active, activeTab, setActiveTab, setActive } = props;
+  const { activeTab, setActiveTab, showModal, setShowModal } = props;
 
   return (
     <section
       onClick={(e) => e.stopPropagation()}
       className={`${styles.mobileSideBar} ${
-        active ? styles.sideBarActive : ""
+        showModal ? styles.sideBarActive : ""
       }`}
     >
-      <div className={styles.sideBarTriggerContainer}>
-        <img
-          onClick={() => setActive(false)}
-          src={DashboardIcon}
-          className={styles.mobileSidebarTrigger}
-        ></img>
+      <div className="sidebar-trigger-container">
+        <img onClick={() => setShowModal(false)} src={DashboardIcon}></img>
       </div>
       <div
         className={`${styles.sideBarChildren} ${
@@ -103,10 +99,10 @@ const Sidebar = ({ props }) => {
 
 MobileSideBar.propTypes = {
   props: PropTypes.object,
-  active: PropTypes.bool,
+  showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
   activeTab: PropTypes.string,
   setActiveTab: PropTypes.func,
-  setActive: PropTypes.func,
 };
 
 Sidebar.propTypes = {

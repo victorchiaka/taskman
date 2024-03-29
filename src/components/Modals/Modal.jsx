@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 function Modal({ children, showModal, setShowModal, isForm = false }) {
   const styles = {
     width: `${window.innerWidth}`,
-    innerHeight: `${window.innerHeight}px`,
+    height: `${window.innerHeight}px`,
   };
 
   return showModal ? (

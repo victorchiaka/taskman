@@ -62,7 +62,7 @@ const DeleteAccountForm = ({ setShowModal, handleDeleteAccount }) => {
 
 DeleteAccountForm.propTypes = {
   setShowModal: PropTypes.func,
-  handleDeleteAccount: PropTypes.funct,
+  handleDeleteAccount: PropTypes.func,
 };
 
 export default DeleteAccountForm;

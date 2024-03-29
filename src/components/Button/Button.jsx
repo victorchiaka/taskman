@@ -2,14 +2,22 @@ import "./Button.css";
 import PropTypes from "prop-types";
 
 export function Button(props) {
+  const BUTTON_TYPE = {
+    confirm: "confirm",
+    delete: "delete",
+    cancel: "cancel",
+  };
+
   return (
-    <button
-      className={props.type}
-      type={props.type === "confirm" ? "submit" : ""}
-      onClick={props.onClick}
-    >
-      {props.text}
-    </button>
+    <>
+      <button
+        className={props.type}
+        type={BUTTON_TYPE[props.type]}
+        onClick={props.onClick}
+      >
+        {props.text}
+      </button>
+    </>
   );
 }
 

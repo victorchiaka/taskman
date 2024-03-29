@@ -7,15 +7,15 @@ import LoadingSpinner from "@assets/loading-spinner.svg";
 
 const TaskForm = ({ props }) => {
   const {
-    setActive,
+    setShowModal,
     preventDefaultAction,
     handleCreateTask,
-    activeCollection,
-    isTaskEdit,
-    setIsTaskEdit,
+    activeCollection = "",
+    edit,
+    setEdit,
     activeTask,
-    setActiveTask,
-    handleEditTask,
+    setActiveTask = () => undefined,
+    handleEditTaskDescription,
   } = props;
 
   const [isCreationLoading, setIsCreationLoading] = useState(false);
@@ -31,8 +31,8 @@ const TaskForm = ({ props }) => {
     setNewTaskDescription("");
     setActiveTask("");
     setIsCreationLoading(false);
-    setIsTaskEdit(false);
-    setActive(false);
+    setEdit(false);
+    setShowModal(false);
   };
 
   const createTask = () => {
@@ -48,7 +48,7 @@ const TaskForm = ({ props }) => {
   };
 
   const editTaskDescription = () => {
-    handleEditTask({
+    handleEditTaskDescription({
       task_name: activeTask,
       new_task_description: newTaskDescription.value,
     });
@@ -61,7 +61,7 @@ const TaskForm = ({ props }) => {
       onSubmit={(e) => preventDefaultAction(e)}
       onClick={(e) => e.stopPropagation()}
     >
-      {isTaskEdit ? (
+      {edit ? (
         <>
           <div className="form-header">
             <p>Taskman - Edit Task</p>
@@ -103,14 +103,18 @@ const TaskForm = ({ props }) => {
         </>
       )}
       <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" onClick={() => setActive(false)} />
         <Button
-          onClick={isTaskEdit ? editTaskDescription : createTask}
+          type="cancel"
+          text="Cancel"
+          onClick={() => setShowModal(false)}
+        />
+        <Button
+          onClick={edit ? editTaskDescription : createTask}
           type="confirm"
           text={
             isCreationLoading ? (
               <img className="spinner" src={LoadingSpinner}></img>
-            ) : isTaskEdit ? (
+            ) : edit ? (
               "Edit"
             ) : (
               "Create"
@@ -124,15 +128,15 @@ const TaskForm = ({ props }) => {
 
 TaskForm.propTypes = {
   props: PropTypes.object,
-  setActive: PropTypes.func,
+  setShowModal: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateTask: PropTypes.func,
   activeCollection: PropTypes.string,
-  isTaskEdit: PropTypes.bool,
-  setIsTaskEdit: PropTypes.func,
+  edit: PropTypes.bool,
+  setEdit: PropTypes.func,
   activeTask: PropTypes.string,
   setActiveTask: PropTypes.func,
-  handleEditTask: PropTypes.func,
+  handleEditTaskDescription: PropTypes.func,
 };
 
 export default TaskForm;

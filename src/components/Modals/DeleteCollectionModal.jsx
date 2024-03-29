@@ -2,7 +2,7 @@ import Modal from "./Modal";
 import ConfirmDialog from "./ConfirmDialog";
 import PropTypes from "prop-types";
 
-const DeleteCollectionModal = ({ showModal, setShowModal }) => {
+const DeleteCollectionModal = ({ showModal, setShowModal, handleDeleteCollection }) => {
 
   const confirmDialogProps = {
     actionHeader: "Delete Collection",
@@ -16,7 +16,7 @@ const DeleteCollectionModal = ({ showModal, setShowModal }) => {
       {
         text: "Delete",
         type: "delete",
-        onClick: (f) => f,
+        onClick: handleDeleteCollection,
       },
     ],
   };
@@ -37,6 +37,7 @@ const DeleteCollectionModal = ({ showModal, setShowModal }) => {
 DeleteCollectionModal.propTypes = {
   showModal: PropTypes.bool,
   setShowModal: PropTypes.func,
+  handleDeleteCollection: PropTypes.func,
 };
 
 export default DeleteCollectionModal;

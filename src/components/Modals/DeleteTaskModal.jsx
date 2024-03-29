@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const DeleteTaskModal = ({ showModal, setShowModal, handleDeleteTask }) => {
   const confirmDialogProps = {
-    actionHeader: "Delete Collection",
+    actionHeader: "Delete Task",
     actionDescription: "This action can't be undone",
     actions: [
       {

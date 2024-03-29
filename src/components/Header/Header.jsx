@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./Header.module.css";
 import PropTypes from "prop-types";
+import DeleteAccountModal from "../Modals/DeleteAccountModal";
 
 /**
  * HomeHeader component.
@@ -25,13 +26,13 @@ export function HomeHeader() {
  *
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
-function DesktopNav() {
+function DesktopNav({ showModal, setShowModal }) {
   return (
     <nav className={styles.desktopNav}>
       <ul>
         <li>Home</li>
         <li>Logout</li>
-        <li>Delete Account</li>
+        <li onClick={() => setShowModal(!showModal)}>Delete Account</li>
       </ul>
     </nav>
   );
@@ -43,14 +44,14 @@ function DesktopNav() {
  *
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
-export function MobileNav({ openMobileNav }) {
+export function MobileNav({ openMobileNav, showModal, setShowModal }) {
   return (
     <>
       {openMobileNav ? (
         <ul className={styles.mobileNav}>
           <li>Home</li>
           <li>Logout</li>
-          <li>Delete Account</li>
+          <li onClick={() => setShowModal(!showModal)}>Delete Account</li>
         </ul>
       ) : null}
     </>
@@ -70,10 +71,13 @@ function Hamburger({ setOpenMobileNav }) {
   const handleOnclick = () => {
     setOpenHamburger(!openHamburger);
     setOpenMobileNav(!openHamburger);
-  }
+  };
 
   return (
-    <button onClick={handleOnclick} className={`${styles.hamburger} ${openHamburger ? styles.open : ""}`}>
+    <button
+      onClick={handleOnclick}
+      className={`${styles.hamburger} ${openHamburger ? styles.open : ""}`}
+    >
       <div className={styles.hamburgerStroke}></div>
       <div className={styles.hamburgerStroke}></div>
       <div className={styles.hamburgerStroke}></div>
@@ -87,26 +91,56 @@ function Hamburger({ setOpenMobileNav }) {
  *
  * @returns {JSX.Element} The rendered DashboardHeader component.
  */
-function DashboardHeader({ setOpenMobileNav }) {
+function DashboardHeader({ showModal, setShowModal, setOpenMobileNav }) {
   return (
     <header className={styles.dashboardHeader}>
       <h1 className={styles.dashboardTitle}>Taskman</h1>
-      <DesktopNav />
+      <DesktopNav showModal={showModal} setShowModal={setShowModal} />
       <Hamburger setOpenMobileNav={setOpenMobileNav} />
     </header>
-  )
+  );
+}
+
+export function DashboardNav() {
+  const [openMobileNav, setOpenMobileNav] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  return (
+    <>
+      <DashboardHeader
+        setOpenMobileNav={setOpenMobileNav}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+      <MobileNav
+        openMobileNav={openMobileNav}
+        showModal={showModal}
+        setShowModal={setShowModal}
+      />
+      <DeleteAccountModal showModal={showModal} setShowModal={setShowModal} />
+    </>
+  );
 }
 
 MobileNav.propTypes = {
-  openMobileNav: PropTypes.bool
-}
+  showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
+  openMobileNav: PropTypes.bool,
+};
+
+DesktopNav.propTypes = {
+  showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
+};
 
 Hamburger.propTypes = {
-  setOpenMobileNav: PropTypes.func
-}
+  setOpenMobileNav: PropTypes.func,
+};
 
 DashboardHeader.propTypes = {
-  setOpenMobileNav: PropTypes.func
-}
+  showModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
+  setOpenMobileNav: PropTypes.func,
+};
 
 export default DashboardHeader;

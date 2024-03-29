@@ -3,27 +3,33 @@ import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 import { getAllCollectionsRequest } from "../../services/api";
 import { useState, useEffect } from "react";
+import CreateCollectionModal from "../Modals/CreateCollectionModal";
+import { createCollectionRequest } from "../../services/api";
+import { useToast } from "../utils/hooks";
 
 function Collections({ props }) {
   const {
-    setCollectionFormActive,
-    setTaskFormActive,
-    setActiveCollection,
     displayTasksOptions,
     setDisplayTasksOptions,
-    setIsCollectionEdit,
-    isTaskEdit,
-    setIsTaskEdit,
-    setActiveTask,
   } = props;
 
+  const [activeCollection, setActiveCollection] = useState("");
+
+  const showToast = useToast();
+
   const [collections, setCollections] = useState([]);
-  const jwtToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("access_token");
 
   const handleGetAllCollections = () => {
-    getAllCollectionsRequest(jwtToken).then((res) => {
+    getAllCollectionsRequest(accessToken).then((res) => {
       setCollections(res.collections);
     });
+  };
+
+  const handleCreateCollection = (collectionData) => {
+    createCollectionRequest(accessToken, collectionData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
   };
 
   useEffect(() => {
@@ -44,14 +50,16 @@ function Collections({ props }) {
     });
   };
 
+  const createCollectionModalProps = {
+    activeCollection: activeCollection,
+    setActiveCollection: setActiveCollection,
+    handleCreateCollection: handleCreateCollection,
+  };
+
   const tasksProps = {
     setDisplayTasksOptions: setDisplayTasksOptions,
     collection: displayTasksOptions.collection,
-    setTaskFormActive: setTaskFormActive,
     setActiveCollection: setActiveCollection,
-    isTaskEdit: isTaskEdit,
-    setIsTaskEdit: setIsTaskEdit,
-    setActiveTask: setActiveTask,
   };
 
   return (
@@ -63,12 +71,7 @@ function Collections({ props }) {
           <div className="instance-action">
             <div>
               Taskman Collections:&nbsp;{" "}
-              <span
-                onClick={() => setCollectionFormActive(true)}
-                className="create-action"
-              >
-                New Collection
-              </span>
+              <CreateCollectionModal props={createCollectionModalProps} />
             </div>
           </div>
 
@@ -78,9 +81,7 @@ function Collections({ props }) {
                 onClick={displayTasks}
                 collection={collection}
                 key={collection.id}
-                setIsCollectionEdit={setIsCollectionEdit}
                 setActiveCollection={setActiveCollection}
-                setCollectionFormActive={setCollectionFormActive}
               />
             ))}
           </div>

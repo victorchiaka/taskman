@@ -1,18 +1,17 @@
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import TaskForm from "../Form/TaskForm";
-import { useState } from "react";
 
 const EditTaskDescriptionModal = ({ props }) => {
   const {
+    edit,
+    setEdit,
     activeTask,
     setActiveTask,
     showModal,
     setShowModal,
     handleEditTaskDescription,
   } = props;
-
-  const [edit, setEdit] = useState(true);
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -43,6 +42,8 @@ const EditTaskDescriptionModal = ({ props }) => {
 
 EditTaskDescriptionModal.propTypes = {
   props: PropTypes.object,
+  edit: PropTypes.bool,
+  setEdit: PropTypes.func,
   showModal: PropTypes.bool,
   activeTask: PropTypes.string,
   setShowModal: PropTypes.func,

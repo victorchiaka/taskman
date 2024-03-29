@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import LoadingSpinner from "@assets/loading-spinner.svg";
 
 const ExamCounterForm = ({ props }) => {
-  const { setActive, preventDefaultAction, handleCreateExamCounter } = props;
+  const { setShowModal, preventDefaultAction, handleCreateExamCounter } = props;
 
   const [paperName, setPaperName] = useInput("");
   const [paperNumber, setPaperNumber] = useInput("");
@@ -31,7 +31,7 @@ const ExamCounterForm = ({ props }) => {
       due_at: dueAt.value,
     });
     resetStates();
-    setActive(false);
+    setShowModal(false);
   };
 
   return (
@@ -72,7 +72,7 @@ const ExamCounterForm = ({ props }) => {
         {...paperColor}
       />
       <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" onClick={() => setActive(false)} />
+        <Button type="cancel" text="Cancel" onClick={() => setShowModal(false)} />
         <Button
           type="confirm"
           onClick={createExamCounter}
@@ -85,7 +85,7 @@ const ExamCounterForm = ({ props }) => {
 
 ExamCounterForm.propTypes = {
   props: PropTypes.object,
-  setActive: PropTypes.func,
+  setShowModal: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateExamCounter: PropTypes.func,
 };

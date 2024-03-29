@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 
 const CollectionForm = ({ props }) => {
   const {
-    edit,
+    edit = false,
     setEdit,
     setShowModal,
     preventDefaultAction,

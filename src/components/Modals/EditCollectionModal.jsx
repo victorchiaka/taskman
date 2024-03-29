@@ -1,18 +1,17 @@
 import Modal from "./Modal";
 import CollectionForm from "../Form/CollectionForm";
 import PropTypes from "prop-types";
-import { useState } from "react";
 
 const EditCollectionModal = ({ props }) => {
   const {
+    edit,
+    setEdit,
     activeCollection,
     setActiveCollection,
     handleEditCollection,
     showModal,
     setShowModal,
   } = props;
-
-  const [edit, setEdit] = useState(true);
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -44,6 +43,8 @@ const EditCollectionModal = ({ props }) => {
 
 EditCollectionModal.propTypes = {
   props: PropTypes.object,
+  edit: PropTypes.bool,
+  setEdit: PropTypes.func,
   showModal: PropTypes.bool,
   setShowModal: PropTypes.func,
   activeCollection: PropTypes.string,
