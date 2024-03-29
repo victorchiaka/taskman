@@ -6,9 +6,10 @@ import Options from "../../ui/Options";
 import {
   deleteCollectionRequest,
   editCollectionRequest,
+  refreshAccessTokenRequest,
 } from "../../services/api";
-import { useToast } from "../utils/hooks";
-
+import { useToast, useAuth } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
 import PropTypes from "prop-types";
 import EditCollectionModal from "../Modals/EditCollectionModal";
 import DeleteCollectionModal from "../Modals/DeleteCollectionModal";
@@ -21,7 +22,16 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   };
 
   const showToast = useToast();
-  const accessToken = localStorage.getItem("access_token");
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(false);

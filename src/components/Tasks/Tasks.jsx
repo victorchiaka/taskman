@@ -4,6 +4,9 @@ import Task from "./Task";
 import PropTypes from "prop-types";
 import { getCollectionTasksRequest } from "../../services/api";
 import { useEffect, useState } from "react";
+import { useAuth } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
+import { refreshAccessTokenRequest } from "../../services/api";
 import { getCollectionStatisticsRequest } from "../../services/api";
 import AddTaskModal from "../Modals/AddTaskModal";
 
@@ -13,11 +16,13 @@ const TasksInstanceAction = ({ props }) => {
     setDisplayTasksOptions,
     setActiveCollection,
   } = props;
-
+  
   const [collectionStatistics, setCollectionStatistics] = useState({
     all: 0,
     completed: 0,
   });
+
+  const auth = useAuth();
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -28,7 +33,17 @@ const TasksInstanceAction = ({ props }) => {
     preventDefaultAction: preventDefaultAction,
   };
 
-  const accessToken = localStorage.getItem("access_token");
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    })
+      .then((res) => auth.login(res["tokens"]))
+    accessToken = localStorage.getItem("access_token");
+  }
+
 
   const handleGetCollectionStatisticsRequest = () => {
     const data = {

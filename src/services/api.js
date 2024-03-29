@@ -36,6 +36,21 @@ const loginRequest = (userData) => {
   });
 };
 
+const refreshAccessTokenRequest = (refreshToken) => {
+  const request = new XMLHttpRequest();
+  return new Promise((resolve, reject) => {
+    request.open("POST", `${API_AUTH}/refresh`, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.onload = () => {
+      request.readyState == 4 && request.status == 200
+        ? resolve(JSON.parse(request.response))
+        : reject(JSON.parse(request.response));
+    };
+    request.onerror = (err) => reject(err);
+    request.send(JSON.stringify(refreshToken));
+  });
+};
+
 const createCollectionRequest = (jwtToken, collectionData) => {
   const request = new XMLHttpRequest();
 
@@ -307,6 +322,7 @@ const deleteAcccountRequest = (accessToken, userData) => {
 export {
   registerRequest,
   loginRequest,
+  refreshAccessTokenRequest,
   createCollectionRequest,
   getAllCollectionsRequest,
   createTaskRequest,

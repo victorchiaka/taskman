@@ -7,11 +7,22 @@ import CountDown from "./CountDown";
 import {
   updateExamCounterAsExpiredRequest,
   deleteExamCounterRequest,
+  refreshAccessTokenRequest,
 } from "../../services/api";
-import { useToast } from "../utils/hooks";
+import { useToast, useAuth } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
 
 const ExamCounter = ({ examCounter }) => {
-  const jwtToken = localStorage.getItem("access_token");
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const [openOptions, setOpenOptions] = useState(false);
 
@@ -25,7 +36,7 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const handleMarkAsExpired = () => {
-    updateExamCounterAsExpiredRequest(jwtToken, {
+    updateExamCounterAsExpiredRequest(accessToken, {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
@@ -33,7 +44,7 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const handleDeleteExamCounter = () => {
-    deleteExamCounterRequest(jwtToken, {
+    deleteExamCounterRequest(accessToken, {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))

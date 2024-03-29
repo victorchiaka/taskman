@@ -1,13 +1,25 @@
 import Modal from "./Modal";
 import PropTypes from "prop-types";
 import DeleteAccountForm from "../Form/DeleteAccountForm";
-import { deleteAcccountRequest } from "../../services/api";
-import { useToast } from "../utils/hooks";
+import {
+  deleteAcccountRequest,
+  refreshAccessTokenRequest,
+} from "../../services/api";
+import { useToast, useAuth } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
 
 const DeleteAccountModal = ({ showModal, setShowModal }) => {
   const showToast = useToast();
+  const auth = useAuth();
 
-  const accessToken = localStorage.getItem("access_token");
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const handleDeleteAccount = (userData) => {
     deleteAcccountRequest(accessToken, userData)

@@ -1,15 +1,29 @@
 import { useEffect, useState } from "react";
+import { useAuth } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
+import { refreshAccessTokenRequest } from "../../services/api";
 import PropTypes from "prop-types";
 
 const CountDown = ({ props }) => {
-  const jwtToken = localStorage.getItem("access_token");
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    })
+      .then((res) => auth.login(res["tokens"]))
+    accessToken = localStorage.getItem("access_token");
+  }
+
 
   const { dueAt, examCounterName, textColor, updateExamCounterAsExpiredRequest } =
     props;
   const [countDown, setCountDown] = useState("");
 
   const updateExpired = () => {
-    updateExamCounterAsExpiredRequest(jwtToken, { paper_name: examCounterName })
+    updateExamCounterAsExpiredRequest(accessToken, { paper_name: examCounterName })
       .then()
       .catch();
   };

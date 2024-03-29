@@ -77,13 +77,22 @@ export const useAuth = () => {
   const login = (tokens) => {
     const access = String(tokens["access"]);
     const refresh = String(tokens["refresh"]);
-    const decodedAccessToken = jwtDecode(access);
 
     localStorage.setItem("access_token", access);
     localStorage.setItem("refresh_token", refresh);
 
-    setIsAuthenticated(true);
-    setAuthUser(decodedAccessToken.username);
+    setIsAuthenticated(() => {
+      if (
+        !localStorage.getItem("access_token") ||
+        jwtDecode(localStorage.getItem("access_token")).exp <
+          Math.floor(Date.now() / 1000)
+      ) {
+        return false;
+      }
+      return true;
+    });
+
+    setAuthUser(jwtDecode(localStorage.getItem("access_token")).username);
   };
 
   /**

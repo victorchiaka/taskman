@@ -1,24 +1,34 @@
 import Collection from "./Collection";
 import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
-import { getAllCollectionsRequest } from "../../services/api";
+import {
+  getAllCollectionsRequest,
+  refreshAccessTokenRequest,
+  createCollectionRequest,
+} from "../../services/api";
 import { useState, useEffect } from "react";
 import CreateCollectionModal from "../Modals/CreateCollectionModal";
-import { createCollectionRequest } from "../../services/api";
-import { useToast } from "../utils/hooks";
+import { useAuth, useToast } from "../utils/hooks";
+import { isTokenExpired } from "../utils/tokens";
 
 function Collections({ props }) {
-  const {
-    displayTasksOptions,
-    setDisplayTasksOptions,
-  } = props;
+  const { displayTasksOptions, setDisplayTasksOptions } = props;
 
   const [activeCollection, setActiveCollection] = useState("");
 
   const showToast = useToast();
 
   const [collections, setCollections] = useState([]);
-  const accessToken = localStorage.getItem("access_token");
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const handleGetAllCollections = () => {
     getAllCollectionsRequest(accessToken).then((res) => {

@@ -1,12 +1,25 @@
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import ExamCounterForm from "../Form/ExamCounterForm";
-import { useToast } from "../utils/hooks";
+import { useToast, useAuth } from "../utils/hooks";
 import { useState } from "react";
-import { createExamCounterRequest } from "../../services/api";
+import {
+  createExamCounterRequest,
+  refreshAccessTokenRequest,
+} from "../../services/api";
+import { isTokenExpired } from "../utils/tokens";
 
 const ExamCounterModal = () => {
-  const accessToken = localStorage.getItem("access_token");
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const showToast = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -36,8 +49,10 @@ const ExamCounterModal = () => {
 
   return (
     <>
-      <span className="create-action" onClick={() => setShowModal(true)}>New Exam</span>
-      <Modal {...modalProps}/>
+      <span className="create-action" onClick={() => setShowModal(true)}>
+        New Exam
+      </span>
+      <Modal {...modalProps} />
     </>
   );
 };

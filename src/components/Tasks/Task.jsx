@@ -11,10 +11,12 @@ import {
   deleteTaskRequest,
   editTaskRequest,
 } from "../../services/api";
-import { useToast } from "../utils/hooks";
+import { useToast, useAuth } from "../utils/hooks";
 import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 import DeleteTaskModal from "../Modals/DeleteTaskModal";
 import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
+import { refreshAccessTokenRequest } from "../../services/api";
+import { isTokenExpired } from "../utils/tokens";
 
 const Task = ({ task }) => {
   const operations = {
@@ -28,9 +30,19 @@ const Task = ({ task }) => {
   const [openOptions, setOpenOptions] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [activeTask, setActiveTask] = useState("");
-  const accessToken = localStorage.getItem("access_token");
   const [operation, setOperation] = useState(operations.NONE);
   const [edit, setEdit] = useState(false);
+
+  const auth = useAuth();
+
+  let accessToken = localStorage.getItem("access_token");
+
+  if (isTokenExpired(localStorage.getItem("access_token"))) {
+    refreshAccessTokenRequest({
+      refresh_token: localStorage.getItem("refresh_token"),
+    }).then((res) => auth.login(res["tokens"]));
+    accessToken = localStorage.getItem("access_token");
+  }
 
   const setup = () => {
     setShowModal(true);

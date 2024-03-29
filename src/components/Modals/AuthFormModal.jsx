@@ -1,4 +1,3 @@
-// import { useModal } from "../utils/hooks";
 import AuthForm from "../Form/AuthForm";
 import HomeSignupButton from "../Button/Button";
 import Modal from "./Modal";
