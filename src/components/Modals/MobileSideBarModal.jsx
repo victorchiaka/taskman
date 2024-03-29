@@ -24,12 +24,12 @@ const MobileSideBarModal = ({ props }) => {
   };
 
   return (
-    <>
+    <div className="mobile-sidebar">
       <div className="dashboard-sidebar-trigger-container">
         <img onClick={() => handleToggleSidebar()} src={DashboardIcon}></img>
       </div>
       <Modal {...modalProps} />
-    </>
+    </div>
   );
 };
 

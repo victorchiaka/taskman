@@ -50,17 +50,20 @@ img {
   display: inline;
 }
 
+.mobile-sidebar {
+  display: none;
+}
+
 .dashboard-sidebar-trigger-container {
   margin-top: 0;
   margin-left: 0rem;
   width: fit-content;
   height: fit-content;
   margin-bottom: 1rem;
-  display: none;
 }
 
 @media (max-width: 634px) {
-  .dashboard-sidebar-trigger-container {
+  .mobile-sidebar {
     display: block;
   }
 }
