@@ -14,12 +14,14 @@ import {
 import { useToast } from "../utils/hooks";
 import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 import DeleteTaskModal from "../Modals/DeleteTaskModal";
+import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
 
 const Task = ({ task }) => {
   const operations = {
     NONE: "",
     EDIT_DESCRIPTION: "editDescription",
     DELETE_TASK: "deleteTask",
+    MARK_AS_COMPLETED: "markAsCompleted",
   };
 
   const showToast = useToast();
@@ -43,6 +45,11 @@ const Task = ({ task }) => {
 
   const setDeleteTask = () => {
     setOperation(operations.DELETE_TASK);
+    setup();
+  };
+
+  const setMarkAsCompleted = () => {
+    setOperation(operations.MARK_AS_COMPLETED);
     setup();
   };
 
@@ -80,6 +87,12 @@ const Task = ({ task }) => {
     handleDeleteTask: handleDeleteTask,
   };
 
+  const markAsCompletedProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleMarkTaskAsCompleted: handleMarkTaskAsCompleted,
+  };
+
   let options = [];
 
   if (!task.is_completed) {
@@ -91,7 +104,7 @@ const Task = ({ task }) => {
       },
       {
         optionName: "Mark as complete",
-        onClick: handleMarkTaskAsCompleted,
+        onClick: setMarkAsCompleted,
         icon: doneIcon,
       },
       {
@@ -132,6 +145,8 @@ const Task = ({ task }) => {
         <DeleteTaskModal {...deleteTaskProps} />
       ) : operation === operations.EDIT_DESCRIPTION ? (
         <EditTaskDescriptionModal props={editTaskDescriptionProps} />
+      ) : operation === operations.MARK_AS_COMPLETED ? (
+        <MarkAsCompletedModal {...markAsCompletedProps} />
       ) : null}
       <div
         title={task.task_description}
