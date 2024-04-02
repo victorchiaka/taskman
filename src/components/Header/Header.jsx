@@ -3,6 +3,7 @@ import styles from "./Header.module.css";
 import PropTypes from "prop-types";
 import DeleteAccountModal from "../Modals/DeleteAccountModal";
 import LogoutModal from "../Modals/LogoutModal";
+import { useNavigate } from "react-router-dom";
 
 /**
  * HomeHeader component.
@@ -14,7 +15,6 @@ import LogoutModal from "../Modals/LogoutModal";
 const actions = {
   DELETE_ACCOUNT: "deleteAccount",
   LOGOUT: "logout",
-  GO_HOME: "goHome",
   NONE: "",
 };
 
@@ -36,17 +36,12 @@ export function HomeHeader() {
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
 function DesktopNav({ setShowModal, setAction }) {
+  const navigate = useNavigate();
+
   return (
     <nav className={styles.desktopNav}>
       <ul>
-        <li
-          onClick={() => {
-            setShowModal(true);
-            setAction(actions.GO_HOME);
-          }}
-        >
-          Home
-        </li>
+        <li onClick={() => navigate("/")}>Home</li>
         <li
           onClick={() => {
             setShowModal(true);
@@ -74,20 +69,14 @@ function DesktopNav({ setShowModal, setAction }) {
  *
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
-// export function MobileNav({ openMobileNav, showModal, setShowModal, setAction }) {
 export function MobileNav({ openMobileNav, setAction, setShowModal }) {
+  const navigate = useNavigate();
+
   return (
     <>
       {openMobileNav ? (
         <ul className={styles.mobileNav}>
-          <li
-            onClick={() => {
-              setShowModal(true);
-              setAction(actions.GO_HOME);
-            }}
-          >
-            Home
-          </li>
+          <li onClick={() => navigate("/")}>Home</li>
           <li
             onClick={() => {
               setShowModal(true);
@@ -144,9 +133,13 @@ function Hamburger({ setOpenMobileNav }) {
  * @returns {JSX.Element} The rendered DashboardHeader component.
  */
 function DashboardHeader({ setShowModal, setOpenMobileNav, setAction }) {
+  const navigate = useNavigate();
+
   return (
     <header className={styles.dashboardHeader}>
-      <h1 className={styles.dashboardTitle}>Taskman</h1>
+      <h1 className={styles.dashboardTitle} onClick={() => navigate("/")}>
+        Taskman
+      </h1>
       <DesktopNav setAction={setAction} setShowModal={setShowModal} />
       <Hamburger setOpenMobileNav={setOpenMobileNav} />
     </header>
