@@ -3,51 +3,82 @@ import ThreeDotsNav from "@assets/three-dots-nav.svg";
 import deleteIcon from "@assets/delete.svg";
 import editIcon from "@assets/edit.svg";
 import Options from "../../ui/Options";
-import { deleteCollectionRequest } from "../../services/api";
+import {
+  deleteCollectionRequest,
+  editCollectionRequest,
+} from "../../services/api";
 import { useToast } from "../utils/hooks";
-
 import PropTypes from "prop-types";
+import EditCollectionModal from "../Modals/EditCollectionModal";
+import DeleteCollectionModal from "../Modals/DeleteCollectionModal";
+import createTokenProvider from "../utils/tokens";
 
-const Collection = ({
-  collection,
-  onClick,
-  setIsCollectionEdit,
-  setCollectionFormActive,
-  setActiveCollection,
-}) => {
-  const showToast = useToast();
-
-  const jwtToken = localStorage.getItem("access_token");
-
-  const handleDeleteCollection = () => {
-    const confirmDeleteMessage =
-      "Have you completed all the tasks in this collection";
-    if (confirm(confirmDeleteMessage)) {
-      deleteCollectionRequest(jwtToken, {
-        collection_name: collection.collection_name,
-      })
-        .then((res) => showToast.success(res["message"]))
-        .catch((rej) => showToast.error(rej["message"]));
-    }
-    return;
+const Collection = ({ collection, onClick, setActiveCollection }) => {
+  const operations = {
+    NONE: "",
+    EDIT_COLLECTION: "editCollection",
+    DELETE_COLLECTION: "deleteCollection",
   };
 
-  const handleEditCollection = () => {
-    setIsCollectionEdit(true);
-    setCollectionFormActive(true);
+  const showToast = useToast();
+
+  const { getTokens } = createTokenProvider();
+
+  const [showModal, setShowModal] = useState(false);
+  const [edit, setEdit] = useState(false);
+
+  const [operation, setOperation] = useState(operations.NONE);
+
+  const handleEditCollection = async (collectionData) => {
+    let accessToken = await getTokens().then((res) => res);
+
+    editCollectionRequest(accessToken, collectionData)
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const setup = () => {
+    setShowModal(true);
     setActiveCollection(collection.collection_name);
+  };
+
+  const handleDeleteCollection = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    deleteCollectionRequest(accessToken, {
+      collection_name: collection.collection_name,
+    })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const deleteCollectionProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleDeleteCollection: handleDeleteCollection,
+  };
+
+  const setEditCollection = () => {
+    setEdit(true);
+    setOperation(operations.EDIT_COLLECTION);
+    setup();
+  };
+
+  const setDeleteCollection = () => {
+    setOperation(operations.DELETE_COLLECTION);
+    setup();
   };
 
   const optionProps = {
     options: [
       {
         optionName: "Edit",
-        onClick: handleEditCollection,
+        onClick: setEditCollection,
         icon: editIcon,
       },
       {
         optionName: "Delete",
-        onClick: handleDeleteCollection,
+        onClick: setDeleteCollection,
         icon: deleteIcon,
       },
     ],
@@ -66,24 +97,41 @@ const Collection = ({
     borderRadius: "50%",
   };
 
+  const editCollectionModalProps = {
+    edit: edit,
+    setEdit: setEdit,
+    showModal: showModal,
+    setShowModal: setShowModal,
+    activeCollection: collection.collection_name,
+    setActiveCollection: setActiveCollection,
+    handleEditCollection: handleEditCollection,
+  };
+
   return (
-    <div className="collection-card" onClick={handleCollectionClick}>
-      <div>
-        <div style={collectionColor}></div>
-        <img
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenOptions(!openOptions);
-          }}
-          src={ThreeDotsNav}
-        />
+    <>
+      {operation === operations.EDIT_COLLECTION ? (
+        <EditCollectionModal props={editCollectionModalProps} />
+      ) : operation === operations.DELETE_COLLECTION ? (
+        <DeleteCollectionModal {...deleteCollectionProps} />
+      ) : null}
+      <div className="collection-card" onClick={handleCollectionClick}>
+        <div>
+          <div style={collectionColor}></div>
+          <img
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenOptions(!openOptions);
+            }}
+            src={ThreeDotsNav}
+          />
+        </div>
+        <div>
+          <h3>{collection.collection_name}</h3>
+          <small>{collection.created_at}</small>
+        </div>
+        {openOptions && <Options props={optionProps} />}
       </div>
-      <div>
-        <h3>{collection.collection_name}</h3>
-        <small>{collection.created_at}</small>
-      </div>
-      {openOptions && <Options props={optionProps} />}
-    </div>
+    </>
   );
 };
 

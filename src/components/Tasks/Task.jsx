@@ -9,33 +9,98 @@ import Options from "../../ui/Options";
 import {
   updateCompletedTaskRequest,
   deleteTaskRequest,
+  editTaskRequest,
 } from "../../services/api";
 import { useToast } from "../utils/hooks";
+import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
+import DeleteTaskModal from "../Modals/DeleteTaskModal";
+import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
+import createTokenProvider from "../utils/tokens";
 
-const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
+const Task = ({ task }) => {
+  const operations = {
+    NONE: "",
+    EDIT_DESCRIPTION: "editDescription",
+    DELETE_TASK: "deleteTask",
+    MARK_AS_COMPLETED: "markAsCompleted",
+  };
+
   const showToast = useToast();
   const [openOptions, setOpenOptions] = useState(false);
-  const jwtToken = localStorage.getItem("access_token");
+  const [showModal, setShowModal] = useState(false);
+  const [activeTask, setActiveTask] = useState("");
+  const [operation, setOperation] = useState(operations.NONE);
+  const [edit, setEdit] = useState(false);
 
-  const handleEditTaskDescription = () => {
-    setTaskFormActive(true);
-    setIsTaskEdit(true);
+  const { getTokens } = createTokenProvider();
+
+  const setup = () => {
+    setShowModal(true);
     setActiveTask(task.task_name);
   };
 
-  const handleMarkTaskAsCompleted = () => {
-    updateCompletedTaskRequest(jwtToken, { task_name: task.task_name })
+  const setEditTaskDescription = () => {
+    setEdit(true);
+    setOperation(operations.EDIT_DESCRIPTION);
+    setup();
+  };
+
+  const setDeleteTask = () => {
+    setOperation(operations.DELETE_TASK);
+    setup();
+  };
+
+  const setMarkAsCompleted = () => {
+    setOperation(operations.MARK_AS_COMPLETED);
+    setup();
+  };
+
+  const handleEditTaskDescription = async (taskData) => {
+    let accessToken = await getTokens().then((res) => res);
+
+    editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleDeleteTask = () => {
-    if (confirm("Are you sure you want to delete this task?")) {
-      deleteTaskRequest(jwtToken, { task_name: task.task_name })
-        .then((res) => showToast.success(res["message"]))
-        .catch((rej) => showToast.error(rej["message"]));
-    }
-    return;
+  const handleMarkTaskAsCompleted = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+
+    setShowModal(false);
+  };
+
+  const handleDeleteTask = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    deleteTaskRequest(accessToken, { task_name: task.task_name })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+  };
+
+  const editTaskDescriptionProps = {
+    edit: edit,
+    setEdit: setEdit,
+    activeTask: activeTask,
+    setActiveTask: setActiveTask,
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleEditTaskDescription: handleEditTaskDescription,
+  };
+
+  const deleteTaskProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleDeleteTask: handleDeleteTask,
+  };
+
+  const markAsCompletedProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleMarkTaskAsCompleted: handleMarkTaskAsCompleted,
   };
 
   let options = [];
@@ -44,17 +109,17 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
     options = [
       {
         optionName: "Edit description",
-        onClick: handleEditTaskDescription,
+        onClick: setEditTaskDescription,
         icon: editIcon,
       },
       {
         optionName: "Mark as complete",
-        onClick: handleMarkTaskAsCompleted,
+        onClick: setMarkAsCompleted,
         icon: doneIcon,
       },
       {
         optionName: "Delete",
-        onClick: handleDeleteTask,
+        onClick: setDeleteTask,
         icon: deleteIcon,
       },
     ];
@@ -62,7 +127,8 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
     options = [
       {
         optionName: "Delete",
-        onClick: handleDeleteTask,
+        onClick: setDeleteTask,
+        icon: deleteIcon,
       },
     ];
   }
@@ -84,28 +150,37 @@ const Task = ({ task, setTaskFormActive, setIsTaskEdit, setActiveTask }) => {
   };
 
   return (
-    <div
-      title={task.task_description}
-      style={task.is_completed ? completedBorderColor : borderColor}
-      className={styles.taskCard}
-    >
-      <div className={styles.taskHeader}>
-        <h4 style={task.is_completed ? completedStrikeText : null}>
-          {task.task_name}
-        </h4>
-        <img
-          onClick={(e) => {
-            e.stopPropagation();
-            setOpenOptions(!openOptions);
-          }}
-          src={threeDotsNav}
-        />
+    <>
+      {operation === operations.DELETE_TASK ? (
+        <DeleteTaskModal {...deleteTaskProps} />
+      ) : operation === operations.EDIT_DESCRIPTION ? (
+        <EditTaskDescriptionModal props={editTaskDescriptionProps} />
+      ) : operation === operations.MARK_AS_COMPLETED ? (
+        <MarkAsCompletedModal {...markAsCompletedProps} />
+      ) : null}
+      <div
+        title={task.task_description}
+        style={task.is_completed ? completedBorderColor : borderColor}
+        className={styles.taskCard}
+      >
+        <div className={styles.taskHeader}>
+          <h4 style={task.is_completed ? completedStrikeText : null}>
+            {task.task_name}
+          </h4>
+          <img
+            onClick={(e) => {
+              e.stopPropagation();
+              setOpenOptions(!openOptions);
+            }}
+            src={threeDotsNav}
+          />
+        </div>
+        <p style={task.is_completed ? completedStrikeText : null}>
+          {task.task_description}
+        </p>
+        {openOptions && <Options props={optionProps} />}
       </div>
-      <p style={task.is_completed ? completedStrikeText : null}>
-        {task.task_description}
-      </p>
-      {openOptions && <Options props={optionProps} />}
-    </div>
+    </>
   );
 };
 

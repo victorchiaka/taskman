@@ -1,33 +1,40 @@
 import styles from "./Tasks.module.css";
 import back from "@assets/back.svg";
-import add from "@assets/add.svg";
 import Task from "./Task";
 import PropTypes from "prop-types";
 import { getCollectionTasksRequest } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getCollectionStatisticsRequest } from "../../services/api";
+import AddTaskModal from "../Modals/AddTaskModal";
+import createTokenProvider from "../utils/tokens";
 
 const TasksInstanceAction = ({ props }) => {
-  const {
-    collection,
-    setDisplayTasksOptions,
-    setTaskFormActive,
-    setActiveCollection,
-  } = props;
+  const { collection, setDisplayTasksOptions, setActiveCollection } = props;
+
+  const { getTokens } = createTokenProvider();
 
   const [collectionStatistics, setCollectionStatistics] = useState({
     all: 0,
     completed: 0,
   });
 
-  const jwtToken = localStorage.getItem("access_token");
+  const preventDefaultAction = (e) => {
+    e.preventDefault();
+  };
 
-  const handleGetCollectionStatisticsRequest = () => {
+  const addTaskModalProps = {
+    activeCollection: collection.collection_name,
+    preventDefaultAction: preventDefaultAction,
+  };
+
+  const handleGetCollectionStatisticsRequest = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     const data = {
       collection_name: collection.collection_name,
     };
 
-    getCollectionStatisticsRequest(jwtToken, data).then((res) => {
+    getCollectionStatisticsRequest(accessToken, data).then((res) => {
       const stats = res["stats"];
       setCollectionStatistics({
         all: stats["overall_count"],
@@ -41,7 +48,7 @@ const TasksInstanceAction = ({ props }) => {
 
     const interval = setInterval(() => {
       handleGetCollectionStatisticsRequest();
-    }, 500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -64,9 +71,7 @@ const TasksInstanceAction = ({ props }) => {
         </span>
         &nbsp; <h4>{collection.collection_name}</h4>
       </div>
-      <div onClick={() => setTaskFormActive(true)} className={styles.addTask}>
-        <img src={add} /> Add Task
-      </div>
+      <AddTaskModal props={addTaskModalProps} />
       <div className={styles.tasksInfo}>
         <div>All: {collectionStatistics.all}</div>
         <div>Completed: {collectionStatistics.completed}</div>
@@ -76,21 +81,16 @@ const TasksInstanceAction = ({ props }) => {
 };
 
 const Tasks = ({ props }) => {
-  const {
-    collection,
-    setDisplayTasksOptions,
-    setTaskFormActive,
-    setActiveCollection,
-    setIsTaskEdit,
-    setActiveTask,
-  } = props;
+  const { collection, setDisplayTasksOptions, setActiveCollection } = props;
+  const { getTokens } = createTokenProvider();
 
   const [tasks, setTasks] = useState([]);
-  const jwtToken = localStorage.getItem("access_token");
 
-  const handleGetCollectionTasks = () => {
+  const handleGetCollectionTasks = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     const data = { collection_id: collection.id };
-    getCollectionTasksRequest(jwtToken, data)
+    getCollectionTasksRequest(accessToken, data)
       .then((res) => setTasks(res["tasks"]))
       .catch((rej) => console.error(rej["message"]));
   };
@@ -98,7 +98,7 @@ const Tasks = ({ props }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       handleGetCollectionTasks();
-    }, 500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -106,7 +106,6 @@ const Tasks = ({ props }) => {
   const taskInstanceOptionProps = {
     collection: collection,
     setDisplayTasksOptions: setDisplayTasksOptions,
-    setTaskFormActive: setTaskFormActive,
     setActiveCollection: setActiveCollection,
   };
 
@@ -115,13 +114,7 @@ const Tasks = ({ props }) => {
       <TasksInstanceAction props={taskInstanceOptionProps} />
       <div className={styles.tasks}>
         {tasks.map((task) => (
-          <Task
-            key={task.id}
-            task={task}
-            setTaskFormActive={setTaskFormActive}
-            setIsTaskEdit={setIsTaskEdit}
-            setActiveTask={setActiveTask}
-          />
+          <Task key={task.id} task={task} />
         ))}
       </div>
     </>

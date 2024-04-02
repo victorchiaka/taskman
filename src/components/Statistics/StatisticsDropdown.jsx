@@ -2,14 +2,16 @@ import { getStatisticsRequest } from "../../services/api";
 import PropTypes from "prop-types";
 import { useToast } from "../utils/hooks";
 import StatisticsDropDownOption from "./StatisticsDropDownOption";
+import createTokenProvider from "../utils/tokens";
 
 const StatisticsDropDown = ({ setData, collections }) => {
   const showToast = useToast();
+  const { getTokens } = createTokenProvider();
 
-  const jwtToken = localStorage.getItem("access_token");
+  const handleGetStatistics = async (collectionName) => {
+    let accessToken = await getTokens().then((res) => res);
 
-  const handleGetStatistics = (collectionName) => {
-    getStatisticsRequest(jwtToken, { collection_name: collectionName })
+    getStatisticsRequest(accessToken, { collection_name: collectionName })
       .then((res) => {
         setData(res["stats"]);
         showToast.success(res["message"]);

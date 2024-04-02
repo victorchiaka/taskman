@@ -1,16 +1,20 @@
 import Chart from "chart.js/auto";
 import DoughnutChart from "./DoughnutChart";
+import createTokenProvider from "../utils/tokens";
 import { getAllCollectionsRequest } from "../../services/api";
 import { useState, useEffect } from "react";
 import StatisticsDropDown from "./StatisticsDropdown";
 
 const Statistics = () => {
   const [collections, setCollections] = useState([]);
-  const jwtToken = localStorage.getItem("access_token");
   const [data, setData] = useState([]);
 
-  const handleGetAllCollections = () => {
-    getAllCollectionsRequest(jwtToken).then((res) => {
+  const { getTokens } = createTokenProvider();
+
+  const handleGetAllCollections = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    getAllCollectionsRequest(accessToken).then((res) => {
       setCollections(res.collections);
     });
   };

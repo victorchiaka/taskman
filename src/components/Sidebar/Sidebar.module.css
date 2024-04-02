@@ -10,13 +10,13 @@
   background-color: rgba(1, 2, 1, 0.911);
 }
 
-.sideBarTriggerContainer {
+/* .sideBarTriggerContainer {
   margin-top: 7.5rem;
   width: 17.5rem;
   margin-bottom: 1rem;
   display: flex;
   justify-content: flex-end;
-}
+} */
 
 .mobileSideBar {
   border: 1px solid rgba(34, 34, 34, 0.74);

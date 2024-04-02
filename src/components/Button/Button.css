@@ -15,10 +15,15 @@
   background-color: var(--main-accent-50);
 }
 
-.cancel {
+.cancel,
+.delete,
+.confirm {
   padding: var(--golden-input-padding-y) var(--golden-input-padding-x);
   border: none;
   border-radius: var(--golden-ratio-border-radius);
+}
+
+.cancel {
   background-color: rgb(78, 78, 78);
 }
 
@@ -27,13 +32,13 @@
 }
 
 .confirm {
-  padding: calc(var(--golden-input-padding-y) + 0.1rem)
-    calc(var(--golden-input-padding-x) + 0.1rem);
-  border: none;
-  border-radius: var(--golden-ratio-border-radius);
   background-color: var(--main-accent);
 }
 
-.confirm:active {
-  background-color: var(--main-accent-60);
+.delete {
+  background-color: var(--danger);
+}
+
+.delete:active {
+  background-color: var(--danger-active);
 }

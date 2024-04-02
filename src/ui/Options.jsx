@@ -11,16 +11,15 @@ const Options = ({ props }) => {
   return (
     <div className="options">
       {options.map((option, index) => {
+        const { optionName, onClick, icon } = option;
         return (
           <p
-            className={
-              option.optionName.match(/delete/i) ? "delete-option" : ""
-            }
-            onClick={(e) => handleOptionClicks(e, option.onClick)}
+            className={optionName.match(/delete/i) ? "delete-option" : ""}
+            onClick={(e) => handleOptionClicks(e, onClick)}
             key={index}
           >
-            {option.icon ? <img src={option.icon} /> : ""}
-            {option.optionName}
+            {icon ? <img src={icon} /> : ""}
+            {optionName}
           </p>
         );
       })}

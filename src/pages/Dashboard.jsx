@@ -1,24 +1,12 @@
 import { useState } from "react";
 import Background from "../components/Background/Background";
-import DashboardHeader, { MobileNav } from "../components/Header/Header";
-import Sidebar, { MobileSideBar } from "../components/Sidebar/Sidebar";
+import { DashboardNav } from "../components/Header/Header";
+import Sidebar from "../components/Sidebar/Sidebar";
 import styles from "./Pages.module.css";
 import Collections from "../components/Collections/Collections";
-import DashboardIcon from "@assets/dashboard.svg";
-import Modal from "../components/Modal";
-import CollectionForm from "../components/Form/CollectionForm";
-import { useToast } from "../components/utils/hooks";
-import {
-  createCollectionRequest,
-  createTaskRequest,
-  editCollectionRequest,
-  editTaskRequest,
-  createExamCounterRequest,
-} from "../services/api";
-import TaskForm from "../components/Form/TaskForm";
 import ExamCounters from "../components/ExamCounter/ExamCounters";
 import Statistics from "../components/Statistics/Statistics";
-import ExamCounterForm from "../components/Form/ExamCounterForm";
+import MobileSideBarModal from "../components/Modals/MobileSideBarModal";
 
 /**
  * Dashboard component.
@@ -28,59 +16,17 @@ import ExamCounterForm from "../components/Form/ExamCounterForm";
  */
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("tasks");
-  const [active, setActive] = useState(false);
-  const [taskFormActive, setTaskFormActive] = useState(false);
-  const [isCollectionEdit, setIsCollectionEdit] = useState(false);
-  const [collectionFormActive, setCollectionFormActive] = useState(false);
-
-  const [examFormActive, setExamFormActive] = useState(false);
-  const [isTaskEdit, setIsTaskEdit] = useState(false);
-  const [activeCollection, setActiveCollection] = useState("");
-  const [activeTask, setActiveTask] = useState("");
-  const [openMobileNav, setOpenMobileNav] = useState(false);
-
-  const showToast = useToast();
-
-  const jwtToken = localStorage.getItem("access_token");
+  const [showModal, setShowModal] = useState(false);
 
   const [displayTasksOptions, setDisplayTasksOptions] = useState({
     display: false,
     collection: null,
   });
-
-  const preventDefaultAction = (e) => {
-    e.preventDefault();
-  };
-
-  const handleCreateCollection = (collectionData) => {
-    createCollectionRequest(jwtToken, collectionData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
-  };
-
-  const handleEditCollection = (collectionData) => {
-    editCollectionRequest(jwtToken, collectionData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
-  };
-
-  const handleCreateTask = (taskData) => {
-    createTaskRequest(jwtToken, taskData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
-  };
-
-  const handleEditTask = (taskData) => {
-    editTaskRequest(jwtToken, taskData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
-  };
-
-  const mobileSidebarProps = {
-    active: false,
+  const mobileSidebarModalProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
     activeTab: activeTab,
     setActiveTab: setActiveTab,
-    setActive: setActive,
   };
 
   const sideBarProps = {
@@ -89,107 +35,27 @@ function Dashboard() {
   };
 
   const collectionsProps = {
-    setTaskFormActive: setTaskFormActive,
-    setCollectionFormActive: setCollectionFormActive,
-    setActiveCollection: setActiveCollection,
     displayTasksOptions: displayTasksOptions,
     setDisplayTasksOptions: setDisplayTasksOptions,
-    isCollectionEdit: isCollectionEdit,
-    setIsCollectionEdit: setIsCollectionEdit,
-    isTaskEdit: isTaskEdit,
-    setIsTaskEdit: setIsTaskEdit,
-    setActiveTask: setActiveTask,
-  };
-
-  const examcounterProps = {
-    setExamFormActive: setExamFormActive,
-  };
-
-  const taskFormProps = {
-    setActive: setTaskFormActive,
-    preventDefaultAction: preventDefaultAction,
-    handleCreateTask: handleCreateTask,
-    activeCollection: activeCollection,
-    activeTask: activeTask,
-    setActiveTask: setActiveTask,
-    isTaskEdit: isTaskEdit,
-    setIsTaskEdit: setIsTaskEdit,
-    handleEditTask: handleEditTask,
-  };
-
-  const collectionFormProps = {
-    setActive: setCollectionFormActive,
-    preventDefaultAction: preventDefaultAction,
-    handleCreateCollection: handleCreateCollection,
-    isCollectionEdit: isCollectionEdit,
-    setIsCollectionEdit: setIsCollectionEdit,
-    activeCollection: activeCollection,
-    setActiveCollection: setActiveCollection,
-    handleEditCollection: handleEditCollection,
-  };
-
-  const handleCreateExamCounter = (examCounterData) => {
-    createExamCounterRequest(jwtToken, examCounterData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
-  };
-
-  const examCounterFormProps = {
-    setActive: setExamFormActive,
-    preventDefaultAction: preventDefaultAction,
-    handleCreateExamCounter: handleCreateExamCounter,
   };
 
   const tabs = {
     tasks: <Collections props={collectionsProps} />,
-    examCounter: <ExamCounters props={examcounterProps} />,
+    examCounter: <ExamCounters />,
     statistics: <Statistics />,
   };
 
   return (
     <div className={styles.dashboard}>
       <Background />
-      <DashboardHeader setOpenMobileNav={setOpenMobileNav} />
-      <MobileNav openMobileNav={openMobileNav} />
+      <DashboardNav />
       <div className={styles.dashboardBody}>
         <Sidebar props={sideBarProps} />
-        <div className={styles.mobileSideBarContainer}>
-          <Modal setIsActive={setActive} isActive={active}>
-            <MobileSideBar props={mobileSidebarProps} />
-          </Modal>
-        </div>
         <main className={styles.dashboardMain}>
-          <div className={styles.sideBarTriggerContainer}>
-            <img
-              onClick={() => setActive(true)}
-              src={DashboardIcon}
-              className={styles.mobileSidebarTrigger}
-            ></img>
-          </div>
+          <MobileSideBarModal props={mobileSidebarModalProps} />
           {tabs[activeTab]}
         </main>
       </div>
-      <Modal
-        setIsActive={setCollectionFormActive}
-        isActive={collectionFormActive}
-        isForm={true}
-      >
-        <CollectionForm props={collectionFormProps} />
-      </Modal>
-      <Modal
-        setIsActive={setTaskFormActive}
-        isActive={taskFormActive}
-        isForm={true}
-      >
-        <TaskForm props={taskFormProps} />
-      </Modal>
-      <Modal
-        setIsActive={setExamFormActive}
-        isActive={examFormActive}
-        isForm={true}
-      >
-        <ExamCounterForm props={examCounterFormProps} />
-      </Modal>
     </div>
   );
 }

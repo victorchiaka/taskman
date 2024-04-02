@@ -41,18 +41,6 @@
   align-items: center;
 }
 
-.addTask {
-  padding: 0.4rem 0.5rem 0.4rem 0.3rem;
-  border-radius: 0.4rem;
-  width: fit-content;
-  background-color: var(--main-accent);
-  transition: background 900ms;
-}
-
-.addTask:active {
-  background-color: var(--main-accent-20);
-}
-
 .tasksInfo {
   display: flex;
   column-gap: 0.5rem;

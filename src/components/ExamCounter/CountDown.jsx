@@ -1,15 +1,24 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import createTokenProvider from "../utils/tokens";
 
 const CountDown = ({ props }) => {
-  const jwtToken = localStorage.getItem("access_token");
+  const { getTokens } = createTokenProvider();
 
-  const { dueAt, examCounterName, textColor, updateExamCounterAsExpiredRequest } =
-    props;
+  const {
+    dueAt,
+    examCounterName,
+    textColor,
+    updateExamCounterAsExpiredRequest,
+  } = props;
   const [countDown, setCountDown] = useState("");
 
-  const updateExpired = () => {
-    updateExamCounterAsExpiredRequest(jwtToken, { paper_name: examCounterName })
+  const updateExpired = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    updateExamCounterAsExpiredRequest(accessToken, {
+      paper_name: examCounterName,
+    })
       .then()
       .catch();
   };

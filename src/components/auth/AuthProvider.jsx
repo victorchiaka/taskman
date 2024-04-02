@@ -1,16 +1,15 @@
 import { AuthContext } from "../../Contexts";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { createAuthProvider } from "../utils/tokens";
 
 const AuthProvider = ({ children }) => {
-  const [authUser, setAuthUser] = useState(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { useAuth, getTokens, login, logout } = createAuthProvider();
 
   const authValue = {
-    authUser,
-    setAuthUser,
-    isAuthenticated,
-    setIsAuthenticated,
+    useAuth,
+    getTokens,
+    login,
+    logout,
   };
 
   return (

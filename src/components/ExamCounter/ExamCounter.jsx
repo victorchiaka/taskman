@@ -9,11 +9,21 @@ import {
   deleteExamCounterRequest,
 } from "../../services/api";
 import { useToast } from "../utils/hooks";
+import createTokenProvider from "../utils/tokens";
+import DeleteExamCounterModal from "../Modals/DeleteExamCounter";
+import MarkAsExpiredModal from "../Modals/MarkAsExpiredModal";
 
 const ExamCounter = ({ examCounter }) => {
-  const jwtToken = localStorage.getItem("access_token");
+  const operations = {
+    NONE: "",
+    MARK_AS_EXPIRED: "markAsExpired",
+    DELETE_EXAM_COUNTER: "deleteExamCounter",
+  };
 
+  const { getTokens } = createTokenProvider();
+  const [showModal, setShowModal] = useState();
   const [openOptions, setOpenOptions] = useState(false);
+  const [operation, setOperation] = useState(operations.NONE);
 
   const showToast = useToast();
 
@@ -24,33 +34,64 @@ const ExamCounter = ({ examCounter }) => {
     borderRadius: "50%",
   };
 
-  const handleMarkAsExpired = () => {
-    updateExamCounterAsExpiredRequest(jwtToken, {
+  const handleMarkAsExpired = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    updateExamCounterAsExpiredRequest(accessToken, {
+      paper_name: examCounter.paper_name,
+    })
+      .then((res) => showToast.success(res["message"]))
+      .catch((rej) => showToast.error(rej["message"]));
+    setShowModal(false);
+  };
+
+  const handleDeleteExamCounter = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    deleteExamCounterRequest(accessToken, {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleDeleteExamCounter = () => {
-    deleteExamCounterRequest(jwtToken, {
-      paper_name: examCounter.paper_name,
-    })
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+  const setup = () => {
+    setShowModal(true);
+  };
+
+  const setDeleteExamCounter = () => {
+    setOperation(operations.DELETE_EXAM_COUNTER);
+    setup();
+  };
+
+  const setMarkAsExpired = () => {
+    setOperation(operations.MARK_AS_EXPIRED);
+    setup();
   };
 
   const optionProps = {
     options: [
       {
         optionName: "Mark as expired",
-        onClick: handleMarkAsExpired,
+        onClick: setMarkAsExpired,
       },
       {
         optionName: "Delete",
-        onClick: handleDeleteExamCounter,
+        onClick: setDeleteExamCounter,
       },
     ],
+  };
+
+  const deleteExamCounterProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleDeleteExamCounter: handleDeleteExamCounter,
+  };
+
+  const markAsExpiredProps = {
+    showModal: showModal,
+    setShowModal: setShowModal,
+    handleMarkAsExpired: handleMarkAsExpired,
   };
 
   const countDownProps = {
@@ -61,35 +102,34 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   return (
-    <div className="exam-counter-card">
-      <div>
-        <div style={examCounterColor}></div>
-        <img src={ThreeDotsNav} onClick={() => setOpenOptions(!openOptions)} />
-      </div>
-      <div
-        className={`exam-counter-details ${
-          examCounter.is_expired ? "expired-counter" : ""
-        }`}
-      >
-        <h3
-          style={{
-            color: examCounter.is_expired
-              ? examCounterColor.backgroundColor
-              : "",
-          }}
+    <>
+      {operation === operations.DELETE_EXAM_COUNTER ? (
+        <DeleteExamCounterModal {...deleteExamCounterProps} />
+      ) : operation === operations.MARK_AS_EXPIRED ? (
+        <MarkAsExpiredModal {...markAsExpiredProps} />
+      ) : null}
+      <div className="exam-counter-card">
+        <div>
+          <div style={examCounterColor}></div>
+          <img
+            src={ThreeDotsNav}
+            onClick={() => setOpenOptions(!openOptions)}
+          />
+        </div>
+        <div
+          className={`exam-counter-details ${
+            examCounter.is_expired ? "expired-counter" : ""
+          }`}
         >
-          {examCounter.paper_name}
-        </h3>
-        <h4
-          style={{
-            color: examCounter.is_expired
-              ? examCounterColor.backgroundColor
-              : "",
-          }}
-        >
-          {examCounter.paper_number}
-        </h4>
-        {examCounter.is_expired ? (
+          <h3
+            style={{
+              color: examCounter.is_expired
+                ? examCounterColor.backgroundColor
+                : "",
+            }}
+          >
+            {examCounter.paper_name}
+          </h3>
           <h4
             style={{
               color: examCounter.is_expired
@@ -97,44 +137,55 @@ const ExamCounter = ({ examCounter }) => {
                 : "",
             }}
           >
-            {" "}
-            EXPIRED
+            {examCounter.paper_number}
           </h4>
-        ) : (
-          <h4>
-            <CountDown
-              style={{ color: examCounterColor.backgroundColor }}
-              props={countDownProps}
-            />
-          </h4>
+          {examCounter.is_expired ? (
+            <h4
+              style={{
+                color: examCounter.is_expired
+                  ? examCounterColor.backgroundColor
+                  : "",
+              }}
+            >
+              {" "}
+              EXPIRED
+            </h4>
+          ) : (
+            <h4>
+              <CountDown
+                style={{ color: examCounterColor.backgroundColor }}
+                props={countDownProps}
+              />
+            </h4>
+          )}
+          <small
+            style={{
+              color: examCounter.is_expired
+                ? examCounterColor.backgroundColor
+                : "",
+            }}
+          >
+            Until {examCounter.due_at}
+          </small>
+        </div>
+        {openOptions && (
+          <Options
+            props={
+              examCounter.is_expired
+                ? {
+                    options: [
+                      {
+                        optionName: "Delete",
+                        onClick: setDeleteExamCounter,
+                      },
+                    ],
+                  }
+                : optionProps
+            }
+          />
         )}
-        <small
-          style={{
-            color: examCounter.is_expired
-              ? examCounterColor.backgroundColor
-              : "",
-          }}
-        >
-          Until {examCounter.due_at}
-        </small>
       </div>
-      {openOptions && (
-        <Options
-          props={
-            examCounter.is_expired
-              ? {
-                  options: [
-                    {
-                      optionName: "Delete",
-                      onClick: handleDeleteExamCounter,
-                    },
-                  ],
-                }
-              : optionProps
-          }
-        />
-      )}
-    </div>
+    </>
   );
 };
 

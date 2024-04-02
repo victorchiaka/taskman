@@ -1,6 +1,5 @@
 import { useState, useContext } from "react";
-import { AuthContext, ToastContext } from "../../Contexts";
-import { jwtDecode } from "jwt-decode";
+import { ToastContext } from "../../Contexts";
 
 /**
  * Custom hook for managing input state.
@@ -59,49 +58,4 @@ export const useToast = () => {
   };
 
   return showToast ? toast : "useToast must be inside a ToastProvider";
-};
-
-/**
- * Custom hook for managing user authentication state and actions.
- *
- * @returns {object} An object containing authentication-related state and functions.
- */
-export const useAuth = () => {
-  const { authUser, setAuthUser, isAuthenticated, setIsAuthenticated } =
-    useContext(AuthContext);
-
-  /**
-   * Function to handle user login.
-   * @param {object} tokens Object containing access and refresh tokens.
-   */
-  const login = (tokens) => {
-    const access = String(tokens["access"]);
-    const refresh = String(tokens["refresh"]);
-    const decodedAccessToken = jwtDecode(access);
-
-    localStorage.setItem("access_token", access);
-    localStorage.setItem("refresh_token", refresh);
-
-    setIsAuthenticated(true);
-    setAuthUser(decodedAccessToken.username);
-  };
-
-  /**
-   * Function to handle user logout.
-   * @param{} accepts no parameter
-   */
-  const logout = () => {
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-
-    setIsAuthenticated(false);
-    setAuthUser(null);
-  };
-
-  return {
-    authUser,
-    isAuthenticated,
-    login,
-    logout,
-  };
 };
