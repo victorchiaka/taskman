@@ -3,16 +3,20 @@ import Modal from "./Modal";
 import ConfirmDialog from "./ConfirmDialog";
 import { useToast } from "../utils/hooks";
 import { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
 const LogoutModal = ({ showModal, setShowModal }) => {
   const { logout } = createAuthProvider();
-
+  const navigate = useNavigate();
   const showToast = useToast();
 
   const handleLogout = () => {
     logout();
     showToast.success("Successfully logged out");
-    window.location.reload();
+    setTimeout(() => {
+      showToast.info("log in again to view dashboard");
+    }, 1000);
+    navigate("/");
   };
 
   const confirmDialogProps = {
