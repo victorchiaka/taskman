@@ -4,25 +4,19 @@ import Task from "./Task";
 import PropTypes from "prop-types";
 import { getCollectionTasksRequest } from "../../services/api";
 import { useEffect, useState } from "react";
-import { useAuth } from "../utils/hooks";
-import { isTokenExpired } from "../utils/tokens";
-import { refreshAccessTokenRequest } from "../../services/api";
 import { getCollectionStatisticsRequest } from "../../services/api";
 import AddTaskModal from "../Modals/AddTaskModal";
+import createTokenProvider from "../utils/tokens";
 
 const TasksInstanceAction = ({ props }) => {
-  const {
-    collection,
-    setDisplayTasksOptions,
-    setActiveCollection,
-  } = props;
-  
+  const { collection, setDisplayTasksOptions, setActiveCollection } = props;
+
+  const { getTokens } = createTokenProvider();
+
   const [collectionStatistics, setCollectionStatistics] = useState({
     all: 0,
     completed: 0,
   });
-
-  const auth = useAuth();
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -33,19 +27,9 @@ const TasksInstanceAction = ({ props }) => {
     preventDefaultAction: preventDefaultAction,
   };
 
+  const handleGetCollectionStatisticsRequest = async () => {
+    let accessToken = await getTokens().then((res) => res);
 
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    })
-      .then((res) => auth.login(res["tokens"]))
-    accessToken = localStorage.getItem("access_token");
-  }
-
-
-  const handleGetCollectionStatisticsRequest = () => {
     const data = {
       collection_name: collection.collection_name,
     };
@@ -64,7 +48,7 @@ const TasksInstanceAction = ({ props }) => {
 
     const interval = setInterval(() => {
       handleGetCollectionStatisticsRequest();
-    }, 500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -97,16 +81,14 @@ const TasksInstanceAction = ({ props }) => {
 };
 
 const Tasks = ({ props }) => {
-  const {
-    collection,
-    setDisplayTasksOptions,
-    setActiveCollection,
-  } = props;
+  const { collection, setDisplayTasksOptions, setActiveCollection } = props;
+  const { getTokens } = createTokenProvider();
 
   const [tasks, setTasks] = useState([]);
-  const accessToken = localStorage.getItem("access_token");
 
-  const handleGetCollectionTasks = () => {
+  const handleGetCollectionTasks = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     const data = { collection_id: collection.id };
     getCollectionTasksRequest(accessToken, data)
       .then((res) => setTasks(res["tasks"]))
@@ -116,7 +98,7 @@ const Tasks = ({ props }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       handleGetCollectionTasks();
-    }, 500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);
@@ -132,10 +114,7 @@ const Tasks = ({ props }) => {
       <TasksInstanceAction props={taskInstanceOptionProps} />
       <div className={styles.tasks}>
         {tasks.map((task) => (
-          <Task
-            key={task.id}
-            task={task}
-          />
+          <Task key={task.id} task={task} />
         ))}
       </div>
     </>

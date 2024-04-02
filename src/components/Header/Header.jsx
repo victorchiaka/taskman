@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Header.module.css";
 import PropTypes from "prop-types";
 import DeleteAccountModal from "../Modals/DeleteAccountModal";
+import LogoutModal from "../Modals/LogoutModal";
 
 /**
  * HomeHeader component.
@@ -9,6 +10,14 @@ import DeleteAccountModal from "../Modals/DeleteAccountModal";
  *
  * @returns {JSX.Element} The rendered HomeHeader component.
  */
+
+const actions = {
+  DELETE_ACCOUNT: "deleteAccount",
+  LOGOUT: "logout",
+  GO_HOME: "goHome",
+  NONE: "",
+};
+
 export function HomeHeader() {
   return (
     <header className={styles.homeHeader}>
@@ -44,14 +53,18 @@ function DesktopNav({ showModal, setShowModal }) {
  *
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
-export function MobileNav({ openMobileNav, showModal, setShowModal }) {
+// export function MobileNav({ openMobileNav, showModal, setShowModal, setAction }) {
+export function MobileNav({ openMobileNav, setAction }) {
   return (
     <>
       {openMobileNav ? (
         <ul className={styles.mobileNav}>
           <li>Home</li>
           <li>Logout</li>
-          <li onClick={() => setShowModal(!showModal)}>Delete Account</li>
+          {/* <li onClick={() => setShowModal(!showModal)}>Delete Account</li> */}
+          <li onClick={() => setAction(actions.DELETE_ACCOUNT)}>
+            Delete Account
+          </li>
         </ul>
       ) : null}
     </>
@@ -67,6 +80,7 @@ export function MobileNav({ openMobileNav, showModal, setShowModal }) {
 
 function Hamburger({ setOpenMobileNav }) {
   const [openHamburger, setOpenHamburger] = useState(false);
+  const [action, setAction] = useState();
 
   const handleOnclick = () => {
     setOpenHamburger(!openHamburger);
@@ -104,6 +118,7 @@ function DashboardHeader({ showModal, setShowModal, setOpenMobileNav }) {
 export function DashboardNav() {
   const [openMobileNav, setOpenMobileNav] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [action, setAction] = useState(actions.NONE);
 
   return (
     <>
@@ -117,7 +132,11 @@ export function DashboardNav() {
         showModal={showModal}
         setShowModal={setShowModal}
       />
-      <DeleteAccountModal showModal={showModal} setShowModal={setShowModal} />
+      {action === actions.DELETE_ACCOUNT ? (
+        <DeleteAccountModal showModal={showModal} setShowModal={setShowModal} />
+      ) : action === actions.LOGOUT ? (
+        <LogoutModal showModal={showModal} setShowModal={setShowModal} />
+      ) : null}
     </>
   );
 }

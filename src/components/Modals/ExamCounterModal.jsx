@@ -1,25 +1,13 @@
 import PropTypes from "prop-types";
 import Modal from "./Modal";
 import ExamCounterForm from "../Form/ExamCounterForm";
-import { useToast, useAuth } from "../utils/hooks";
+import { useToast } from "../utils/hooks";
 import { useState } from "react";
-import {
-  createExamCounterRequest,
-  refreshAccessTokenRequest,
-} from "../../services/api";
-import { isTokenExpired } from "../utils/tokens";
+import { createExamCounterRequest } from "../../services/api";
+import createTokenProvider from "../utils/tokens";
 
 const ExamCounterModal = () => {
-  const auth = useAuth();
-
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
+  const { getTokens } = createTokenProvider();
 
   const showToast = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -28,7 +16,9 @@ const ExamCounterModal = () => {
     e.preventDefault();
   };
 
-  const handleCreateExamCounter = (examCounterData) => {
+  const handleCreateExamCounter = async (examCounterData) => {
+    let accessToken = await getTokens().then((res) => res);
+
     createExamCounterRequest(accessToken, examCounterData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));

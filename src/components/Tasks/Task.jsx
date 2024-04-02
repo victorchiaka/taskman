@@ -11,12 +11,11 @@ import {
   deleteTaskRequest,
   editTaskRequest,
 } from "../../services/api";
-import { useToast, useAuth } from "../utils/hooks";
+import { useToast } from "../utils/hooks";
 import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 import DeleteTaskModal from "../Modals/DeleteTaskModal";
 import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
-import { refreshAccessTokenRequest } from "../../services/api";
-import { isTokenExpired } from "../utils/tokens";
+import createTokenProvider from "../utils/tokens";
 
 const Task = ({ task }) => {
   const operations = {
@@ -33,16 +32,7 @@ const Task = ({ task }) => {
   const [operation, setOperation] = useState(operations.NONE);
   const [edit, setEdit] = useState(false);
 
-  const auth = useAuth();
-
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
+  const { getTokens } = createTokenProvider();
 
   const setup = () => {
     setShowModal(true);
@@ -65,19 +55,25 @@ const Task = ({ task }) => {
     setup();
   };
 
-  const handleEditTaskDescription = (taskData) => {
+  const handleEditTaskDescription = async (taskData) => {
+    let accessToken = await getTokens().then((res) => res);
+
     editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleMarkTaskAsCompleted = () => {
+  const handleMarkTaskAsCompleted = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
   };
 
-  const handleDeleteTask = () => {
+  const handleDeleteTask = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     deleteTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));

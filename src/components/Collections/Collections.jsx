@@ -3,40 +3,35 @@ import Tasks from "../Tasks/Tasks";
 import PropTypes from "prop-types";
 import {
   getAllCollectionsRequest,
-  refreshAccessTokenRequest,
   createCollectionRequest,
 } from "../../services/api";
 import { useState, useEffect } from "react";
 import CreateCollectionModal from "../Modals/CreateCollectionModal";
-import { useAuth, useToast } from "../utils/hooks";
-import { isTokenExpired } from "../utils/tokens";
+import { useToast } from "../utils/hooks";
+import createTokenProvider from "../utils/tokens";
 
 function Collections({ props }) {
   const { displayTasksOptions, setDisplayTasksOptions } = props;
+
+  const { getTokens } = createTokenProvider();
 
   const [activeCollection, setActiveCollection] = useState("");
 
   const showToast = useToast();
 
   const [collections, setCollections] = useState([]);
-  const auth = useAuth();
 
-  let accessToken = localStorage.getItem("access_token");
+  const handleGetAllCollections = async () => {
+    let accessToken = await getTokens().then((res) => res);
 
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
-
-  const handleGetAllCollections = () => {
     getAllCollectionsRequest(accessToken).then((res) => {
       setCollections(res.collections);
     });
   };
 
-  const handleCreateCollection = (collectionData) => {
+  const handleCreateCollection = async (collectionData) => {
+    let accessToken = await getTokens().then((res) => res);
+
     createCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
@@ -45,9 +40,9 @@ function Collections({ props }) {
   useEffect(() => {
     handleGetAllCollections();
 
-    const interval = setInterval(() => {
-      handleGetAllCollections();
-    }, 1000);
+    const interval = setInterval(async () => {
+      await handleGetAllCollections();
+    }, 2000);
 
     return () => clearInterval(interval);
   }, []);

@@ -1,27 +1,16 @@
-import {
-  getStatisticsRequest,
-  refreshAccessTokenRequest,
-} from "../../services/api";
-import { isTokenExpired } from "../utils/tokens";
+import { getStatisticsRequest } from "../../services/api";
 import PropTypes from "prop-types";
-import { useToast, useAuth } from "../utils/hooks";
+import { useToast } from "../utils/hooks";
 import StatisticsDropDownOption from "./StatisticsDropDownOption";
+import createTokenProvider from "../utils/tokens";
 
 const StatisticsDropDown = ({ setData, collections }) => {
   const showToast = useToast();
+  const { getTokens } = createTokenProvider();
 
-  const auth = useAuth();
+  const handleGetStatistics = async (collectionName) => {
+    let accessToken = await getTokens().then((res) => res);
 
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
-
-  const handleGetStatistics = (collectionName) => {
     getStatisticsRequest(accessToken, { collection_name: collectionName })
       .then((res) => {
         setData(res["stats"]);

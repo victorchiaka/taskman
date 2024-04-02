@@ -1,11 +1,7 @@
 import Chart from "chart.js/auto";
 import DoughnutChart from "./DoughnutChart";
-import { isTokenExpired } from "../utils/tokens";
-import { useAuth } from "../utils/hooks";
-import {
-  getAllCollectionsRequest,
-  refreshAccessTokenRequest,
-} from "../../services/api";
+import createTokenProvider from "../utils/tokens";
+import { getAllCollectionsRequest } from "../../services/api";
 import { useState, useEffect } from "react";
 import StatisticsDropDown from "./StatisticsDropdown";
 
@@ -13,18 +9,11 @@ const Statistics = () => {
   const [collections, setCollections] = useState([]);
   const [data, setData] = useState([]);
 
-  const auth = useAuth();
+  const { getTokens } = createTokenProvider();
 
-  let accessToken = localStorage.getItem("access_token");
+  const handleGetAllCollections = async () => {
+    let accessToken = await getTokens().then((res) => res);
 
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
-
-  const handleGetAllCollections = () => {
     getAllCollectionsRequest(accessToken).then((res) => {
       setCollections(res.collections);
     });

@@ -3,30 +3,20 @@ import { useState } from "react";
 import TaskForm from "../Form/TaskForm";
 import Modal from "./Modal";
 import PropTypes from "prop-types";
-import { isTokenExpired } from "../utils/tokens";
-import {
-  createTaskRequest,
-  refreshAccessTokenRequest,
-} from "../../services/api";
-import { useToast, useAuth } from "../utils/hooks";
+import { createTaskRequest } from "../../services/api";
+import { useToast } from "../utils/hooks";
+import createTokenProvider from "../utils/tokens";
 
 const AddTaskModal = ({ props }) => {
   const { activeCollection, preventDefaultAction } = props;
 
-  const auth = useAuth();
-
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
+  const { getTokens } = createTokenProvider();
 
   const showToast = useToast();
 
-  const handleCreateTask = (taskData) => {
+  const handleCreateTask = async (taskData) => {
+    let accessToken = await getTokens().then((res) => res);
+
     createTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));

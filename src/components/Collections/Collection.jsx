@@ -6,13 +6,12 @@ import Options from "../../ui/Options";
 import {
   deleteCollectionRequest,
   editCollectionRequest,
-  refreshAccessTokenRequest,
 } from "../../services/api";
-import { useToast, useAuth } from "../utils/hooks";
-import { isTokenExpired } from "../utils/tokens";
+import { useToast } from "../utils/hooks";
 import PropTypes from "prop-types";
 import EditCollectionModal from "../Modals/EditCollectionModal";
 import DeleteCollectionModal from "../Modals/DeleteCollectionModal";
+import createTokenProvider from "../utils/tokens";
 
 const Collection = ({ collection, onClick, setActiveCollection }) => {
   const operations = {
@@ -22,23 +21,17 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   };
 
   const showToast = useToast();
-  const auth = useAuth();
 
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    }).then((res) => auth.login(res["tokens"]));
-    accessToken = localStorage.getItem("access_token");
-  }
+  const { getTokens } = createTokenProvider();
 
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(false);
 
   const [operation, setOperation] = useState(operations.NONE);
 
-  const handleEditCollection = (collectionData) => {
+  const handleEditCollection = async (collectionData) => {
+    let accessToken = await getTokens().then((res) => res);
+
     editCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
@@ -49,7 +42,9 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
     setActiveCollection(collection.collection_name);
   };
 
-  const handleDeleteCollection = () => {
+  const handleDeleteCollection = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
     deleteCollectionRequest(accessToken, {
       collection_name: collection.collection_name,
     })

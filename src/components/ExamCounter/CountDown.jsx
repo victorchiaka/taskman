@@ -1,29 +1,24 @@
 import { useEffect, useState } from "react";
-import { useAuth } from "../utils/hooks";
-import { isTokenExpired } from "../utils/tokens";
-import { refreshAccessTokenRequest } from "../../services/api";
 import PropTypes from "prop-types";
+import createTokenProvider from "../utils/tokens";
 
 const CountDown = ({ props }) => {
-  const auth = useAuth();
+  const { getTokens } = createTokenProvider();
 
-  let accessToken = localStorage.getItem("access_token");
-
-  if (isTokenExpired(localStorage.getItem("access_token"))) {
-    refreshAccessTokenRequest({
-      refresh_token: localStorage.getItem("refresh_token"),
-    })
-      .then((res) => auth.login(res["tokens"]))
-    accessToken = localStorage.getItem("access_token");
-  }
-
-
-  const { dueAt, examCounterName, textColor, updateExamCounterAsExpiredRequest } =
-    props;
+  const {
+    dueAt,
+    examCounterName,
+    textColor,
+    updateExamCounterAsExpiredRequest,
+  } = props;
   const [countDown, setCountDown] = useState("");
 
-  const updateExpired = () => {
-    updateExamCounterAsExpiredRequest(accessToken, { paper_name: examCounterName })
+  const updateExpired = async () => {
+    let accessToken = await getTokens().then((res) => res);
+
+    updateExamCounterAsExpiredRequest(accessToken, {
+      paper_name: examCounterName,
+    })
       .then()
       .catch();
   };
