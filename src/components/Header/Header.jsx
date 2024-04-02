@@ -35,13 +35,34 @@ export function HomeHeader() {
  *
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
-function DesktopNav({ showModal, setShowModal }) {
+function DesktopNav({ setShowModal, setAction }) {
   return (
     <nav className={styles.desktopNav}>
       <ul>
-        <li>Home</li>
-        <li>Logout</li>
-        <li onClick={() => setShowModal(!showModal)}>Delete Account</li>
+        <li
+          onClick={() => {
+            setShowModal(true);
+            setAction(actions.GO_HOME);
+          }}
+        >
+          Home
+        </li>
+        <li
+          onClick={() => {
+            setShowModal(true);
+            setAction(actions.LOGOUT);
+          }}
+        >
+          Logout
+        </li>
+        <li
+          onClick={() => {
+            setShowModal(true);
+            setAction(actions.DELETE_ACCOUNT);
+          }}
+        >
+          Delete Account
+        </li>
       </ul>
     </nav>
   );
@@ -54,15 +75,33 @@ function DesktopNav({ showModal, setShowModal }) {
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
 // export function MobileNav({ openMobileNav, showModal, setShowModal, setAction }) {
-export function MobileNav({ openMobileNav, setAction }) {
+export function MobileNav({ openMobileNav, setAction, setShowModal }) {
   return (
     <>
       {openMobileNav ? (
         <ul className={styles.mobileNav}>
-          <li>Home</li>
-          <li>Logout</li>
-          {/* <li onClick={() => setShowModal(!showModal)}>Delete Account</li> */}
-          <li onClick={() => setAction(actions.DELETE_ACCOUNT)}>
+          <li
+            onClick={() => {
+              setShowModal(true);
+              setAction(actions.GO_HOME);
+            }}
+          >
+            Home
+          </li>
+          <li
+            onClick={() => {
+              setShowModal(true);
+              setAction(actions.LOGOUT);
+            }}
+          >
+            Logout
+          </li>
+          <li
+            onClick={() => {
+              setShowModal(true);
+              setAction(actions.DELETE_ACCOUNT);
+            }}
+          >
             Delete Account
           </li>
         </ul>
@@ -80,7 +119,6 @@ export function MobileNav({ openMobileNav, setAction }) {
 
 function Hamburger({ setOpenMobileNav }) {
   const [openHamburger, setOpenHamburger] = useState(false);
-  const [action, setAction] = useState();
 
   const handleOnclick = () => {
     setOpenHamburger(!openHamburger);
@@ -105,11 +143,11 @@ function Hamburger({ setOpenMobileNav }) {
  *
  * @returns {JSX.Element} The rendered DashboardHeader component.
  */
-function DashboardHeader({ showModal, setShowModal, setOpenMobileNav }) {
+function DashboardHeader({ setShowModal, setOpenMobileNav, setAction }) {
   return (
     <header className={styles.dashboardHeader}>
       <h1 className={styles.dashboardTitle}>Taskman</h1>
-      <DesktopNav showModal={showModal} setShowModal={setShowModal} />
+      <DesktopNav setAction={setAction} setShowModal={setShowModal} />
       <Hamburger setOpenMobileNav={setOpenMobileNav} />
     </header>
   );
@@ -118,37 +156,39 @@ function DashboardHeader({ showModal, setShowModal, setOpenMobileNav }) {
 export function DashboardNav() {
   const [openMobileNav, setOpenMobileNav] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
   const [action, setAction] = useState(actions.NONE);
 
   return (
     <>
-      <DashboardHeader
-        setOpenMobileNav={setOpenMobileNav}
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
-      <MobileNav
-        openMobileNav={openMobileNav}
-        showModal={showModal}
-        setShowModal={setShowModal}
-      />
       {action === actions.DELETE_ACCOUNT ? (
         <DeleteAccountModal showModal={showModal} setShowModal={setShowModal} />
       ) : action === actions.LOGOUT ? (
         <LogoutModal showModal={showModal} setShowModal={setShowModal} />
       ) : null}
+      <DashboardHeader
+        setOpenMobileNav={setOpenMobileNav}
+        showModal={showModal}
+        setShowModal={setShowModal}
+        setAction={setAction}
+      />
+      <MobileNav
+        openMobileNav={openMobileNav}
+        setShowModal={setShowModal}
+        setAction={setAction}
+      />
     </>
   );
 }
 
 MobileNav.propTypes = {
-  showModal: PropTypes.bool,
   setShowModal: PropTypes.func,
   openMobileNav: PropTypes.bool,
+  setAction: PropTypes.func,
 };
 
 DesktopNav.propTypes = {
-  showModal: PropTypes.bool,
+  setAction: PropTypes.func,
   setShowModal: PropTypes.func,
 };
 
@@ -157,7 +197,7 @@ Hamburger.propTypes = {
 };
 
 DashboardHeader.propTypes = {
-  showModal: PropTypes.bool,
+  setAction: PropTypes.func,
   setShowModal: PropTypes.func,
   setOpenMobileNav: PropTypes.func,
 };

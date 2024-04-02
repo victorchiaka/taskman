@@ -29,10 +29,10 @@ export default function createTokenProvider() {
   };
 
   const setTokens = (tokens) => {
-    if (tokens !== null || tokens !== undefined || tokens !== "") {
-      localStorage.setItem("TOKENS", JSON.stringify(tokens));
-    } else {
+    if (tokens === null || tokens === undefined || tokens === "") {
       localStorage.removeItem("TOKENS");
+    } else {
+      localStorage.setItem("TOKENS", JSON.stringify(tokens));
     }
     _tokens = tokens;
     notify();

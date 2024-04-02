@@ -2,11 +2,18 @@ import PropTypes from "prop-types";
 import Modal from "./Modal";
 import ConfirmDialog from "./ConfirmDialog";
 import { useToast } from "../utils/hooks";
+import { createAuthProvider } from "../utils/tokens";
 
 const LogoutModal = ({ showModal, setShowModal }) => {
+  const { logout } = createAuthProvider();
+
   const showToast = useToast();
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    logout();
+    showToast.success("Successfully logged out");
+    window.location.reload();
+  };
 
   const confirmDialogProps = {
     actionHeader: "Logout",
@@ -18,7 +25,7 @@ const LogoutModal = ({ showModal, setShowModal }) => {
         onClick: () => setShowModal(false),
       },
       {
-        text: "Yes",
+        text: "Confirm",
         type: "confirm",
         onClick: handleLogout,
       },

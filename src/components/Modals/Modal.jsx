@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 
 function Modal({ children, showModal, setShowModal, isForm = false }) {
   const styles = {
-    width: `${window.innerWidth}px`,
-    height: `${window.innerHeight}px`,
+    width: `100vw`,
+    height: `100vh`,
   };
 
   return showModal ? (

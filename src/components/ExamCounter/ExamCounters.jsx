@@ -22,10 +22,10 @@ const ExamCounters = () => {
     handleGetAllExamCounters();
     const interval = setInterval(() => {
       handleGetAllExamCounters();
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
-  }, [examCounters]);
+  }, []);
 
   return (
     <>
