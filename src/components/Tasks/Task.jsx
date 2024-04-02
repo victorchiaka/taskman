@@ -69,6 +69,8 @@ const Task = ({ task }) => {
     updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => showToast.error(rej["message"]));
+
+    setShowModal(false);
   };
 
   const handleDeleteTask = async () => {
