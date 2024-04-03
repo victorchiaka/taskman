@@ -8,12 +8,13 @@ import {
 import { useState, useEffect } from "react";
 import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import { useToast } from "../utils/hooks";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 
 function Collections({ props }) {
   const { displayTasksOptions, setDisplayTasksOptions } = props;
 
   const { getTokens } = createTokenProvider();
+  const { logout } = createAuthProvider();
 
   const [activeCollection, setActiveCollection] = useState("");
 
@@ -24,9 +25,16 @@ function Collections({ props }) {
   const handleGetAllCollections = async () => {
     let accessToken = await getTokens().then((res) => res);
 
-    getAllCollectionsRequest(accessToken).then((res) => {
-      setCollections(res.collections);
-    });
+    getAllCollectionsRequest(accessToken)
+      .then((res) => {
+        setCollections(res.collections);
+      })
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const handleCreateCollection = async (collectionData) => {
@@ -34,7 +42,12 @@ function Collections({ props }) {
 
     createCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   useEffect(() => {

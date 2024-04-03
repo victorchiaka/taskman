@@ -6,7 +6,8 @@ import { getCollectionTasksRequest } from "../../services/api";
 import { useEffect, useState } from "react";
 import { getCollectionStatisticsRequest } from "../../services/api";
 import AddTaskModal from "../Modals/AddTaskModal";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useToast } from "../utils/hooks";
 
 const TasksInstanceAction = ({ props }) => {
   const { collection, setDisplayTasksOptions, setActiveCollection } = props;
@@ -84,7 +85,9 @@ const Tasks = ({ props }) => {
   const { collection, setDisplayTasksOptions, setActiveCollection } = props;
   const { getTokens } = createTokenProvider();
 
+  const { logout } = createAuthProvider();
   const [tasks, setTasks] = useState([]);
+  const showToast = useToast();
 
   const handleGetCollectionTasks = async () => {
     let accessToken = await getTokens().then((res) => res);
@@ -92,7 +95,12 @@ const Tasks = ({ props }) => {
     const data = { collection_id: collection.id };
     getCollectionTasksRequest(accessToken, data)
       .then((res) => setTasks(res["tasks"]))
-      .catch((rej) => console.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   useEffect(() => {
