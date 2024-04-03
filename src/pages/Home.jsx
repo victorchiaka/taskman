@@ -6,7 +6,10 @@ import AuthFormModal from "../components/Modals/AuthFormModal";
 import { useNavigate } from "react-router-dom";
 import { registerRequest, loginRequest } from "../services/api";
 import { useToast } from "../components/utils/hooks";
-import { createAuthProvider } from "../components/utils/tokens";
+import createTokenProvider, {
+  createAuthProvider,
+} from "../components/utils/tokens";
+import GoToDashboard from "../ui/go-to-dashboard/GoToDashboard";
 
 /**
  * Renders the Home page component.
@@ -15,6 +18,7 @@ import { createAuthProvider } from "../components/utils/tokens";
  */
 function Home() {
   const { login } = createAuthProvider();
+  const { isLoggedIn } = createTokenProvider();
 
   const navigate = useNavigate();
   const showToast = useToast();
@@ -56,6 +60,7 @@ function Home() {
   return (
     <div className={styles.homeBody}>
       <Background />
+      {isLoggedIn() && <GoToDashboard />}
       <div className="header-container">
         <HomeHeader />
         <AuthFormModal props={authFormModalProps} />

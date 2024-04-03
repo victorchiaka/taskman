@@ -1,0 +1,42 @@
+.container {
+  z-index: 2;
+  position: fixed;
+  right: 0;
+  top: 0;
+  display: grid;
+  place-items: center;
+}
+
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(4);
+    border-bottom-left-radius: 50%;
+    opacity: 0;
+  }
+}
+
+.ping {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: 16rem;
+  height: 16rem;
+  background-color: var(--main-accent-20);
+  border-bottom-left-radius: 90%;
+  animation: ping 2s ease-in-out infinite;
+}
+
+.floating-button {
+  border: none;
+  z-index: 1;
+  background-color: var(--main-accent-40);
+  padding: 0.7rem;
+  border-radius: calc(var(--golden-ratio-border-radius) * 3.5);
+  margin-top: 5rem;
+  margin-right: 1.5rem;
+}
+
+.floating-button:active {
+  background-color: var(--main-accent-60);
+}
