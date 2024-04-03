@@ -15,7 +15,7 @@ import { useToast } from "../utils/hooks";
 import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 import DeleteTaskModal from "../Modals/DeleteTaskModal";
 import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 
 const Task = ({ task }) => {
   const operations = {
@@ -33,6 +33,7 @@ const Task = ({ task }) => {
   const [edit, setEdit] = useState(false);
 
   const { getTokens } = createTokenProvider();
+  const { logout } = createAuthProvider();
 
   const setup = () => {
     setShowModal(true);
@@ -60,7 +61,12 @@ const Task = ({ task }) => {
 
     editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const handleMarkTaskAsCompleted = async () => {
@@ -68,7 +74,12 @@ const Task = ({ task }) => {
 
     updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
 
     setShowModal(false);
   };
@@ -78,7 +89,12 @@ const Task = ({ task }) => {
 
     deleteTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const editTaskDescriptionProps = {

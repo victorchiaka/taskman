@@ -9,7 +9,7 @@ import {
   deleteExamCounterRequest,
 } from "../../services/api";
 import { useToast } from "../utils/hooks";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 import DeleteExamCounterModal from "../Modals/DeleteExamCounter";
 import MarkAsExpiredModal from "../Modals/MarkAsExpiredModal";
 
@@ -21,6 +21,7 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const { getTokens } = createTokenProvider();
+  const { logout } = createAuthProvider();
   const [showModal, setShowModal] = useState();
   const [openOptions, setOpenOptions] = useState(false);
   const [operation, setOperation] = useState(operations.NONE);
@@ -41,7 +42,12 @@ const ExamCounter = ({ examCounter }) => {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
     setShowModal(false);
   };
 
@@ -52,7 +58,12 @@ const ExamCounter = ({ examCounter }) => {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const setup = () => {

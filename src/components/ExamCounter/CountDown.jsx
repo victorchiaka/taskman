@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useToast } from "../utils/hooks";
 
 const CountDown = ({ props }) => {
   const { getTokens } = createTokenProvider();
+  const { logout } = createAuthProvider();
+  const showToast = useToast();
 
   const {
     dueAt,
@@ -20,7 +23,12 @@ const CountDown = ({ props }) => {
       paper_name: examCounterName,
     })
       .then()
-      .catch();
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const calculateTimeLeft = () => {

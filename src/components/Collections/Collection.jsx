@@ -11,7 +11,7 @@ import { useToast } from "../utils/hooks";
 import PropTypes from "prop-types";
 import EditCollectionModal from "../Modals/EditCollectionModal";
 import DeleteCollectionModal from "../Modals/DeleteCollectionModal";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 
 const Collection = ({ collection, onClick, setActiveCollection }) => {
   const operations = {
@@ -23,6 +23,7 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   const showToast = useToast();
 
   const { getTokens } = createTokenProvider();
+  const { logout } = createAuthProvider();
 
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -34,7 +35,12 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
 
     editCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const setup = () => {
@@ -49,7 +55,12 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
       collection_name: collection.collection_name,
     })
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          logout();
+        }
+      });
   };
 
   const deleteCollectionProps = {
