@@ -3,6 +3,8 @@ import { useState } from "react";
 import Options from "../../ui/Options";
 import PropTypes from "prop-types";
 import CountDown from "./CountDown";
+import deleteIcon from "@assets/delete.svg";
+import expiredIcon from "@assets/hour-glass.svg";
 
 import {
   updateExamCounterAsExpiredRequest,
@@ -85,10 +87,12 @@ const ExamCounter = ({ examCounter }) => {
       {
         optionName: "Mark as expired",
         onClick: setMarkAsExpired,
+        icon: expiredIcon,
       },
       {
         optionName: "Delete",
         onClick: setDeleteExamCounter,
+        icon: deleteIcon
       },
     ],
   };
