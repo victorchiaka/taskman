@@ -32,7 +32,7 @@ const Task = ({ task }) => {
   const [operation, setOperation] = useState(operations.NONE);
   const [edit, setEdit] = useState(false);
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
 
   const setup = () => {
@@ -57,7 +57,7 @@ const Task = ({ task }) => {
   };
 
   const handleEditTaskDescription = async (taskData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
@@ -70,7 +70,7 @@ const Task = ({ task }) => {
   };
 
   const handleMarkTaskAsCompleted = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
@@ -85,7 +85,7 @@ const Task = ({ task }) => {
   };
 
   const handleDeleteTask = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     deleteTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))

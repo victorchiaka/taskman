@@ -10,12 +10,12 @@ import createTokenProvider from "../utils/tokens";
 const AddTaskModal = ({ props }) => {
   const { activeCollection, preventDefaultAction } = props;
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const showToast = useToast();
 
   const handleCreateTask = async (taskData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     createTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))

@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import PropTypes from "prop-types";
 import DeleteAccountModal from "../Modals/DeleteAccountModal";
 import LogoutModal from "../Modals/LogoutModal";
 import { useNavigate } from "react-router-dom";
+import { createAuthProvider } from "../utils/tokens";
 
 /**
  * HomeHeader component.
@@ -36,11 +37,33 @@ export function HomeHeader() {
  * @returns {JSX.Element} The rendered DesktopNav component.
  */
 function DesktopNav({ setShowModal, setAction }) {
+  const [username, setUsername] = useState("");
+  const { getAuthenticatedUser } = createAuthProvider();
+
   const navigate = useNavigate();
+
+  const getUser = async () => {
+    await getAuthenticatedUser().then((username) => {
+      setUsername(username);
+    });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   return (
     <nav className={styles.desktopNav}>
       <ul>
+        <li
+          style={{
+            display: "flex",
+            alignItems: "center",
+            columnGap: "8px",
+          }}
+        >
+          <h4>Hello, {username} 👋🏽</h4>
+        </li>
         <li onClick={() => navigate("/")}>Home</li>
         <li
           onClick={() => {

@@ -9,10 +9,10 @@ const Statistics = () => {
   const [collections, setCollections] = useState([]);
   const [data, setData] = useState([]);
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const handleGetAllCollections = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     getAllCollectionsRequest(accessToken).then((res) => {
       setCollections(res.collections);

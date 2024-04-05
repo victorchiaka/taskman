@@ -22,7 +22,7 @@ const ExamCounter = ({ examCounter }) => {
     DELETE_EXAM_COUNTER: "deleteExamCounter",
   };
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
   const [showModal, setShowModal] = useState();
   const [openOptions, setOpenOptions] = useState(false);
@@ -38,7 +38,7 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const handleMarkAsExpired = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     updateExamCounterAsExpiredRequest(accessToken, {
       paper_name: examCounter.paper_name,
@@ -54,7 +54,7 @@ const ExamCounter = ({ examCounter }) => {
   };
 
   const handleDeleteExamCounter = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     deleteExamCounterRequest(accessToken, {
       paper_name: examCounter.paper_name,

@@ -28,7 +28,7 @@ export default function createTokenProvider() {
     observers.forEach((observer) => observer(isLogged));
   };
 
-  const setTokens = (tokens) => {
+  const setToken = (tokens) => {
     if (tokens === null || tokens === undefined || tokens === "") {
       localStorage.removeItem("TOKENS");
     } else {
@@ -38,7 +38,7 @@ export default function createTokenProvider() {
     notify();
   };
 
-  const getTokens = async () => {
+  const getToken = async () => {
     if (!_tokens || _tokens === undefined) {
       return null;
     }
@@ -46,22 +46,26 @@ export default function createTokenProvider() {
       await refreshAccessTokenRequest({
         refresh_token: _tokens.refresh,
       })
-        .then((res) => setTokens(res.tokens))
+        .then((res) => setToken(res.tokens))
         .catch((rej) => {
-          setTokens(null);
+          setToken(null);
           console.error(rej.message);
         });
     }
     return _tokens && _tokens.access;
   };
 
+  // const getAuthenticatedUser = () => {
+  //   const token 
+  // }
+
   const isLoggedIn = () => {
     return !!_tokens;
   };
 
   return {
-    getTokens,
-    setTokens,
+    getToken,
+    setToken,
     isLoggedIn,
     subscribe,
     unsubscribe,
@@ -88,22 +92,31 @@ export const createAuthProvider = () => {
     return [isLogged];
   };
 
-  const getTokens = () => {
-    tokenProvider.getTokens();
+  const getToken = () => {
+    tokenProvider.getToken();
   };
 
   const login = (newTokens) => {
-    tokenProvider.setTokens(newTokens);
+    tokenProvider.setToken(newTokens);
   };
 
   const logout = () => {
-    tokenProvider.setTokens(null);
+    tokenProvider.setToken(null);
+  };
+
+  const getAuthenticatedUser = async () => {
+    let username;
+    await tokenProvider.getToken().then(res => {
+      username = jwtDecode(res).username;
+    });
+    return username
   };
 
   return {
     useAuth,
-    getTokens,
+    getToken,
     login,
     logout,
+    getAuthenticatedUser,
   };
 };

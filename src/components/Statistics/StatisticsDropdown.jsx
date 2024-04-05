@@ -6,10 +6,10 @@ import createTokenProvider from "../utils/tokens";
 
 const StatisticsDropDown = ({ setData, collections }) => {
   const showToast = useToast();
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const handleGetStatistics = async (collectionName) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     getStatisticsRequest(accessToken, { collection_name: collectionName })
       .then((res) => {

@@ -10,10 +10,10 @@ const DeleteAccountModal = ({ showModal, setShowModal }) => {
   const showToast = useToast();
   const navigate = useNavigate();
   const { logout } = createAuthProvider();
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const handleDeleteAccount = async (userData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     deleteAcccountRequest(accessToken, userData)
       .then((res) => {

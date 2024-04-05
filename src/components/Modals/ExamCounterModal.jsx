@@ -7,7 +7,7 @@ import { createExamCounterRequest } from "../../services/api";
 import createTokenProvider from "../utils/tokens";
 
 const ExamCounterModal = () => {
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const showToast = useToast();
   const [showModal, setShowModal] = useState(false);
@@ -17,7 +17,7 @@ const ExamCounterModal = () => {
   };
 
   const handleCreateExamCounter = async (examCounterData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     createExamCounterRequest(accessToken, examCounterData)
       .then((res) => showToast.success(res["message"]))
