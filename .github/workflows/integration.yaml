@@ -9,7 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    node-versions: node 18
+    node-version: node 18
 
     steps:
       - name: Checkout code
