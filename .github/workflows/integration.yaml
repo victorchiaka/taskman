@@ -9,7 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    node-version: node 18
+
+    strategy:
+      matrix:
+        node-version: node 18
 
     steps:
       - name: Checkout code
