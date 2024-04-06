@@ -1,6 +1,8 @@
 import styles from "./Sidebar.module.css";
 import DashboardIcon from "@assets/dashboard.svg";
 import PropTypes from "prop-types";
+import { useState, useEffect } from "react";
+import { createAuthProvider } from "../utils/tokens";
 
 /**
  * MobileSideBar component.
@@ -15,6 +17,19 @@ import PropTypes from "prop-types";
 export const MobileSideBar = ({ props }) => {
   const { activeTab, setActiveTab, showModal, setShowModal } = props;
 
+  const [username, setUsername] = useState("");
+  const { getAuthenticatedUser } = createAuthProvider();
+
+  const getUser = async () => {
+    await getAuthenticatedUser().then((username) => {
+      setUsername(username);
+    });
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
     <section
       onClick={(e) => e.stopPropagation()}
@@ -25,6 +40,13 @@ export const MobileSideBar = ({ props }) => {
       <div className="sidebar-trigger-container">
         <img onClick={() => setShowModal(false)} src={DashboardIcon}></img>
       </div>
+      <h3
+        style={{
+          marginBottom: "1rem",
+        }}
+      >
+        <span>Hello, {username} 👋🏽</span>
+      </h3>
       <div
         className={`${styles.sideBarChildren} ${
           activeTab === "tasks" ? styles.active : ""

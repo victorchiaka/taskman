@@ -4,7 +4,7 @@ import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 import { useToast } from "../utils/hooks";
 
 const CountDown = ({ props }) => {
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
   const showToast = useToast();
 
@@ -17,7 +17,7 @@ const CountDown = ({ props }) => {
   const [countDown, setCountDown] = useState("");
 
   const updateExpired = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     updateExamCounterAsExpiredRequest(accessToken, {
       paper_name: examCounterName,

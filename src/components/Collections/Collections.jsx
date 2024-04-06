@@ -13,7 +13,7 @@ import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 function Collections({ props }) {
   const { displayTasksOptions, setDisplayTasksOptions } = props;
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
 
   const [activeCollection, setActiveCollection] = useState("");
@@ -23,7 +23,7 @@ function Collections({ props }) {
   const [collections, setCollections] = useState([]);
 
   const handleGetAllCollections = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     getAllCollectionsRequest(accessToken)
       .then((res) => {
@@ -38,7 +38,7 @@ function Collections({ props }) {
   };
 
   const handleCreateCollection = async (collectionData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     createCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))

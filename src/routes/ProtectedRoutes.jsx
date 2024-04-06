@@ -1,6 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 import createTokenProvider from "../components/utils/tokens";
 import { useToast } from "../components/utils/hooks";
+import { Suspense } from "react";
 
 export default function ProtectedRoutes() {
   const { isLoggedIn } = createTokenProvider();
@@ -11,5 +12,5 @@ export default function ProtectedRoutes() {
     showToast.warning("You must log in to see this page");
   }
 
-  return isLoggedIn() ? <Outlet /> : <Navigate to="/" />;
+  return <Suspense>{isLoggedIn() ? <Outlet /> : <Navigate to="/" />}</Suspense>;
 }

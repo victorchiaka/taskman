@@ -3,13 +3,14 @@ import PropTypes from "prop-types";
 import { createAuthProvider } from "../utils/tokens";
 
 const AuthProvider = ({ children }) => {
-  const { useAuth, getTokens, login, logout } = createAuthProvider();
+  const { useAuth, getToken, login, logout, getAuthenticatedUser } = createAuthProvider();
 
   const authValue = {
     useAuth,
-    getTokens,
+    getToken,
     login,
     logout,
+    getAuthenticatedUser,
   };
 
   return (

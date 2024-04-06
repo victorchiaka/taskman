@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import Background from "../components/Background/Background";
 import { DashboardNav } from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import styles from "./Pages.module.css";
-import Collections from "../components/Collections/Collections";
-import ExamCounters from "../components/ExamCounter/ExamCounters";
-import Statistics from "../components/Statistics/Statistics";
 import MobileSideBarModal from "../components/Modals/MobileSideBarModal";
+
+const Collections = lazy(() => import("../components/Collections/Collections"));
+const ExamCounters = lazy(() =>
+  import("../components/ExamCounter/ExamCounters")
+);
+const Statistics = lazy(() => import("../components/Statistics/Statistics"));
 
 /**
  * Dashboard component.
@@ -53,7 +56,7 @@ function Dashboard() {
         <Sidebar props={sideBarProps} />
         <main className={styles.dashboardMain}>
           <MobileSideBarModal props={mobileSidebarModalProps} />
-          {tabs[activeTab]}
+          <Suspense>{tabs[activeTab]}</Suspense>
         </main>
       </div>
     </div>

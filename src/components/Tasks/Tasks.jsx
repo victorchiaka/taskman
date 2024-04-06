@@ -12,7 +12,7 @@ import { useToast } from "../utils/hooks";
 const TasksInstanceAction = ({ props }) => {
   const { collection, setDisplayTasksOptions, setActiveCollection } = props;
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const [collectionStatistics, setCollectionStatistics] = useState({
     all: 0,
@@ -29,7 +29,7 @@ const TasksInstanceAction = ({ props }) => {
   };
 
   const handleGetCollectionStatisticsRequest = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     const data = {
       collection_name: collection.collection_name,
@@ -83,14 +83,14 @@ const TasksInstanceAction = ({ props }) => {
 
 const Tasks = ({ props }) => {
   const { collection, setDisplayTasksOptions, setActiveCollection } = props;
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const { logout } = createAuthProvider();
   const [tasks, setTasks] = useState([]);
   const showToast = useToast();
 
   const handleGetCollectionTasks = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     const data = { collection_id: collection.id };
     getCollectionTasksRequest(accessToken, data)

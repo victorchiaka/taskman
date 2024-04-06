@@ -11,10 +11,10 @@ const ExamCounters = () => {
   const showToast = useToast();
   const { logout } = createAuthProvider();
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
 
   const handleGetAllExamCounters = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     getAllExamCountersRequest(accessToken)
       .then((res) => setExamCounters(res.exam_counters))

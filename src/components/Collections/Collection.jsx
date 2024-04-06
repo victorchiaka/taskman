@@ -22,7 +22,7 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
 
   const showToast = useToast();
 
-  const { getTokens } = createTokenProvider();
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
 
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +31,7 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   const [operation, setOperation] = useState(operations.NONE);
 
   const handleEditCollection = async (collectionData) => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     editCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
@@ -49,7 +49,7 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   };
 
   const handleDeleteCollection = async () => {
-    let accessToken = await getTokens().then((res) => res);
+    let accessToken = await getToken().then((res) => res);
 
     deleteCollectionRequest(accessToken, {
       collection_name: collection.collection_name,
