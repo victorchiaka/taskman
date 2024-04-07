@@ -10,10 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    # strategy:
-    #   matrix:
-    #     node-version: node 18
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -28,14 +24,16 @@ jobs:
         run: bun run build
 
   # deploy:
-  #   needs: build
   #   runs-on: ubuntu-latest
 
   #   steps:
   #     - name: Deploy to GitHub Pages
-  #       if: github.event_name == 'push' && github.ref == 'refs/heads/production' && contains(github.event.head_commit.message, 'deploy')
-  #       run: bun deploy github-pages  # Use Bun to deploy to GitHub Pages
+  #       on:
+  #         push:
+  #           branches: production
+            # if: github.event_name == 'push' && github.ref == 'refs/heads/production' && contains(github.event.head_commit.message, 'deploy')
+              # run: bun run deploy
 
-  #     - name: Deploy to Netlify
-  #       if: github.event_name == 'push' && github.ref == 'refs/heads/production' && contains(github.event.head_commit.message, 'deploy')
-  #       run: bun deploy netlify  # Use Bun to deploy to Netlify
+      # - name: Deploy to Netlify
+      #   if: github.event_name == 'push' && github.ref == 'refs/heads/production' && contains(github.event.head_commit.message, 'deploy')
+      #   run: bun deploy netlify
