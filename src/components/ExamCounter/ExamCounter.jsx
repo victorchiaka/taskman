@@ -14,8 +14,9 @@ import { useToast } from "../utils/hooks";
 import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 import DeleteExamCounterModal from "../Modals/DeleteExamCounter";
 import MarkAsExpiredModal from "../Modals/MarkAsExpiredModal";
+import { useNavigate } from "react-router-dom";
 
-const ExamCounter = ({ examCounter }) => {
+const ExamCounter = ({ examCounter, handleGetAllExamCounters }) => {
   const operations = {
     NONE: "",
     MARK_AS_EXPIRED: "markAsExpired",
@@ -27,45 +28,54 @@ const ExamCounter = ({ examCounter }) => {
   const [showModal, setShowModal] = useState();
   const [openOptions, setOpenOptions] = useState(false);
   const [operation, setOperation] = useState(operations.NONE);
-
   const showToast = useToast();
+  const navigate = useNavigate();
 
   const examCounterColor = {
     backgroundColor: examCounter.is_expired ? "grey" : examCounter.color_code,
-    width: " 2rem",
-    height: "2rem",
+    width: " 1.6rem",
+    height: "1.6rem",
     borderRadius: "50%",
   };
 
   const handleMarkAsExpired = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    updateExamCounterAsExpiredRequest(accessToken, {
+    await updateExamCounterAsExpiredRequest(accessToken, {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
     setShowModal(false);
+    await handleGetAllExamCounters();
   };
 
   const handleDeleteExamCounter = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    deleteExamCounterRequest(accessToken, {
+    await deleteExamCounterRequest(accessToken, {
       paper_name: examCounter.paper_name,
     })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
+    setShowModal(false);
+    await handleGetAllExamCounters();
   };
 
   const setup = () => {
@@ -92,7 +102,7 @@ const ExamCounter = ({ examCounter }) => {
       {
         optionName: "Delete",
         onClick: setDeleteExamCounter,
-        icon: deleteIcon
+        icon: deleteIcon,
       },
     ],
   };
@@ -206,6 +216,7 @@ const ExamCounter = ({ examCounter }) => {
 
 ExamCounter.propTypes = {
   examCounter: PropTypes.object,
+  handleGetAllExamCounters: PropTypes.func,
 };
 
 export default ExamCounter;

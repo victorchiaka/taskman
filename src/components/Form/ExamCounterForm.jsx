@@ -6,7 +6,12 @@ import PropTypes from "prop-types";
 import LoadingSpinner from "@assets/loading-spinner.svg";
 
 const ExamCounterForm = ({ props }) => {
-  const { setShowModal, preventDefaultAction, handleCreateExamCounter } = props;
+  const {
+    setShowModal,
+    preventDefaultAction,
+    handleCreateExamCounter,
+    handleGetAllExamCounters,
+  } = props;
 
   const [paperName, setPaperName] = useInput("");
   const [paperNumber, setPaperNumber] = useInput("");
@@ -20,24 +25,26 @@ const ExamCounterForm = ({ props }) => {
     setDueAt(new Date(Date.now() + 60_000));
     setPaperColor("#ffffff");
     setIsCreationLoading(false);
+    setShowModal(false);
   };
 
-  const createExamCounter = () => {
+  const createExamCounter = async (e) => {
+    preventDefaultAction(e);
     setIsCreationLoading(true);
-    handleCreateExamCounter({
+    await handleCreateExamCounter({
       paper_name: paperName.value,
       paper_number: paperNumber.value,
       color_code: paperColor.value,
       due_at: dueAt.value,
     });
     resetStates();
-    setShowModal(false);
+    await handleGetAllExamCounters();
   };
 
   return (
     <form
       className="form exam-counter-form"
-      onSubmit={(e) => preventDefaultAction(e)}
+      onSubmit={createExamCounter}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="form-header">
@@ -72,10 +79,13 @@ const ExamCounterForm = ({ props }) => {
         {...paperColor}
       />
       <div className="action-buttons-container">
-        <Button type="cancel" text="Cancel" onClick={() => setShowModal(false)} />
         <Button
-          type="confirm"
-          onClick={createExamCounter}
+          type="cancel"
+          text="Cancel"
+          onClick={() => setShowModal(false)}
+        />
+        <Button
+          type="confirm submit"
           text={isCreationLoading ? <img src={LoadingSpinner} /> : "Create"}
         />
       </div>
@@ -88,6 +98,7 @@ ExamCounterForm.propTypes = {
   setShowModal: PropTypes.func,
   preventDefaultAction: PropTypes.func,
   handleCreateExamCounter: PropTypes.func,
+  handleGetAllExamCounters: PropTypes.func,
 };
 
 export default ExamCounterForm;

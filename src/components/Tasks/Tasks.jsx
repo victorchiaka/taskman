@@ -8,16 +8,15 @@ import { getCollectionStatisticsRequest } from "../../services/api";
 import AddTaskModal from "../Modals/AddTaskModal";
 import createTokenProvider, { createAuthProvider } from "../utils/tokens";
 import { useToast } from "../utils/hooks";
+import { useNavigate } from "react-router-dom";
 
-const TasksInstanceAction = ({ props }) => {
-  const { collection, setDisplayTasksOptions, setActiveCollection } = props;
-
-  const { getToken } = createTokenProvider();
-
-  const [collectionStatistics, setCollectionStatistics] = useState({
-    all: 0,
-    completed: 0,
-  });
+const TasksInstanceAction = ({ props, collectionStatistics }) => {
+  const {
+    collection,
+    setDisplayTasksOptions,
+    setActiveCollection,
+    handleGetCollectionTasks,
+  } = props;
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -26,33 +25,8 @@ const TasksInstanceAction = ({ props }) => {
   const addTaskModalProps = {
     activeCollection: collection.collection_name,
     preventDefaultAction: preventDefaultAction,
+    handleGetCollectionTasks: handleGetCollectionTasks,
   };
-
-  const handleGetCollectionStatisticsRequest = async () => {
-    let accessToken = await getToken().then((res) => res);
-
-    const data = {
-      collection_name: collection.collection_name,
-    };
-
-    getCollectionStatisticsRequest(accessToken, data).then((res) => {
-      const stats = res["stats"];
-      setCollectionStatistics({
-        all: stats["overall_count"],
-        completed: stats["completed_count"],
-      });
-    });
-  };
-
-  useEffect(() => {
-    handleGetCollectionStatisticsRequest();
-
-    const interval = setInterval(() => {
-      handleGetCollectionStatisticsRequest();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <div className={styles.instanceAction}>
@@ -83,46 +57,89 @@ const TasksInstanceAction = ({ props }) => {
 
 const Tasks = ({ props }) => {
   const { collection, setDisplayTasksOptions, setActiveCollection } = props;
-  const { getToken } = createTokenProvider();
 
+  const [collectionStatistics, setCollectionStatistics] = useState({
+    all: 0,
+    completed: 0,
+  });
+
+  const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
   const [tasks, setTasks] = useState([]);
   const showToast = useToast();
+  const navigate = useNavigate();
 
   const handleGetCollectionTasks = async () => {
     let accessToken = await getToken().then((res) => res);
 
     const data = { collection_id: collection.id };
-    getCollectionTasksRequest(accessToken, data)
+    await getCollectionTasksRequest(accessToken, data)
       .then((res) => setTasks(res["tasks"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
+        }
+      });
+  };
+
+  const handleGetCollectionStatisticsRequest = async () => {
+    let accessToken = await getToken().then((res) => res);
+
+    const data = {
+      collection_name: collection.collection_name,
+    };
+
+    await getCollectionStatisticsRequest(accessToken, data)
+      .then((res) => {
+        const stats = res["stats"];
+        setCollectionStatistics({
+          all: stats["overall_count"],
+          completed: stats["completed_count"],
+        });
+      })
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          navigate("/");
+          logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
   };
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      handleGetCollectionTasks();
-    }, 2000);
-
-    return () => clearInterval(interval);
+    return async () => await handleGetCollectionTasks();
   }, []);
+
+  useEffect(() => {
+    return async () => await handleGetCollectionStatisticsRequest();
+  });
 
   const taskInstanceOptionProps = {
     collection: collection,
     setDisplayTasksOptions: setDisplayTasksOptions,
     setActiveCollection: setActiveCollection,
+    handleGetCollectionTasks: handleGetCollectionTasks,
   };
 
   return (
     <>
-      <TasksInstanceAction props={taskInstanceOptionProps} />
+      <TasksInstanceAction
+        collectionStatistics={collectionStatistics}
+        props={taskInstanceOptionProps}
+      />
       <div className={styles.tasks}>
         {tasks.map((task) => (
-          <Task key={task.id} task={task} />
+          <Task
+            key={task.id}
+            task={task}
+            handleGetCollectionTasks={handleGetCollectionTasks}
+          />
         ))}
       </div>
     </>
@@ -135,6 +152,8 @@ TasksInstanceAction.propTypes = {
   setDisplayTasksOptions: PropTypes.func,
   setTaskFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
+  handleGetCollectionTasks: PropTypes.func,
+  collectionStatistics: PropTypes.object,
 };
 
 Tasks.propTypes = {
