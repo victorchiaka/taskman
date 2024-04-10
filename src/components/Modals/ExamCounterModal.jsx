@@ -4,13 +4,15 @@ import ExamCounterForm from "../Form/ExamCounterForm";
 import { useToast } from "../utils/hooks";
 import { useState } from "react";
 import { createExamCounterRequest } from "../../services/api";
-import createTokenProvider from "../utils/tokens";
+import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
-const ExamCounterModal = () => {
+const ExamCounterModal = ({ handleGetAllExamCounters }) => {
   const { getToken } = createTokenProvider();
-
+  const {logout} = createAuthProvider();
   const showToast = useToast();
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
 
   const preventDefaultAction = (e) => {
     e.preventDefault();
@@ -21,13 +23,22 @@ const ExamCounterModal = () => {
 
     createExamCounterRequest(accessToken, examCounterData)
       .then((res) => showToast.success(res["message"]))
-      .catch((rej) => showToast.error(rej["message"]));
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          navigate("/");
+          logout();
+        } else {
+          showToast.error(rej["message"]);
+        }
+      });
   };
 
   const examCounterFormProps = {
     setShowModal: setShowModal,
     preventDefaultAction: preventDefaultAction,
     handleCreateExamCounter: handleCreateExamCounter,
+    handleGetAllExamCounters: handleGetAllExamCounters,
   };
 
   const modalProps = {
@@ -48,9 +59,7 @@ const ExamCounterModal = () => {
 };
 
 ExamCounterModal.propTypes = {
-  setExamFormActive: PropTypes.func,
-  examFormActive: PropTypes.bool,
-  examCounterFormProps: PropTypes.object,
+  handleGetAllExamCounters: PropTypes.func,
 };
 
 export default ExamCounterModal;

@@ -9,30 +9,32 @@ import { useState, useEffect } from "react";
 import CreateCollectionModal from "../Modals/CreateCollectionModal";
 import { useToast } from "../utils/hooks";
 import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
 function Collections({ props }) {
   const { displayTasksOptions, setDisplayTasksOptions } = props;
 
   const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
-
   const [activeCollection, setActiveCollection] = useState("");
-
+  const navigate = useNavigate();
   const showToast = useToast();
-
   const [collections, setCollections] = useState([]);
 
   const handleGetAllCollections = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    getAllCollectionsRequest(accessToken)
+    await getAllCollectionsRequest(accessToken)
       .then((res) => {
         setCollections(res.collections);
       })
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
   };
@@ -40,25 +42,20 @@ function Collections({ props }) {
   const handleCreateCollection = async (collectionData) => {
     let accessToken = await getToken().then((res) => res);
 
-    createCollectionRequest(accessToken, collectionData)
-      .then((res) => showToast.success(res["message"]))
-      .catch((rej) => {
-        if (rej["message"] === "Invalid token") {
-          showToast.info("Session expired, please log in again");
-          logout();
-        }
-      });
+    try {
+      const res = await createCollectionRequest(accessToken, collectionData);
+      showToast.success(res["message"]);
+    } catch (rej) {
+      if (rej.message === "Invalid token") {
+        showToast.info("Session expired, please log in again");
+        navigate("/");
+        logout();
+      } else {
+        showToast.error(rej["message"]);
+      }
+    }
+    await handleGetAllCollections();
   };
-
-  useEffect(() => {
-    handleGetAllCollections();
-
-    const interval = setInterval(async () => {
-      await handleGetAllCollections();
-    }, 2000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   const displayTasks = (collection) => {
     setActiveCollection(collection.collection_name);
@@ -80,6 +77,10 @@ function Collections({ props }) {
     setActiveCollection: setActiveCollection,
   };
 
+  useEffect(() => {
+    return async () => await handleGetAllCollections();
+  }, []);
+
   return (
     <>
       {displayTasksOptions.display ? (
@@ -100,6 +101,7 @@ function Collections({ props }) {
                 collection={collection}
                 key={collection.id}
                 setActiveCollection={setActiveCollection}
+                handleGetAllCollections={handleGetAllCollections}
               />
             ))}
           </div>

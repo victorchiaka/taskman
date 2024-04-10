@@ -15,8 +15,12 @@ import PropTypes from "prop-types";
  * @returns {React.ReactNode} - A React element that renders the Authentication form.
  */
 const AuthForm = ({ props }) => {
-  const { preventDefaultAction, handleRegisterSubmit, handleLoginSubmit, setShowModal } =
-    props;
+  const {
+    preventDefaultAction,
+    handleRegisterSubmit,
+    handleLoginSubmit,
+    setShowModal,
+  } = props;
 
   const [username, setUsername] = useInput("");
   const [email, setEmail] = useInput("");
@@ -37,9 +41,10 @@ const AuthForm = ({ props }) => {
     setRegisterLoading(false);
   };
 
-  const registerSubmit = () => {
+  const registerSubmit = async (e) => {
+    preventDefaultAction(e);
     setRegisterLoading(true);
-    handleRegisterSubmit({
+    await handleRegisterSubmit({
       username: username.value,
       email: email.value,
       password: password.value,
@@ -47,9 +52,10 @@ const AuthForm = ({ props }) => {
     resetStates();
   };
 
-  const loginSubmit = () => {
+  const loginSubmit = async (e) => {
+    preventDefaultAction(e);
     setLoginLoading(true);
-    handleLoginSubmit({
+    await handleLoginSubmit({
       email: loginEmail.value,
       password: loginPassword.value,
     });
@@ -78,20 +84,20 @@ const AuthForm = ({ props }) => {
       <div
         className={`tab-content ${activeTab === "register" ? "active" : ""}`}
       >
-        <form className="form" onSubmit={(e) => preventDefaultAction(e)}>
+        <form className="form" onSubmit={registerSubmit}>
           <Input
-            required
             name="username"
             title="Username"
             type="text"
+            required
             {...username}
           />
-          <Input required name="email" title="Email" type="email" {...email} />
+          <Input name="email" title="Email" type="email" required {...email} />
           <Input
-            required
             name="password"
             title="Password"
             type="password"
+            required
             {...password}
           />
           <div className="action-buttons-container">
@@ -101,8 +107,7 @@ const AuthForm = ({ props }) => {
               onClick={() => setShowModal(false)}
             />
             <Button
-              onClick={registerSubmit}
-              type="confirm"
+              type="submit confirm"
               text={
                 registerLoading ? (
                   <img className="spinner" src={LoadingSpinner}></img>
@@ -115,19 +120,19 @@ const AuthForm = ({ props }) => {
         </form>
       </div>
       <div className={`tab-content ${activeTab === "login" ? "active" : ""}`}>
-        <form className="form" onSubmit={(e) => preventDefaultAction(e)}>
+        <form className="form" onSubmit={loginSubmit}>
           <Input
-            required
             name="login-email"
             title="Email"
             type="email"
+            required
             {...loginEmail}
           />
           <Input
-            required
             name="login-password"
             title="Password"
             type="password"
+            required
             {...loginPassword}
           />
           <div className="action-buttons-container">
@@ -137,8 +142,7 @@ const AuthForm = ({ props }) => {
               onClick={() => setShowModal(false)}
             />
             <Button
-              onClick={loginSubmit}
-              type="confirm"
+              type="confirm submit"
               text={
                 loginLoading ? (
                   <img className="spinner" src={LoadingSpinner}></img>

@@ -12,8 +12,14 @@ import PropTypes from "prop-types";
 import EditCollectionModal from "../Modals/EditCollectionModal";
 import DeleteCollectionModal from "../Modals/DeleteCollectionModal";
 import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
-const Collection = ({ collection, onClick, setActiveCollection }) => {
+const Collection = ({
+  collection,
+  onClick,
+  setActiveCollection,
+  handleGetAllCollections,
+}) => {
   const operations = {
     NONE: "",
     EDIT_COLLECTION: "editCollection",
@@ -21,26 +27,29 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
   };
 
   const showToast = useToast();
-
   const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
-
   const [showModal, setShowModal] = useState(false);
   const [edit, setEdit] = useState(false);
-
+  const navigate = useNavigate();
   const [operation, setOperation] = useState(operations.NONE);
 
   const handleEditCollection = async (collectionData) => {
     let accessToken = await getToken().then((res) => res);
 
-    editCollectionRequest(accessToken, collectionData)
+    await editCollectionRequest(accessToken, collectionData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
+    setShowModal(false);
+    await handleGetAllCollections();
   };
 
   const setup = () => {
@@ -58,9 +67,14 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
+    setShowModal(false);
+    await handleGetAllCollections();
   };
 
   const deleteCollectionProps = {
@@ -103,8 +117,8 @@ const Collection = ({ collection, onClick, setActiveCollection }) => {
 
   const collectionColor = {
     backgroundColor: collection.color_code,
-    width: " 2rem",
-    height: "2rem",
+    width: "1.6rem",
+    height: "1.6rem",
     borderRadius: "50%",
   };
 
@@ -152,6 +166,7 @@ Collection.propTypes = {
   setIsCollectionEdit: PropTypes.func,
   setCollectionFormActive: PropTypes.func,
   setActiveCollection: PropTypes.func,
+  handleGetAllCollections: PropTypes.func,
 };
 
 export default Collection;

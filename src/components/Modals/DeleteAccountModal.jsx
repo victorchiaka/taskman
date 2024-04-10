@@ -20,10 +20,14 @@ const DeleteAccountModal = ({ showModal, setShowModal }) => {
         showToast.success(res["message"]);
         logout();
         navigate("/");
-      }).catch((rej) => {
+      })
+      .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
   };

@@ -27,8 +27,8 @@ function Home() {
     e.preventDefault();
   }
 
-  const handleRegisterSubmit = (userData) => {
-    registerRequest(userData)
+  const handleRegisterSubmit = async (userData) => {
+    await registerRequest(userData)
       .then((res) => {
         login(res["tokens"]);
         showToast.success(res["message"]);
@@ -39,8 +39,8 @@ function Home() {
       });
   };
 
-  const handleLoginSubmit = (userData) => {
-    loginRequest(userData)
+  const handleLoginSubmit = async (userData) => {
+    await loginRequest(userData)
       .then((res) => {
         login(res["tokens"]);
         showToast.success(res["message"]);

@@ -32,9 +32,10 @@ const CollectionForm = ({ props }) => {
     setShowModal(false);
   };
 
-  const createCollection = () => {
+  const createCollection = async (e) => {
+    preventDefaultAction(e);
     setIsCreationLoading(true);
-    handleCreateCollection({
+    await handleCreateCollection({
       collection_name: collectionName.value,
       color_code: collectionColor.value,
     });
@@ -42,8 +43,10 @@ const CollectionForm = ({ props }) => {
     resetStates();
   };
 
-  const editCollectionName = () => {
-    handleEditCollection({
+  const editCollectionName = async (e) => {
+    preventDefaultAction(e);
+    setIsCreationLoading(true);
+    await handleEditCollection({
       collection_name: activeCollection,
       new_collection_name: newCollectionName.value,
     });
@@ -53,7 +56,7 @@ const CollectionForm = ({ props }) => {
   return (
     <form
       className="form collection-form"
-      onSubmit={(e) => preventDefaultAction(e)}
+      onSubmit={edit ? editCollectionName : createCollection}
       onClick={(e) => e.stopPropagation()}
     >
       {edit ? (
@@ -97,8 +100,7 @@ const CollectionForm = ({ props }) => {
           onClick={() => setShowModal(false)}
         />
         <Button
-          onClick={edit ? editCollectionName : createCollection}
-          type="confirm"
+          type="confirm submit"
           text={
             isCreationLoading ? (
               <img className="spinner" src={LoadingSpinner}></img>

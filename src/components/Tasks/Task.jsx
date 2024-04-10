@@ -16,8 +16,9 @@ import EditTaskDescriptionModal from "../Modals/EditTaskDescriptionModal";
 import DeleteTaskModal from "../Modals/DeleteTaskModal";
 import MarkAsCompletedModal from "../Modals/MarkAsCompletedModal";
 import createTokenProvider, { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
-const Task = ({ task }) => {
+const Task = ({ task, handleGetCollectionTasks }) => {
   const operations = {
     NONE: "",
     EDIT_DESCRIPTION: "editDescription",
@@ -31,6 +32,7 @@ const Task = ({ task }) => {
   const [activeTask, setActiveTask] = useState("");
   const [operation, setOperation] = useState(operations.NONE);
   const [edit, setEdit] = useState(false);
+  const navigate = useNavigate();
 
   const { getToken } = createTokenProvider();
   const { logout } = createAuthProvider();
@@ -59,42 +61,54 @@ const Task = ({ task }) => {
   const handleEditTaskDescription = async (taskData) => {
     let accessToken = await getToken().then((res) => res);
 
-    editTaskRequest(accessToken, taskData)
+    await editTaskRequest(accessToken, taskData)
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
+    await handleGetCollectionTasks();
   };
 
   const handleMarkTaskAsCompleted = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
+    await updateCompletedTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
-
     setShowModal(false);
+    await handleGetCollectionTasks();
   };
 
   const handleDeleteTask = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    deleteTaskRequest(accessToken, { task_name: task.task_name })
+    await deleteTaskRequest(accessToken, { task_name: task.task_name })
       .then((res) => showToast.success(res["message"]))
       .catch((rej) => {
         if (rej["message"] === "Invalid token") {
           showToast.info("Session expired, please log in again");
+          navigate("/");
           logout();
+        } else {
+          showToast.error(rej["message"]);
         }
       });
+    setShowModal(false);
+    await handleGetCollectionTasks();
   };
 
   const editTaskDescriptionProps = {
@@ -205,6 +219,7 @@ Task.propTypes = {
   setTaskFormActive: PropTypes.func,
   setIsTaskEdit: PropTypes.func,
   setActiveTask: PropTypes.func,
+  handleGetCollectionTasks: PropTypes.func,
 };
 
 export default Task;

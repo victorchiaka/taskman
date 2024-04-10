@@ -267,11 +267,24 @@ input::placeholder {
 .dashboard-contents-container {
   padding: 2rem 1rem;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
   gap: 1.5rem;
 
-  max-height: 83vh;
-  overflow-y: auto;
+  max-height: 83dvh;
+  overflow-y: scroll;
+  margin-bottom: 2rem;
+}
+
+@media (max-height: 808px) {
+  .dashboard-contents-container {
+    max-height: 78dvh;
+  }
+}
+
+@media (max-width: 635px) {
+  .dashboard-contents-container {
+    max-height: 78dvh;
+  }
 }
 
 .dashboard-contents-container::-webkit-scrollbar {
@@ -284,7 +297,7 @@ input::placeholder {
 }
 
 .statistics-dashboard {
-  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
   overflow-x: hidden;
   place-items: center;
 }

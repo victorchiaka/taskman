@@ -16,9 +16,10 @@ const TaskForm = ({ props }) => {
     activeTask,
     setActiveTask = () => undefined,
     handleEditTaskDescription,
+    handleGetCollectionTasks,
   } = props;
 
-  const [isCreationLoading, setIsCreationLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [taskColor, setTaskColor] = useInput("#ffffff");
   const [taskName, setTaskName] = useInput("");
   const [taskDescription, setTaskDescription] = useInput("");
@@ -30,14 +31,15 @@ const TaskForm = ({ props }) => {
     setTaskDescription("");
     setNewTaskDescription("");
     setActiveTask("");
-    setIsCreationLoading(false);
+    setIsLoading(false);
     setEdit(false);
     setShowModal(false);
   };
 
-  const createTask = () => {
-    setIsCreationLoading(true);
-    handleCreateTask({
+  const createTask = async (e) => {
+    preventDefaultAction(e);
+    setIsLoading(true);
+    await handleCreateTask({
       collection_name: activeCollection,
       task_name: taskName.value,
       task_description: taskDescription.value,
@@ -45,20 +47,24 @@ const TaskForm = ({ props }) => {
     });
 
     resetStates();
+    await handleGetCollectionTasks();
   };
 
-  const editTaskDescription = () => {
-    handleEditTaskDescription({
+  const editTaskDescription = async (e) => {
+    preventDefaultAction(e);
+    setIsLoading(true);
+    await handleEditTaskDescription({
       task_name: activeTask,
       new_task_description: newTaskDescription.value,
     });
     resetStates();
+    await handleGetCollectionTasks();
   };
 
   return (
     <form
       className="form task-form"
-      onSubmit={(e) => preventDefaultAction(e)}
+      onSubmit={edit ? editTaskDescription : createTask}
       onClick={(e) => e.stopPropagation()}
     >
       {edit ? (
@@ -109,10 +115,10 @@ const TaskForm = ({ props }) => {
           onClick={() => setShowModal(false)}
         />
         <Button
-          onClick={edit ? editTaskDescription : createTask}
-          type="confirm"
+          // onClick={edit ? editTaskDescription : createTask}
+          type="confirm submit"
           text={
-            isCreationLoading ? (
+            isLoading ? (
               <img className="spinner" src={LoadingSpinner}></img>
             ) : edit ? (
               "Edit"
@@ -137,6 +143,7 @@ TaskForm.propTypes = {
   activeTask: PropTypes.string,
   setActiveTask: PropTypes.func,
   handleEditTaskDescription: PropTypes.func,
+  handleGetCollectionTasks: PropTypes.func,
 };
 
 export default TaskForm;
