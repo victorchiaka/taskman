@@ -31,7 +31,7 @@ const ExamCounters = () => {
   };
 
   useEffect(() => {
-    return async () => handleGetAllExamCounters();
+    handleGetAllExamCounters();
   }, []);
 
   return (
