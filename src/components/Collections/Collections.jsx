@@ -78,7 +78,7 @@ function Collections({ props }) {
   };
 
   useEffect(() => {
-    return async () => await handleGetAllCollections();
+    handleGetAllCollections();
   }, []);
 
   return (

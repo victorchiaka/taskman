@@ -4,6 +4,8 @@ import { ToastProvider } from "./ui/toast/ToastProvider";
 import Home from "./pages/Home";
 import AuthProvider from "./components/auth/AuthProvider";
 import { lazy } from "react";
+import ExamCountersPage from "./pages/ExamCountersPage";
+import StatisticsPage from "./pages/StatisticsPage";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 
@@ -16,6 +18,8 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route element={<ProtectedRoutes />}>
               <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/exam-counters" element={<ExamCountersPage />} />
+              <Route path="/statistics" element={<StatisticsPage />} />
             </Route>
           </Routes>
         </Router>

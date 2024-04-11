@@ -113,11 +113,11 @@ const Tasks = ({ props }) => {
   };
 
   useEffect(() => {
-    return async () => await handleGetCollectionTasks();
+    handleGetCollectionTasks();
   }, []);
 
   useEffect(() => {
-    return async () => await handleGetCollectionStatisticsRequest();
+    handleGetCollectionStatisticsRequest();
   });
 
   const taskInstanceOptionProps = {

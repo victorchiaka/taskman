@@ -3,6 +3,7 @@ import DashboardIcon from "@assets/dashboard.svg";
 import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { createAuthProvider } from "../utils/tokens";
+import { useNavigate } from "react-router-dom";
 
 /**
  * MobileSideBar component.
@@ -15,7 +16,8 @@ import { createAuthProvider } from "../utils/tokens";
  * @returns {JSX.Element} The rendered MobileSideBar component.
  */
 export const MobileSideBar = ({ props }) => {
-  const { activeTab, setActiveTab, showModal, setShowModal } = props;
+  const { activeTab, showModal, setShowModal } = props;
+  const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const { getAuthenticatedUser } = createAuthProvider();
@@ -51,7 +53,7 @@ export const MobileSideBar = ({ props }) => {
         className={`${styles.sideBarChildren} ${
           activeTab === "tasks" ? styles.active : ""
         }`}
-        onClick={() => setActiveTab("tasks")}
+        onClick={() => navigate("/dashboard")}
       >
         Tasks
       </div>
@@ -59,7 +61,7 @@ export const MobileSideBar = ({ props }) => {
         className={`${styles.sideBarChildren} ${
           activeTab === "examCounter" ? styles.active : ""
         }`}
-        onClick={() => setActiveTab("examCounter")}
+        onClick={() => navigate("/exam-counters")}
       >
         Exam counter
       </div>
@@ -67,7 +69,7 @@ export const MobileSideBar = ({ props }) => {
         className={`${styles.sideBarChildren} ${
           activeTab === "statistics" ? styles.active : ""
         }`}
-        onClick={() => setActiveTab("statistics")}
+        onClick={() => navigate("/statistics")}
       >
         Statistics
       </div>
@@ -85,7 +87,8 @@ export const MobileSideBar = ({ props }) => {
  * @returns {JSX.Element} The rendered Sidebar component.
  */
 const Sidebar = ({ props }) => {
-  const { activeTab, setActiveTab } = props;
+  const { activeTab } = props;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -94,15 +97,15 @@ const Sidebar = ({ props }) => {
           className={`${styles.sideBarChildren} ${
             activeTab === "tasks" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("tasks")}
-        >
+          onClick={() => navigate("/dashboard")}
+          >
           Tasks
         </div>
         <div
           className={`${styles.sideBarChildren} ${
             activeTab === "examCounter" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("examCounter")}
+          onClick={() => navigate("/exam-counters")}
         >
           Exam counter
         </div>
@@ -110,7 +113,7 @@ const Sidebar = ({ props }) => {
           className={`${styles.sideBarChildren} ${
             activeTab === "statistics" ? styles.active : ""
           }`}
-          onClick={() => setActiveTab("statistics")}
+          onClick={() => navigate("/statistics")}
         >
           Statistics
         </div>
