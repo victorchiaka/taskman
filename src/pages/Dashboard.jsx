@@ -4,6 +4,7 @@ import { DashboardNav } from "../components/Header/Header";
 import Sidebar from "../components/Sidebar/Sidebar";
 import styles from "./Pages.module.css";
 import MobileSideBarModal from "../components/Modals/MobileSideBarModal";
+import PropTypes from "prop-types";
 
 const Collections = lazy(
   async () => await import("../components/Collections/Collections")
@@ -21,8 +22,7 @@ const Statistics = lazy(
  *
  * @returns {JSX.Element} The rendered Dashboard component.
  */
-function Dashboard() {
-  const [activeTab, setActiveTab] = useState("tasks");
+function Dashboard({ tab = "tasks" }) {
   const [showModal, setShowModal] = useState(false);
 
   const [displayTasksOptions, setDisplayTasksOptions] = useState({
@@ -33,13 +33,11 @@ function Dashboard() {
   const mobileSidebarModalProps = {
     showModal: showModal,
     setShowModal: setShowModal,
-    activeTab: activeTab,
-    setActiveTab: setActiveTab,
+    activeTab: tab,
   };
 
   const sideBarProps = {
-    activeTab: activeTab,
-    setActiveTab: setActiveTab,
+    activeTab: tab,
   };
 
   const collectionsProps = {
@@ -61,11 +59,15 @@ function Dashboard() {
         <Sidebar props={sideBarProps} />
         <main className={styles.dashboardMain}>
           <MobileSideBarModal props={mobileSidebarModalProps} />
-          <Suspense>{tabs[activeTab]}</Suspense>
+          <Suspense>{tabs[tab]}</Suspense>
         </main>
       </div>
     </div>
   );
 }
+
+Dashboard.propTypes = {
+  tab: PropTypes.string,
+};
 
 export default Dashboard;
