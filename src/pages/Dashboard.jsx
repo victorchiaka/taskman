@@ -5,11 +5,15 @@ import Sidebar from "../components/Sidebar/Sidebar";
 import styles from "./Pages.module.css";
 import MobileSideBarModal from "../components/Modals/MobileSideBarModal";
 
-const Collections = lazy(async () => await import("../components/Collections/Collections"));
-const ExamCounters = lazy(async () =>
-  await import("../components/ExamCounter/ExamCounters")
+const Collections = lazy(
+  async () => await import("../components/Collections/Collections")
 );
-const Statistics = lazy(async () => await import("../components/Statistics/Statistics"));
+const ExamCounters = lazy(
+  async () => await import("../components/ExamCounter/ExamCounters")
+);
+const Statistics = lazy(
+  async () => await import("../components/Statistics/Statistics")
+);
 
 /**
  * Dashboard component.
@@ -25,6 +29,7 @@ function Dashboard() {
     display: false,
     collection: null,
   });
+
   const mobileSidebarModalProps = {
     showModal: showModal,
     setShowModal: setShowModal,
