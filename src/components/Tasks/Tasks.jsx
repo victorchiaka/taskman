@@ -69,23 +69,6 @@ const Tasks = ({ props }) => {
   const showToast = useToast();
   const navigate = useNavigate();
 
-  const handleGetCollectionTasks = async () => {
-    let accessToken = await getToken().then((res) => res);
-
-    const data = { collection_id: collection.id };
-    await getCollectionTasksRequest(accessToken, data)
-      .then((res) => setTasks(res["tasks"]))
-      .catch((rej) => {
-        if (rej["message"] === "Invalid token") {
-          showToast.info("Session expired, please log in again");
-          navigate("/");
-          logout();
-        } else {
-          showToast.error(rej["message"]);
-        }
-      });
-  };
-
   const handleGetCollectionStatisticsRequest = async () => {
     let accessToken = await getToken().then((res) => res);
 
@@ -112,13 +95,29 @@ const Tasks = ({ props }) => {
       });
   };
 
+  const handleGetCollectionTasks = async () => {
+    let accessToken = await getToken().then((res) => res);
+
+    const data = { collection_id: collection.id };
+    await getCollectionTasksRequest(accessToken, data)
+      .then((res) => {
+        setTasks(res["tasks"]);
+        handleGetCollectionStatisticsRequest();
+      })
+      .catch((rej) => {
+        if (rej["message"] === "Invalid token") {
+          showToast.info("Session expired, please log in again");
+          navigate("/");
+          logout();
+        } else {
+          showToast.error(rej["message"]);
+        }
+      });
+  };
+
   useEffect(() => {
     handleGetCollectionTasks();
   }, []);
-
-  useEffect(() => {
-    handleGetCollectionStatisticsRequest();
-  });
 
   const taskInstanceOptionProps = {
     collection: collection,

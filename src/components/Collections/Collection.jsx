@@ -60,7 +60,7 @@ const Collection = ({
   const handleDeleteCollection = async () => {
     let accessToken = await getToken().then((res) => res);
 
-    deleteCollectionRequest(accessToken, {
+    await deleteCollectionRequest(accessToken, {
       collection_name: collection.collection_name,
     })
       .then((res) => showToast.success(res["message"]))

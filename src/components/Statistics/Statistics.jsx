@@ -26,12 +26,6 @@ const Statistics = () => {
 
   useEffect(() => {
     handleGetAllCollections();
-
-    const interval = setInterval(() => {
-      handleGetAllCollections();
-    }, 1500);
-
-    return () => clearInterval(interval);
   }, []);
 
   return (
