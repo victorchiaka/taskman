@@ -1,3 +1,7 @@
+* {
+  font-size: 93%;
+}
+
 .tasks {
   padding: 0.5rem 1rem 2rem 0.5rem;
   display: grid;

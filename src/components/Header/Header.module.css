@@ -65,6 +65,10 @@
   cursor: default;
 }
 
+.mobileNav > * {
+  font-size: 78%;
+}
+
 .desktopNav > ul > li:hover {
   color: var(--main-accent);
   transition: color 0.3s;
