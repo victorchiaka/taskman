@@ -103,8 +103,8 @@
 
 .hamburgerStroke {
   background-color: rgb(255, 255, 255);
-  width: 1.7rem;
-  height: 0.2rem;
+  width: 1.4rem;
+  height: 0.1rem;
   transition: transform 900ms;
 }
 
@@ -116,11 +116,13 @@
 }
 
 .hamburger.open > .hamburgerStroke:nth-child(1) {
-  transform: rotate(45deg) translateY(0.35rem);
+  /* transform: rotate(45deg) translateY(0.35rem); */
+  transform: rotate(45deg) translateY(0.16rem);
 }
 
 .hamburger.open > .hamburgerStroke:nth-child(3) {
-  transform: rotate(-45deg) translateY(-0.35rem);
+  /* transform: rotate(-45deg) translateY(-0.35rem); */
+  transform: rotate(-45deg) translateY(-0.34rem) translateX(0.1rem);
 }
 
 .hamburger.open > .hamburgerStroke:nth-child(2) {
