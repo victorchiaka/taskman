@@ -16,6 +16,7 @@
   height: 5rem;
   border-radius: 0.5rem;
   animation: popRightToLeft 0.3s forwards;
+  font-size: 0.85rem;
 }
 
 .toast-success {

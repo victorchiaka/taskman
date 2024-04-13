@@ -10,7 +10,7 @@
   width: fit-content;
   grid-template-columns: repeat(3, 324px);
   display: grid;
-  width: 100%;
+  width: 95%;
   justify-content: center;
   margin-top: 4rem;
   margin-left: auto;
@@ -22,7 +22,7 @@
   .showcase {
     grid-template-columns: 1fr;
     padding: 0 2rem;
-    max-width: 428px;
+    max-width: 398px;
   }
 }
 @media (min-width: 768px) and (max-width: 1060px) {
@@ -33,7 +33,7 @@
   .showcaseCard:last-child {
     grid-column-start: 1;
     grid-column-end: 3;
-    max-width: 428px;
+    max-width: 398px;
   }
 }
 .showcaseCard::after {
